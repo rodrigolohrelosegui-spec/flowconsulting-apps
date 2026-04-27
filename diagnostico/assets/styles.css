@@ -1732,3 +1732,165 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   margin-top: 24px;
   animation: spoilerIn .55s ease-out .3s both;
 }
+
+/* ============================================================
+   v2.1 · Loader compactness + knowledge graph + always-on motion
+   ============================================================ */
+
+/* Tighter loader on mobile so everything fits in one screen */
+.loader-v2 { min-height: 100vh; padding: 16px 0 24px; }
+.loader-v2__head { margin-bottom: 14px; }
+.loader-v2__head .percent { font-size: clamp(38px, 7vw, 72px); margin-bottom: 8px; }
+.loader-v2__head .progress-linear { max-width: 280px; margin: 0 auto 10px; }
+.scene-dots { gap: 6px; }
+.scene-dot { width: 5px; height: 5px; }
+.scene-dot.is-active { width: 18px; }
+
+.loader-v2__stage { min-height: 0; }
+
+/* Tighter scene padding */
+.scene__kicker { margin-bottom: 14px; font-size: 10px; }
+.scene__caption { margin-top: 12px; font-size: 13px; }
+.scene__counter { margin-top: 12px; gap: 2px; }
+.scene__counter-num { font-size: 26px; }
+.scene__counter-num small { font-size: 14px; }
+
+/* Compact CLI for mobile */
+.cli__body { padding: 14px 16px; min-height: 160px; font-size: 12px; }
+.cli__bar { padding: 10px 14px; }
+.cli__title { font-size: 11px; }
+
+/* Compact pattern chips */
+.pchip { padding: 11px 12px; font-size: 11px; min-height: 48px; gap: 8px; }
+.pchip__icon { width: 14px; height: 14px; }
+.patterns-grid { gap: 8px; }
+
+/* Compact cases */
+.cases-grid { padding: 14px; gap: 8px; }
+.case-card { font-size: 16px; }
+.case-card__sub { font-size: 8px; }
+
+/* Compact lever canvas */
+.lever-canvas { height: 220px; }
+
+/* Compact doc */
+.doc { padding: 18px 20px; min-height: 180px; }
+.doc__body { font-size: 14px; min-height: 90px; }
+
+/* Compact checklist */
+.cli-item { padding: 8px 12px; font-size: 12px; gap: 10px; }
+.cli-item__icon { width: 14px; font-size: 13px; }
+.checklist { gap: 6px; }
+
+/* Spoiler tightened */
+.spoiler { margin-top: 16px; padding: 16px 20px; }
+.spoiler__archetype { font-size: clamp(24px, 6vw, 36px); }
+.scene__cta { margin-top: 16px; }
+
+/* Continuous heartbeat under percent — always pulsing so users see motion */
+.heartbeat {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  margin-right: 8px;
+  vertical-align: middle;
+  box-shadow: 0 0 10px var(--cyan);
+  animation: heartbeat 1.1s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.55; }
+}
+
+/* Caption ticker — tiny rotating sub-line under each scene caption */
+.scene__sub {
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: .03em;
+  color: var(--on-dark-muted);
+  min-height: 1.4em;
+  opacity: .85;
+  text-align: center;
+}
+
+/* ============== Knowledge graph (Scene 4) ============== */
+.kgraph { width: 100%; height: 100%; display: block; }
+.kgraph__edges line {
+  stroke: var(--cyan);
+  stroke-width: 1;
+  stroke-opacity: 0;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: stroke-opacity .4s ease;
+}
+.kgraph__edges line.is-drawn {
+  stroke-opacity: 0.18;
+  animation: edgeDraw .9s ease-out forwards, edgePulse 3.4s ease-in-out infinite 1s;
+}
+.kgraph__edges line.is-final {
+  stroke-opacity: 0.85;
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 6px var(--cyan));
+}
+.kgraph__edges line.is-faded {
+  animation: edgeFade .6s ease-out forwards;
+}
+@keyframes edgeDraw { to { stroke-dashoffset: 0; } }
+@keyframes edgePulse { 0%,100% { stroke-opacity: 0.18; } 50% { stroke-opacity: 0.34; } }
+@keyframes edgeFade { to { stroke-opacity: 0.04; } }
+
+.kgraph__nodes circle {
+  fill: var(--cyan);
+  fill-opacity: 0.55;
+  transition: fill-opacity .5s ease, r .6s ease, transform .6s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nodeBreathe 2.6s ease-in-out infinite;
+}
+@keyframes nodeBreathe {
+  0%, 100% { transform: scale(1); fill-opacity: .45; }
+  50% { transform: scale(1.18); fill-opacity: .8; }
+}
+.kgraph__nodes circle.is-faded { fill-opacity: 0.05; animation: none; }
+.kgraph__nodes circle.is-final {
+  fill: var(--cyan-bright);
+  fill-opacity: 1;
+  filter: drop-shadow(0 0 12px var(--cyan));
+  animation: nodeFinalPulse 1.4s ease-in-out infinite;
+}
+@keyframes nodeFinalPulse {
+  0%, 100% { transform: scale(1.5); }
+  50% { transform: scale(1.85); }
+}
+
+/* Halo ring around the final node */
+.kgraph__final circle {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1;
+  stroke-opacity: 0.6;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: haloPing 1.8s ease-out infinite;
+}
+@keyframes haloPing {
+  0% { transform: scale(0.6); stroke-opacity: 0.7; }
+  80%, 100% { transform: scale(2.4); stroke-opacity: 0; }
+}
+
+/* Mobile fits — even tighter under 400px */
+@media (max-height: 740px) {
+  .loader-v2 { padding: 10px 0 16px; }
+  .loader-v2__head { margin-bottom: 8px; }
+  .loader-v2__head .percent { font-size: 36px; margin-bottom: 4px; }
+  .loader-v2__head .progress-linear { margin-bottom: 6px; }
+  .scene__kicker { margin-bottom: 10px; }
+  .cli__body { min-height: 130px; padding: 12px 14px; font-size: 11.5px; }
+  .lever-canvas { height: 180px; }
+  .doc { min-height: 150px; padding: 14px 16px; }
+  .doc__body { min-height: 70px; font-size: 13px; }
+  .checklist { gap: 4px; }
+  .cli-item { padding: 6px 12px; font-size: 11.5px; }
+}

@@ -353,9 +353,29 @@
     if (opts.removeCursor) cursor.remove();
   }
 
+  // Always-on percent ticker — runs in background, ensures the % counter never stalls.
+  let percentTickerActive = false;
+  function startPercentTicker() {
+    if (percentTickerActive) return;
+    percentTickerActive = true;
+    const tick = () => {
+      if (!percentTickerActive) return;
+      // Add jitter when not actively tweening so the eye always sees motion
+      const cur = parseFloat(($('#percentNum')?.textContent) || '0');
+      // Only nudge if we're between 1 and 99
+      if (cur > 0 && cur < 99) {
+        // nudge ±0.3 around current value (visual jitter, no real progress)
+        // Skip — actual tweens drive the counter; this just ensures we never see frozen state.
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  function stopPercentTicker() { percentTickerActive = false; }
+
   // ========= Main entry: run the cinematic loader, returns the API result =========
-  // Plays scenes 1..5 (~10s each = 50s baseline). Scene 6 awaits the API result.
-  // Total min: ~55s. If the API is slow, scene 6 keeps spinning items until result arrives.
+  // Adaptive timing: if API responds early, skip remaining scenes and jump to spoiler.
+  // Total target: ~50-60s. If API is slow, scene 6 loops until result arrives.
   async function runCinematicLoader(payload, apiPromise) {
     const lead = payload.lead || {};
     const firstName = (lead.name || '').trim().split(' ')[0] || 'tú';
@@ -365,43 +385,97 @@
     apiPromise.then(r => { apiResult = r; apiDone = true; })
               .catch(e => { apiError = e; apiDone = true; });
 
-    setPercent(0);
-    await sleep(120);
+    // Start at 1% IMMEDIATELY so user sees motion from frame 0
+    setPercent(1);
+    startPercentTicker();
 
-    // ----- Scene 1: CLI Ingesta -----
+    const sceneTargets = [
+      { idx: 0, fn: playScene1, args: [payload, firstName], from: 1,  to: 18, dur: 8500 },
+      { idx: 1, fn: playScene2, args: [patterns],            from: 18, to: 35, dur: 9000 },
+      { idx: 2, fn: playScene3, args: [],                    from: 35, to: 52, dur: 8500 },
+      { idx: 3, fn: playScene4, args: [],                    from: 52, to: 69, dur: 8500 },
+      { idx: 4, fn: playScene5, args: [firstName],           from: 69, to: 86, dur: 8500 }
+    ];
+
+    // Scene 1 is already active (default). For later scenes we transition.
     activateScene(0);
-    await tweenPercent(0, 16, 9500);
-    await playScene1(payload, firstName);
 
-    // ----- Scene 2: Patterns -----
-    transitionTo(1);
-    await tweenPercent(16, 33, 10000);
-    await playScene2(patterns);
+    for (let s = 0; s < sceneTargets.length; s++) {
+      const sc = sceneTargets[s];
+      if (s > 0) transitionTo(sc.idx);
+      // Run percent tween + scene play in parallel
+      const tweenP = tweenPercent(sc.from, sc.to, sc.dur);
+      const sceneP = sc.fn(...sc.args);
+      await Promise.all([tweenP, sceneP]);
 
-    // ----- Scene 3: Cases comparison -----
-    transitionTo(2);
-    await tweenPercent(33, 50, 9500);
-    await playScene3();
-
-    // ----- Scene 4: Lever -----
-    transitionTo(3);
-    await tweenPercent(50, 67, 9500);
-    await playScene4();
-
-    // ----- Scene 5: Writing -----
-    transitionTo(4);
-    await tweenPercent(67, 84, 9500);
-    await playScene5(firstName);
+      // Early-finish: if API is done, jump straight to scene 6 + spoiler
+      if (apiDone && apiResult) {
+        await fastForwardToFinale(apiResult);
+        if (apiError) throw apiError;
+        return apiResult;
+      }
+    }
 
     // ----- Scene 6: Verification + spoiler -----
     transitionTo(5);
-    await tweenPercent(84, 95, 4000);
-    await playScene6(apiPromise);
+    await tweenPercent(86, 96, 3500);
+    await playScene6(apiPromise, /*autoRender=*/true);
 
     setPercent(100);
+    stopPercentTicker();
 
     if (apiError) throw apiError;
     return apiResult;
+  }
+
+  // Fast-forward path when the API responds before we finish the loader timeline
+  async function fastForwardToFinale(result) {
+    transitionTo(5);
+    // Jump percent to 95% quickly
+    const cur = parseFloat($('#percentNum').textContent || '0');
+    await tweenPercent(cur, 95, 800);
+    // Render the checklist instantly with all items already done
+    const list = $('#checklist');
+    const items = [
+      'Análisis personalizado a tu perfil',
+      'Tono calibrado a tu negocio',
+      'Patrones de tu caso identificados',
+      'Cambio #1 con mayor impacto aislado',
+      'Plan de los próximos 30/60/90 días',
+      'Costo de no actuar cuantificado',
+      'La verdad incómoda que casi nadie te dirá'
+    ];
+    list.innerHTML = items.map(t => `<li class="cli-item is-done"><span class="cli-item__icon">✓</span><span>${escapeHtml(t)}</span></li>`).join('');
+    // Stagger the visual pop of each item even though they're already done
+    Array.from(list.children).forEach((li, i) => {
+      li.style.opacity = '0';
+      li.style.transform = 'translateX(-6px)';
+      setTimeout(() => {
+        li.style.transition = 'opacity .25s, transform .25s';
+        li.style.opacity = '1';
+        li.style.transform = 'none';
+      }, 90 * i);
+    });
+    await sleep(900);
+    setPercent(100);
+    await revealSpoilerAndAutoRender(result);
+  }
+
+  // Reveals spoiler then auto-renders the result page (no button click needed)
+  async function revealSpoilerAndAutoRender(result) {
+    if (result && result.arquetipo && result.arquetipo.nombre) {
+      $('#spoilerArchetype').textContent = result.arquetipo.nombre;
+      $('#spoiler').hidden = false;
+    }
+    // Hide the legacy button — we auto-render
+    const cta = $('#sceneCta');
+    if (cta) cta.hidden = true;
+
+    // Hold on the spoiler for 2.4s so the user reads "Eres El Hustler Quemado"
+    await sleep(2400);
+    stopPercentTicker();
+    renderResult(result);
+    clearState();
   }
 
   function transitionTo(idx) {
@@ -413,6 +487,7 @@
   }
 
   // ========= Scene 1: CLI ingesta =========
+  // No dead air at start: first line is rendered IMMEDIATELY (no pre-sleep).
   async function playScene1(payload, firstName) {
     const cliBody = $('#cliBody');
     if (!cliBody) return;
@@ -430,18 +505,23 @@
       { html: `<span class="prompt">&gt;</span> Idioma: ES · Origen: ${(document.referrer && new URL(document.referrer).hostname) || 'directo'}` },
       { html: `<span class="prompt">&gt;</span> Encriptando datos... <span class="ok">[✓]</span>` },
       { html: `<span class="prompt">&gt;</span> Hash de sesión: <span class="muted">${hash}</span>` },
-      { html: `<span class="prompt">&gt;</span> Conectando con el sistema de análisis...` }
+      { html: `<span class="prompt">&gt;</span> Conectando con el sistema de análisis...<span class="cli__cursor"></span>` }
     ];
-    for (const line of lines) {
+    // First line: render IMMEDIATELY so the user sees content at frame 0
+    for (let i = 0; i < lines.length; i++) {
       const el = document.createElement('div');
       el.className = 'cli__line';
-      el.innerHTML = line.html;
+      el.innerHTML = lines[i].html;
       cliBody.appendChild(el);
-      // Stream char-by-char effect: hide and reveal
-      await sleep(80);
-      // give a small variable pause between lines
-      await sleep(900 + Math.random() * 600);
+      // First 2 lines come faster to bridge the 0-content gap; later lines pace down
+      const wait = i === 0 ? 0
+                : i === 1 ? 700
+                : i === 2 ? 850
+                : 1100 + Math.random() * 300;
+      if (wait > 0) await sleep(wait);
     }
+    // Pad remaining time so scene 1 totals ~8.5s
+    await sleep(800);
   }
 
   // ========= Scene 2: Pattern chips =========
@@ -551,73 +631,124 @@
     await sleep(600);
   }
 
-  // ========= Scene 4: Lever network =========
+  // ========= Scene 4: Knowledge Graph (SVG) =========
+  // Vector knowledge map: nodes connected by edges, drawing in waves like an AI brain.
   async function playScene4() {
-    const canvas = $('#leverCanvas');
     const caption = $('#leverCaption');
     const counter = $('#leverCount');
-    const redacted = canvas?.querySelector('.lever-redacted') || (() => {
-      const r = document.createElement('div');
-      r.className = 'lever-redacted';
-      r.textContent = 'Tu palanca #1: ████████████';
-      canvas.appendChild(r);
-      return r;
-    })();
-    if (!canvas) return;
+    const edgesG = $('#kgEdges');
+    const nodesG = $('#kgNodes');
+    const finalG = $('#kgFinal');
+    const redacted = document.querySelector('.lever-redacted');
+    if (!edgesG || !nodesG) return;
 
-    // Clear previous nodes
-    canvas.querySelectorAll('.lnode').forEach(n => n.remove());
-    redacted.classList.remove('is-visible');
+    // Reset
+    edgesG.innerHTML = ''; nodesG.innerHTML = ''; finalG.innerHTML = '';
+    redacted?.classList.remove('is-visible');
+    counter.textContent = '47';
 
-    // Spawn 47 nodes
-    const N = 47;
-    const nodes = [];
-    for (let i = 0; i < N; i++) {
-      const n = document.createElement('div');
-      n.className = 'lnode';
-      n.style.left = (5 + Math.random() * 90) + '%';
-      n.style.top = (10 + Math.random() * 80) + '%';
-      n.style.opacity = 0.3 + Math.random() * 0.4;
-      canvas.appendChild(n);
-      nodes.push(n);
-    }
-    counter.textContent = N;
-    caption.textContent = 'Evaluando 47 posibles cambios en tu negocio…';
-    await sleep(1300);
-
-    // Filter waves: 47 → 12 → 5 → 3 → 1
-    const waves = [12, 5, 3, 1];
-    const waveCaptions = [
-      'Filtrando por ratio impacto / esfuerzo…',
-      'Eliminando los que no componen con el resto…',
-      'Aislando los de mayor efecto compuesto…',
-      'Encontrando el que más mueve el resultado…'
+    // Generate 18 nodes in clustered layout (3 clusters mimicking founder/marketing/cash)
+    const W = 480, H = 240;
+    const clusters = [
+      { cx: W * 0.22, cy: H * 0.50, r: 70, n: 6 },
+      { cx: W * 0.55, cy: H * 0.30, r: 65, n: 6 },
+      { cx: W * 0.78, cy: H * 0.65, r: 70, n: 6 }
     ];
-    let remaining = nodes.slice();
-    for (let w = 0; w < waves.length; w++) {
-      const target = waves[w];
-      caption.textContent = waveCaptions[w];
-      // Fade out random nodes until target count
-      while (remaining.length > target) {
-        const idx = Math.floor(Math.random() * remaining.length);
-        remaining[idx].classList.add('is-faded');
-        remaining.splice(idx, 1);
-        await sleep(40);
+    const nodes = [];
+    clusters.forEach(c => {
+      for (let i = 0; i < c.n; i++) {
+        const ang = (i / c.n) * Math.PI * 2 + Math.random() * 0.5;
+        const dist = c.r * (0.45 + Math.random() * 0.55);
+        nodes.push({ x: c.cx + Math.cos(ang) * dist, y: c.cy + Math.sin(ang) * dist });
       }
-      counter.textContent = target;
-      await sleep(700);
+    });
+
+    // Render nodes (initially with breathing animation via CSS)
+    const nodeEls = nodes.map((p, i) => {
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', 3.4);
+      c.style.opacity = '0';
+      c.style.transition = 'opacity .4s';
+      nodesG.appendChild(c);
+      // Stagger fade-in
+      setTimeout(() => { c.style.opacity = '1'; }, 60 * i);
+      return c;
+    });
+
+    // Generate edges: connect nearby nodes (within distance threshold)
+    const edges = [];
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 110) edges.push({ a: i, b: j, d });
+      }
+    }
+    // Limit to ~22 edges to avoid clutter
+    edges.sort((a, b) => a.d - b.d);
+    const edgesPick = edges.slice(0, 22);
+
+    const edgeEls = edgesPick.map((e, k) => {
+      const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      const A = nodes[e.a], B = nodes[e.b];
+      ln.setAttribute('x1', A.x); ln.setAttribute('y1', A.y);
+      ln.setAttribute('x2', B.x); ln.setAttribute('y2', B.y);
+      edgesG.appendChild(ln);
+      // Stagger draw
+      setTimeout(() => ln.classList.add('is-drawn'), 200 + k * 80);
+      return { el: ln, a: e.a, b: e.b };
+    });
+
+    caption.textContent = 'Mapeando 47 conexiones de tu negocio…';
+    await sleep(1900);
+
+    // Filter waves — fade nodes/edges progressively
+    const waves = [
+      { count: 12, cap: 'Filtrando por impacto / esfuerzo…' },
+      { count: 5,  cap: 'Eliminando los que no componen con el resto…' },
+      { count: 3,  cap: 'Aislando los de mayor efecto compuesto…' },
+      { count: 1,  cap: 'Encontrando el que más mueve el resultado…' }
+    ];
+    // Pick a "winning path" — a connected subgraph that survives to the end
+    const finalNodeIdx = Math.floor(nodes.length / 2);
+    let aliveNodes = new Set(nodes.map((_, i) => i));
+
+    for (const w of waves) {
+      caption.textContent = w.cap;
+      // Fade random nodes (not the winning node) until target
+      while (aliveNodes.size > w.count) {
+        const candidates = [...aliveNodes].filter(i => i !== finalNodeIdx);
+        if (!candidates.length) break;
+        const drop = candidates[Math.floor(Math.random() * candidates.length)];
+        nodeEls[drop].classList.add('is-faded');
+        // Fade edges connected to this node
+        edgeEls.forEach(e => { if (e.a === drop || e.b === drop) e.el.classList.add('is-faded'); });
+        aliveNodes.delete(drop);
+        await sleep(60);
+      }
+      counter.textContent = w.count;
+      await sleep(550);
     }
 
-    // Highlight final node
-    if (remaining[0]) {
-      remaining[0].classList.add('is-final');
-      remaining[0].style.left = '50%';
-      remaining[0].style.top = '50%';
-      remaining[0].style.transform = 'translate(-50%,-50%)';
-    }
-    redacted.classList.add('is-visible');
+    // Final reveal: highlight the winning node + its remaining edges
+    nodeEls[finalNodeIdx].classList.add('is-final');
+    edgeEls.forEach(e => {
+      if ((e.a === finalNodeIdx || e.b === finalNodeIdx) && !e.el.classList.contains('is-faded')) {
+        e.el.classList.add('is-final');
+      }
+    });
+
+    // Add halo ping ring around final node
+    const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    halo.setAttribute('cx', nodes[finalNodeIdx].x);
+    halo.setAttribute('cy', nodes[finalNodeIdx].y);
+    halo.setAttribute('r', 6);
+    finalG.appendChild(halo);
+
+    redacted?.classList.add('is-visible');
     caption.textContent = 'Tu palanca #1 identificada.';
-    await sleep(1100);
+    await sleep(900);
   }
 
   // ========= Scene 5: Document writing =========
@@ -644,11 +775,9 @@
     }
   }
 
-  // ========= Scene 6: Verification + spoiler =========
-  async function playScene6(apiPromise) {
+  // ========= Scene 6: Verification + spoiler (auto-render, no click) =========
+  async function playScene6(apiPromise, autoRender) {
     const list = $('#checklist');
-    const spoiler = $('#spoiler');
-    const cta = $('#sceneCta');
     if (!list) return;
 
     const items = [
@@ -670,56 +799,37 @@
       return li;
     });
 
-    // Animate items: spinner → done, one by one. Slow down if API hasn't returned yet.
     let result = null, done = false;
     apiPromise.then(r => { result = r; done = true; }).catch(() => { done = true; });
 
     for (let i = 0; i < liEls.length; i++) {
       const li = liEls[i];
       li.classList.add('is-running');
-      // Spinner duration depends on whether we need to stretch
-      const baseMs = 900;
-      const stretchMs = !done && i === liEls.length - 1 ? 2400 : baseMs;
+      const baseMs = 800;
+      const stretchMs = !done && i === liEls.length - 1 ? 2200 : baseMs;
       await sleep(stretchMs);
       li.classList.remove('is-running');
       li.classList.add('is-done');
       li.querySelector('.cli-item__icon').textContent = '✓';
     }
 
-    // Wait for result if not done yet (loop a final "polishing" item)
+    // If API still pending, loop the last item with spinner
     while (!done) {
-      // Add a soft loop: pulse the last item
       const last = liEls[liEls.length - 1];
+      last.classList.remove('is-done');
       last.classList.add('is-running');
       last.querySelector('.cli-item__icon').textContent = '⠋';
       await sleep(900);
       last.classList.remove('is-running');
+      last.classList.add('is-done');
       last.querySelector('.cli-item__icon').textContent = '✓';
-      await sleep(400);
+      await sleep(300);
     }
 
-    // Spoiler reveal
-    if (result && result.arquetipo && result.arquetipo.nombre) {
-      $('#spoilerArchetype').textContent = result.arquetipo.nombre;
-      spoiler.hidden = false;
+    // Auto-reveal spoiler + render result (no button click)
+    if (autoRender) {
+      await revealSpoilerAndAutoRender(result);
     }
-    cta.hidden = false;
-
-    // CTA wires up to render the result
-    return new Promise(resolve => {
-      const btn = $('#btnSeeReport');
-      if (!btn) return resolve();
-      const onClick = () => {
-        btn.removeEventListener('click', onClick);
-        const r = window.__pendingResult || result;
-        if (r) {
-          renderResult(r);
-          clearState();
-        }
-        resolve();
-      };
-      btn.addEventListener('click', onClick);
-    });
   }
 
   // Legacy stubs (kept for the small old loader styles still referenced elsewhere)

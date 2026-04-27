@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
 
-  <link rel="stylesheet" href="./assets/styles.css?v=2.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.1" />
 </head>
 
 <body class="theme-dark">
@@ -220,11 +220,24 @@
             </div>
           </div>
 
-          <!-- Scene 4: The lever -->
+          <!-- Scene 4: Knowledge graph (vector AI map) -->
           <div class="scene scene-4" data-scene="4">
             <div class="scene__kicker">FASE 4 · Identificando tu palanca #1</div>
-            <div class="lever-canvas" id="leverCanvas"></div>
-            <div class="scene__caption" id="leverCaption">Evaluando 47 posibles cambios en tu negocio…</div>
+            <div class="lever-canvas" id="leverCanvas">
+              <svg class="kgraph" viewBox="0 0 480 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                  <radialGradient id="kgNodeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#5FE8D7" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#5FE8D7" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <g class="kgraph__edges" id="kgEdges"></g>
+                <g class="kgraph__nodes" id="kgNodes"></g>
+                <g class="kgraph__final" id="kgFinal"></g>
+              </svg>
+              <div class="lever-redacted">Tu palanca #1: ████████████</div>
+            </div>
+            <div class="scene__caption" id="leverCaption">Mapeando conexiones de tu negocio…</div>
             <div class="scene__counter">
               <span class="scene__counter-label">Cambios filtrados</span>
               <span class="scene__counter-num" id="leverCount">47</span>
@@ -399,6 +412,6 @@
     </footer>
   </div>
 
-  <script src="./assets/quiz.js?v=2.0"></script>
+  <script src="./assets/quiz.js?v=2.1"></script>
 </body>
 </html>
