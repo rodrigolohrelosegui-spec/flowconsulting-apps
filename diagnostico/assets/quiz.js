@@ -320,9 +320,36 @@
     });
   }
   function setPercent(p) {
-    const c = Math.max(0, Math.min(100, Math.round(p)));
-    if ($('#percentNum')) $('#percentNum').textContent = c;
-    if ($('#progressLinearFill')) $('#progressLinearFill').style.width = c + '%';
+    const clamped = Math.max(0, Math.min(99.9, p));
+    const numEl = $('#percentNum');
+    const fill = $('#progressLinearFill');
+    if (!numEl) return;
+    // Show integer part + (optional decimal) when above 95
+    if (clamped >= 95 && clamped < 100) {
+      const intPart = Math.floor(clamped);
+      const dec = Math.round((clamped - intPart) * 10);
+      numEl.textContent = intPart;
+      let decEl = numEl.parentElement.querySelector('.percent__decimal');
+      if (!decEl) {
+        decEl = document.createElement('span');
+        decEl.className = 'percent__decimal';
+        numEl.parentElement.insertBefore(decEl, numEl.nextSibling);
+      }
+      decEl.textContent = '.' + dec;
+    } else {
+      numEl.textContent = Math.round(clamped);
+      const decEl = numEl.parentElement?.querySelector('.percent__decimal');
+      if (decEl) decEl.remove();
+    }
+    if (fill) fill.style.width = clamped + '%';
+  }
+  function setPercentClean100() {
+    const numEl = $('#percentNum');
+    if (numEl) numEl.textContent = '100';
+    const decEl = numEl?.parentElement.querySelector('.percent__decimal');
+    if (decEl) decEl.remove();
+    const fill = $('#progressLinearFill');
+    if (fill) fill.style.width = '100%';
   }
   async function tweenPercent(from, to, durMs) {
     return new Promise(resolve => {
@@ -389,12 +416,14 @@
     setPercent(1);
     startPercentTicker();
 
+    // Stretched timeline targeting ~1:45 baseline (real API median ~90s, p90 ~150s)
+    // Scenes 1-5 cover 1→82% in ~80s. Scene 6 covers 82→95% in ~14s, then decimals tick to ~99.9.
     const sceneTargets = [
-      { idx: 0, fn: playScene1, args: [payload, firstName], from: 1,  to: 18, dur: 8500 },
-      { idx: 1, fn: playScene2, args: [patterns],            from: 18, to: 35, dur: 9000 },
-      { idx: 2, fn: playScene3, args: [],                    from: 35, to: 52, dur: 8500 },
-      { idx: 3, fn: playScene4, args: [],                    from: 52, to: 69, dur: 8500 },
-      { idx: 4, fn: playScene5, args: [firstName],           from: 69, to: 86, dur: 8500 }
+      { idx: 0, fn: playScene1, args: [payload, firstName], from: 1,  to: 16, dur: 14000 },
+      { idx: 1, fn: playScene2, args: [patterns],            from: 16, to: 32, dur: 17000 },
+      { idx: 2, fn: playScene3, args: [],                    from: 32, to: 49, dur: 15000 },
+      { idx: 3, fn: playScene4, args: [],                    from: 49, to: 66, dur: 17000 },
+      { idx: 4, fn: playScene5, args: [firstName],           from: 66, to: 82, dur: 16000 }
     ];
 
     // Scene 1 is already active (default). For later scenes we transition.
@@ -418,10 +447,10 @@
 
     // ----- Scene 6: Verification + spoiler -----
     transitionTo(5);
-    await tweenPercent(86, 96, 3500);
+    await tweenPercent(82, 95, 5500);
     await playScene6(apiPromise, /*autoRender=*/true);
 
-    setPercent(100);
+    setPercentClean100();
     stopPercentTicker();
 
     if (apiError) throw apiError;
@@ -513,15 +542,17 @@
       el.className = 'cli__line';
       el.innerHTML = lines[i].html;
       cliBody.appendChild(el);
-      // First 2 lines come faster to bridge the 0-content gap; later lines pace down
+      // Stretched cadence — first lines fast, later lines breathe more
       const wait = i === 0 ? 0
-                : i === 1 ? 700
-                : i === 2 ? 850
-                : 1100 + Math.random() * 300;
+                : i === 1 ? 900
+                : i === 2 ? 1100
+                : i === 3 ? 1500
+                : i === 4 ? 1700
+                : 2100 + Math.random() * 400;
       if (wait > 0) await sleep(wait);
     }
-    // Pad remaining time so scene 1 totals ~8.5s
-    await sleep(800);
+    // Tail pad so scene 1 totals ~14s
+    await sleep(2400);
   }
 
   // ========= Scene 2: Pattern chips =========
@@ -543,15 +574,13 @@
       return el;
     });
 
-    // Eval one by one (~1.05s each = ~9.5s total for 9)
+    // Eval one by one — slowed down for the longer timeline (~1.8s each = ~16s for 9)
     for (let i = 0; i < patterns.length; i++) {
       const p = patterns[i];
       const chip = chips[i];
       chip.classList.add('is-checking');
-      caption.textContent = p.match
-        ? `Probando: ${p.label}…`
-        : `Probando: ${p.label}…`;
-      await sleep(550);
+      caption.textContent = `Probando: ${p.label}…`;
+      await sleep(1000);
       chip.classList.remove('is-checking');
       chip.classList.add(p.match ? 'is-match' : 'is-skip');
       if (p.match) {
@@ -561,10 +590,10 @@
       } else {
         caption.textContent = `${p.label} — sin riesgo en tu caso`;
       }
-      await sleep(450);
+      await sleep(750);
     }
     caption.textContent = `${matchCount} patrones detectados en tu caso.`;
-    await sleep(500);
+    await sleep(700);
   }
 
   // ========= Scene 3: Cases comparison =========
@@ -591,33 +620,38 @@
     scan.className = 'cases-scan';
     grid.appendChild(scan);
 
-    // Render cards in stagger
+    // Render cards in stagger — slower stagger to fill more time
     cases.forEach((c, i) => {
       const card = document.createElement('div');
       card.className = 'case-card';
       card.innerHTML = `<div>${c.i}</div><div class="case-card__sub">${escapeHtml(c.sub)}</div>`;
       grid.appendChild(card);
-      setTimeout(() => card.classList.add('is-revealed'), 60 * i);
+      setTimeout(() => card.classList.add('is-revealed'), 110 * i);
     });
-    await sleep(60 * cases.length + 200);
+    await sleep(110 * cases.length + 400);
 
-    // Run scan
+    // Run scan twice for visual richness in stretched timeline
     caption.textContent = 'Cruzando con casos en cartera…';
+    scan.classList.add('is-running');
+    await sleep(1700);
+    scan.classList.remove('is-running');
+    await sleep(300);
+    caption.textContent = 'Comparando arquetipo y patrón energético…';
     scan.classList.add('is-running');
     await sleep(1700);
     scan.classList.remove('is-running');
 
     // Highlight winner
     caption.textContent = 'Buscando el caso más parecido al tuyo…';
-    await sleep(800);
+    await sleep(1100);
     const winnerCard = grid.querySelectorAll('.case-card')[winnerIdx];
     if (winnerCard) winnerCard.classList.add('is-winner');
     caption.textContent = `Mayor coincidencia con tu caso: ${cases[winnerIdx].sub}`;
 
-    // Animate score counter 0 → 89
+    // Animate score counter 0 → 89 (slower for stretched timeline)
     const to = 89;
     let val = 0;
-    const dur = 2200;
+    const dur = 3200;
     const t0 = Date.now();
     await new Promise(res => {
       const tick = () => {
@@ -628,7 +662,7 @@
       };
       tick();
     });
-    await sleep(600);
+    await sleep(900);
   }
 
   // ========= Scene 4: Knowledge Graph (SVG) =========
@@ -701,34 +735,31 @@
     });
 
     caption.textContent = 'Mapeando 47 conexiones de tu negocio…';
-    await sleep(1900);
+    await sleep(3200);
 
-    // Filter waves — fade nodes/edges progressively
+    // Filter waves — fade nodes/edges progressively (slowed for stretched timeline)
     const waves = [
       { count: 12, cap: 'Filtrando por impacto / esfuerzo…' },
       { count: 5,  cap: 'Eliminando los que no componen con el resto…' },
       { count: 3,  cap: 'Aislando los de mayor efecto compuesto…' },
       { count: 1,  cap: 'Encontrando el que más mueve el resultado…' }
     ];
-    // Pick a "winning path" — a connected subgraph that survives to the end
     const finalNodeIdx = Math.floor(nodes.length / 2);
     let aliveNodes = new Set(nodes.map((_, i) => i));
 
     for (const w of waves) {
       caption.textContent = w.cap;
-      // Fade random nodes (not the winning node) until target
       while (aliveNodes.size > w.count) {
         const candidates = [...aliveNodes].filter(i => i !== finalNodeIdx);
         if (!candidates.length) break;
         const drop = candidates[Math.floor(Math.random() * candidates.length)];
         nodeEls[drop].classList.add('is-faded');
-        // Fade edges connected to this node
         edgeEls.forEach(e => { if (e.a === drop || e.b === drop) e.el.classList.add('is-faded'); });
         aliveNodes.delete(drop);
-        await sleep(60);
+        await sleep(140);  // was 60 — slower fades
       }
       counter.textContent = w.count;
-      await sleep(550);
+      await sleep(1000);  // was 550
     }
 
     // Final reveal: highlight the winning node + its remaining edges
@@ -748,29 +779,31 @@
 
     redacted?.classList.add('is-visible');
     caption.textContent = 'Tu palanca #1 identificada.';
-    await sleep(900);
+    await sleep(1800);
   }
 
   // ========= Scene 5: Document writing =========
   async function playScene5(firstName) {
     const docBody = $('#docBody');
     if (!docBody) return;
+    // Stretched: 6 fragments now. Total ~16s.
     const fragments = [
       `${firstName}, basado en tus 12 respuestas, lo primero que veo es un patrón claro…`,
       `Calibrando el tono al perfil específico de tu negocio…`,
+      `Cruzando tu caso con el patrón energético de fundadores similares…`,
       `Verificando que cada recomendación sea aplicable a tu caso real…`,
+      `Pesando el costo de no actuar contra el costo de actuar…`,
       `Asegurando que cada palabra te sirva, ${firstName}.`
     ];
     docBody.innerHTML = '';
     for (let i = 0; i < fragments.length; i++) {
       const el = document.createElement('div');
       docBody.appendChild(el);
-      await typewriter(el, fragments[i], 28, { cursorClass: 'doc__cursor' });
-      await sleep(400);
-      // Fade and clear before next
+      await typewriter(el, fragments[i], 32, { cursorClass: 'doc__cursor' });
+      await sleep(550);
       el.style.transition = 'opacity .35s';
       el.style.opacity = '0.25';
-      await sleep(280);
+      await sleep(320);
       docBody.innerHTML = '';
     }
   }
@@ -802,28 +835,91 @@
     let result = null, done = false;
     apiPromise.then(r => { result = r; done = true; }).catch(() => { done = true; });
 
+    // Run all 7 checklist items at slower cadence (~1.4s each = ~10s)
     for (let i = 0; i < liEls.length; i++) {
       const li = liEls[i];
       li.classList.add('is-running');
-      const baseMs = 800;
-      const stretchMs = !done && i === liEls.length - 1 ? 2200 : baseMs;
+      const baseMs = 1300;
+      const stretchMs = !done && i === liEls.length - 1 ? 1800 : baseMs;
       await sleep(stretchMs);
       li.classList.remove('is-running');
       li.classList.add('is-done');
       li.querySelector('.cli-item__icon').textContent = '✓';
     }
 
-    // If API still pending, loop the last item with spinner
-    while (!done) {
+    // ====== EXTENDED WAIT MODE ======
+    // If API still pending, kick into the looping waiting state with:
+    //  - Decimal percent ticker (95.0 → 95.1 → 95.2 ... up to 99.9)
+    //  - Rotating "Procesando" caption messages
+    //  - Last checklist item loops spinner
+    if (!done) {
+      const captionWrap = $('#scene6Caption');
+      const captionText = $('#scene6CaptionText');
+      const captionDots = $('#scene6Dots');
+      if (captionWrap) captionWrap.hidden = false;
+
+      const waitMessages = [
+        'Procesando',
+        'Aplicando últimas reglas',
+        'Verificando coherencia interna',
+        'Calibrando el tono final',
+        'Casos complejos como el tuyo toman un poco más',
+        'Cruzando con la base de casos reales',
+        'Asegurando que cada palabra te sirva',
+        'Procesando',
+        'Esto suele tomar entre 1 y 2 minutos',
+        'Casi listo',
+        'Ya casi terminamos'
+      ];
+      let msgIdx = 0;
+      let dotCount = 1;
       const last = liEls[liEls.length - 1];
-      last.classList.remove('is-done');
-      last.classList.add('is-running');
-      last.querySelector('.cli-item__icon').textContent = '⠋';
-      await sleep(900);
+
+      // Kick the percent decimals: 95.0 incrementing slowly
+      let dec = 0;  // out of 49 (so we go 95.0 → 99.9 over time)
+      const decInterval = setInterval(() => {
+        if (done) return;
+        dec = Math.min(49, dec + 1);
+        const value = 95 + dec / 10;
+        setPercent(value);
+      }, 1700);  // ~1.7s per 0.1 step → ~83s to climb 95→99.9
+
+      // Caption rotator
+      const captionInterval = setInterval(() => {
+        if (done) return;
+        if (captionText) captionText.textContent = waitMessages[msgIdx % waitMessages.length];
+        msgIdx++;
+      }, 4500);
+
+      // Dots animator
+      const dotsInterval = setInterval(() => {
+        if (done) return;
+        dotCount = (dotCount % 3) + 1;
+        if (captionDots) captionDots.textContent = '.'.repeat(dotCount);
+      }, 450);
+
+      // Spinner loop on last item
+      while (!done) {
+        last.classList.remove('is-done');
+        last.classList.add('is-running');
+        last.querySelector('.cli-item__icon').textContent = '⠋';
+        await sleep(900);
+        if (done) break;
+        last.classList.remove('is-running');
+        last.classList.add('is-done');
+        last.querySelector('.cli-item__icon').textContent = '✓';
+        await sleep(400);
+      }
+
+      clearInterval(decInterval);
+      clearInterval(captionInterval);
+      clearInterval(dotsInterval);
+      // Hide the wait caption once we have the result — spoiler will take over
+      if (captionWrap) captionWrap.hidden = true;
+      // Make sure last item is checked
       last.classList.remove('is-running');
       last.classList.add('is-done');
       last.querySelector('.cli-item__icon').textContent = '✓';
-      await sleep(300);
     }
 
     // Auto-reveal spoiler + render result (no button click)

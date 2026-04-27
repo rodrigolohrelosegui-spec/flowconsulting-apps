@@ -1894,3 +1894,64 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   .checklist { gap: 4px; }
   .cli-item { padding: 6px 12px; font-size: 11.5px; }
 }
+
+/* ============================================================
+   v2.2 · Stretched timeline (~1:45 baseline) + warning + decimal counter
+   ============================================================ */
+
+/* Persistent "no cierres" warning under the scene-dots */
+.loader-warn {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: #FCD34D;
+  background: rgba(252, 211, 77, 0.06);
+  border: 1px solid rgba(252, 211, 77, 0.18);
+  padding: 6px 12px;
+  border-radius: 999px;
+  animation: warnFadeIn .8s ease-out;
+}
+.loader-warn__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #FCD34D;
+  box-shadow: 0 0 8px #FCD34D;
+  animation: warnBlink 1.4s ease-in-out infinite;
+}
+@keyframes warnBlink { 50% { opacity: 0.35; transform: scale(0.85); } }
+@keyframes warnFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+/* Decimal % style — slightly smaller, JetBrains Mono for subtle tech feel */
+.percent__decimal {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 0.45em;
+  color: var(--cyan);
+  -webkit-text-fill-color: var(--cyan);
+  margin-left: 2px;
+  vertical-align: top;
+  position: relative;
+  top: 0.55em;
+  letter-spacing: -.02em;
+}
+
+/* Loop caption ticker for Scene 6 */
+.scene-6 .scene__caption {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: var(--on-dark-soft);
+  margin-top: 16px;
+  min-height: 1.4em;
+}
+.scene-6 .scene__caption .dotdot {
+  display: inline-block;
+  width: 18px;
+  text-align: left;
+  color: var(--cyan);
+}

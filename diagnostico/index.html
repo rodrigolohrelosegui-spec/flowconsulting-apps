@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
 
-  <link rel="stylesheet" href="./assets/styles.css?v=2.1" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.2" />
 </head>
 
 <body class="theme-dark">
@@ -180,6 +180,10 @@
             <span class="scene-dot is-active"></span><span class="scene-dot"></span><span class="scene-dot"></span>
             <span class="scene-dot"></span><span class="scene-dot"></span><span class="scene-dot"></span>
           </div>
+          <div class="loader-warn" id="loaderWarn">
+            <span class="loader-warn__dot" aria-hidden="true"></span>
+            No cierres esta pestaña para no perder tu avance
+          </div>
         </div>
 
         <!-- Scene container -->
@@ -261,6 +265,9 @@
           <div class="scene scene-6" data-scene="6">
             <div class="scene__kicker">FASE 6 · Verificación final</div>
             <ul class="checklist" id="checklist"></ul>
+            <div class="scene__caption" id="scene6Caption" hidden>
+              <span id="scene6CaptionText">Procesando</span><span class="dotdot" id="scene6Dots">...</span>
+            </div>
 
             <!-- Spoiler reveal (hidden until result arrives) -->
             <div class="spoiler" id="spoiler" hidden>
@@ -412,6 +419,6 @@
     </footer>
   </div>
 
-  <script src="./assets/quiz.js?v=2.1"></script>
+  <script src="./assets/quiz.js?v=2.2"></script>
 </body>
 </html>
