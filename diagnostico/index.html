@@ -26,14 +26,14 @@
   <meta name="twitter:title" content="Diagnóstico Infinite Flow · Flow Consulting" />
   <meta name="twitter:description" content="4 minutos. Tu fase, tu Big Domino y el plan." />
 
-  <!-- Fonts (Montserrat + Open Sans + Instrument Serif italic) -->
+  <!-- Fonts (Montserrat + Open Sans + Instrument Serif italic + JetBrains Mono for loader) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" /></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
 
-  <link rel="stylesheet" href="./assets/styles.css?v=1.3" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.0" />
 </head>
 
 <body class="theme-dark">
@@ -163,23 +163,107 @@
       </div>
     </section>
 
-    <!-- ============ LOADING ============ -->
+    <!-- ============ LOADING (cinematic 6-scene loader v2) ============ -->
     <section class="view view-loading" data-view="loading">
-      <div class="loader">
+      <div class="loader-v2">
         <div class="dots-canvas" id="dotsCanvas" aria-hidden="true"></div>
-        <div class="loader__inner container container--narrow">
+
+        <!-- Persistent header: percent + scene indicators -->
+        <div class="loader-v2__head container container--narrow">
           <div class="percent">
             <span class="percent__num" id="percentNum">0</span><span class="percent__sign">%</span>
           </div>
           <div class="progress-linear" aria-hidden="true">
             <div class="progress-linear__fill" id="progressLinearFill"></div>
           </div>
-          <div class="loader__title">Analizando tu caso</div>
-          <div class="loader__step" id="loaderStep">Leyendo tus respuestas…</div>
-          <div class="loader__ticks" id="loaderTicks">
-            <span class="tick is-active"></span><span class="tick"></span><span class="tick"></span>
-            <span class="tick"></span><span class="tick"></span><span class="tick"></span>
+          <div class="scene-dots" id="sceneDots">
+            <span class="scene-dot is-active"></span><span class="scene-dot"></span><span class="scene-dot"></span>
+            <span class="scene-dot"></span><span class="scene-dot"></span><span class="scene-dot"></span>
           </div>
+        </div>
+
+        <!-- Scene container -->
+        <div class="loader-v2__stage container container--narrow">
+
+          <!-- Scene 1: Ingesta (CLI terminal) -->
+          <div class="scene scene-1 is-active" data-scene="1">
+            <div class="cli">
+              <div class="cli__bar">
+                <span class="cli__dot cli__dot--r"></span>
+                <span class="cli__dot cli__dot--y"></span>
+                <span class="cli__dot cli__dot--g"></span>
+                <span class="cli__title">flow-consulting · análisis</span>
+              </div>
+              <div class="cli__body" id="cliBody"></div>
+            </div>
+          </div>
+
+          <!-- Scene 2: Patterns -->
+          <div class="scene scene-2" data-scene="2">
+            <div class="scene__kicker">FASE 2 · Buscando patrones en tu negocio</div>
+            <div class="patterns-grid" id="patternsGrid"></div>
+            <div class="scene__caption" id="patternsCaption">Probando 9 patrones contra tus respuestas…</div>
+            <div class="scene__counter">
+              <span class="scene__counter-label">Patrones detectados</span>
+              <span class="scene__counter-num" id="patternsCount">0</span>
+            </div>
+          </div>
+
+          <!-- Scene 3: Comparing with cases -->
+          <div class="scene scene-3" data-scene="3">
+            <div class="scene__kicker">FASE 3 · Comparando con casos reales</div>
+            <div class="cases-grid" id="casesGrid"></div>
+            <div class="scene__caption" id="casesCaption">Cruzando con 17 casos en cartera…</div>
+            <div class="scene__counter">
+              <span class="scene__counter-label">Coincidencia con caso parecido</span>
+              <span class="scene__counter-num"><span id="casesScore">0</span><small>%</small></span>
+            </div>
+          </div>
+
+          <!-- Scene 4: The lever -->
+          <div class="scene scene-4" data-scene="4">
+            <div class="scene__kicker">FASE 4 · Identificando tu palanca #1</div>
+            <div class="lever-canvas" id="leverCanvas"></div>
+            <div class="scene__caption" id="leverCaption">Evaluando 47 posibles cambios en tu negocio…</div>
+            <div class="scene__counter">
+              <span class="scene__counter-label">Cambios filtrados</span>
+              <span class="scene__counter-num" id="leverCount">47</span>
+            </div>
+          </div>
+
+          <!-- Scene 5: Writing -->
+          <div class="scene scene-5" data-scene="5">
+            <div class="scene__kicker">FASE 5 · Redactando tu caso</div>
+            <div class="doc">
+              <div class="doc__header">
+                <div class="doc__line doc__line--meta"></div>
+                <div class="doc__line doc__line--title"></div>
+              </div>
+              <div class="doc__body" id="docBody"></div>
+            </div>
+            <div class="scene__caption">Calibrando voz, tono y especificidad…</div>
+          </div>
+
+          <!-- Scene 6: Verification + spoiler -->
+          <div class="scene scene-6" data-scene="6">
+            <div class="scene__kicker">FASE 6 · Verificación final</div>
+            <ul class="checklist" id="checklist"></ul>
+
+            <!-- Spoiler reveal (hidden until result arrives) -->
+            <div class="spoiler" id="spoiler" hidden>
+              <div class="spoiler__label">RESULTADO PRELIMINAR</div>
+              <div class="spoiler__text">El perfil que más se acerca a tu caso es…</div>
+              <div class="spoiler__archetype" id="spoilerArchetype"></div>
+            </div>
+
+            <div class="scene__cta" id="sceneCta" hidden>
+              <button class="btn btn--primary btn--lg" id="btnSeeReport">
+                Ver mi reporte completo
+                <span class="btn__arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -315,6 +399,6 @@
     </footer>
   </div>
 
-  <script src="./assets/quiz.js?v=1.2"></script>
+  <script src="./assets/quiz.js?v=2.0"></script>
 </body>
 </html>

@@ -233,33 +233,30 @@
   /* ============== SUBMIT ============== */
   async function submitDiagnostic(payload) {
     show('loading');
-    startLoader();
     track('submit_started', { email: payload.lead.email });
 
-    try {
-      let result;
-      if (CFG.WEBHOOK_URL) {
-        result = await postWithTimeout(CFG.WEBHOOK_URL, payload);
-      } else if (CFG.USE_LOCAL_FALLBACK) {
-        // Fallback local hasta que exista el workflow n8n
-        await new Promise(r => setTimeout(r, 9000));
-        result = generateLocalFallback(payload);
-      } else {
-        throw new Error('No webhook configured.');
+    // Kick off API call in parallel with the cinematic loader
+    const apiPromise = (async () => {
+      if (CFG.WEBHOOK_URL) return postWithTimeout(CFG.WEBHOOK_URL, payload);
+      if (CFG.USE_LOCAL_FALLBACK) {
+        await new Promise(r => setTimeout(r, 40000));
+        return generateLocalFallback(payload);
       }
+      throw new Error('No webhook configured.');
+    })();
 
+    try {
+      const result = await runCinematicLoader(payload, apiPromise);
       if (!result || !result.diagnostico_ejecutivo) throw new Error('Respuesta inesperada del servidor.');
 
       try { localStorage.setItem('fc_last_result', JSON.stringify({ result, at: Date.now() })); } catch (_) {}
       track('submit_success', { arquetipo: result.arquetipo?.id, fase: result.fase_infinite_flow?.paso_actual });
 
-      finishLoader(() => {
-        renderResult(result);
-        clearState();
-      });
+      // Wait for user to click the "Ver mi reporte" button (resolved by the loader).
+      // renderResult is triggered by the button handler set by the loader.
+      window.__pendingResult = result;
     } catch (err) {
       console.error('Submit failed:', err);
-      stopLoader();
       track('submit_failed', { error: String(err).slice(0, 100) });
       $('#errorMsg').textContent = err.message || 'No pudimos procesar tu diagnóstico.';
       $('#btnRetry').onclick = () => onSubmit({ preventDefault: () => {} });
@@ -287,18 +284,450 @@
     }
   }
 
-  /* ============== LOADER ============== */
-  const LOADER_STEPS = [
-    { to: 14, text: 'Leyendo tus respuestas a profundidad…' },
-    { to: 30, text: 'Detectando tu arquetipo entre 17 casos reales…' },
-    { to: 48, text: 'Mapeando tu fase en el Sistema Infinite Flow…' },
-    { to: 64, text: 'Cruzando patrones de Founder Flow, Lead Flow y Cash Flow…' },
-    { to: 80, text: 'Identificando tu Big Domino — la palanca #1…' },
-    { to: 95, text: 'Escribiendo el plan específico para tu caso…' }
-  ];
-
+  /* ============== CINEMATIC LOADER (v2) ============== */
   let loaderPercent = 0, loaderTimer = null, loaderFinishing = false;
 
+  // Pre-compute pattern matches client-side (mirror of the cross-patterns in the system prompt,
+  // but with cold-traffic-friendly labels)
+  function computePatterns(answers) {
+    const a = answers;
+    const inSet = (v, s) => s.includes(String(v).toLowerCase());
+    const Q9hi = ['15_to_50k','50_to_100k','gt_100k'].includes(a.Q9);
+    const Q9mid = ['5_to_15k'].includes(a.Q9) || Q9hi;
+    return [
+      { key:'crecimiento_sin_rentabilidad', label:'Crecimiento sin rentabilidad', match: Q9hi && inSet(a.Q10,['a','b']) },
+      { key:'riesgo_agotamiento',           label:'Riesgo de agotamiento',         match: inSet(a.Q2,['a','b','c']) && inSet(a.Q3,['a','b']) && inSet(a.Q6,['a','b']) },
+      { key:'mensaje_poco_claro',           label:'Mensaje poco claro',            match: inSet(a.Q5,['a','b']) && inSet(a.Q6,['a','b']) },
+      { key:'bloqueo_ventas',               label:'Bloqueo en ventas',             match: inSet(a.Q5,['c','d']) && inSet(a.Q8,['a','b']) },
+      { key:'sin_recurrencia',              label:'Negocio sin recurrencia',       match: inSet(a.Q11,['a','b']) && inSet(a.Q7,['a','b']) },
+      { key:'falta_claridad',               label:'Falta de claridad estratégica', match: inSet(a.Q1,['a','b']) && inSet(a.Q2,['a','b']) },
+      { key:'modelo_escalable',             label:'Modelo escalable activo',       match: a.Q3==='d' && a.Q10==='d' && inSet(a.Q11,['c','d']) },
+      { key:'no_escala_bien',               label:'Modelo que no escala bien',     match: Q9hi && inSet(a.Q12,['a','b','c']) },
+      { key:'tech_subutilizada',            label:'Tecnología subutilizada',       match: inSet(a.Q4,['a','b','c']) && Q9mid }
+    ];
+  }
+
+  // Helpers to manage scene transitions and percent
+  const sceneEls = () => $$('.scene');
+  function activateScene(idx) {
+    sceneEls().forEach((el, i) => {
+      el.classList.toggle('is-active', i === idx);
+      el.classList.remove('is-leaving');
+    });
+    $$('.scene-dot').forEach((d, i) => {
+      d.classList.toggle('is-active', i === idx);
+      d.classList.toggle('is-done', i < idx);
+    });
+  }
+  function setPercent(p) {
+    const c = Math.max(0, Math.min(100, Math.round(p)));
+    if ($('#percentNum')) $('#percentNum').textContent = c;
+    if ($('#progressLinearFill')) $('#progressLinearFill').style.width = c + '%';
+  }
+  async function tweenPercent(from, to, durMs) {
+    return new Promise(resolve => {
+      const t0 = Date.now();
+      const tick = () => {
+        const t = Math.min(1, (Date.now() - t0) / durMs);
+        setPercent(from + (to - from) * t);
+        if (t < 1) requestAnimationFrame(tick); else resolve();
+      };
+      tick();
+    });
+  }
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  // Typewriter helper. Writes `text` into element with cursor.
+  async function typewriter(el, text, speed=28, opts={}) {
+    el.innerHTML = '';
+    const cursor = document.createElement('span');
+    cursor.className = opts.cursorClass || 'cli__cursor';
+    el.appendChild(cursor);
+    for (let i = 0; i < text.length; i++) {
+      cursor.insertAdjacentText('beforebegin', text[i]);
+      // Pauses for natural rhythm
+      const ch = text[i];
+      const wait = ch === ',' ? speed * 4 : ch === '.' ? speed * 6 : ch === '\n' ? speed * 2 : speed;
+      await sleep(wait);
+    }
+    if (opts.removeCursor) cursor.remove();
+  }
+
+  // ========= Main entry: run the cinematic loader, returns the API result =========
+  // Plays scenes 1..5 (~10s each = 50s baseline). Scene 6 awaits the API result.
+  // Total min: ~55s. If the API is slow, scene 6 keeps spinning items until result arrives.
+  async function runCinematicLoader(payload, apiPromise) {
+    const lead = payload.lead || {};
+    const firstName = (lead.name || '').trim().split(' ')[0] || 'tú';
+    const patterns = computePatterns(payload.answers || {});
+    let apiDone = false, apiResult = null, apiError = null;
+
+    apiPromise.then(r => { apiResult = r; apiDone = true; })
+              .catch(e => { apiError = e; apiDone = true; });
+
+    setPercent(0);
+    await sleep(120);
+
+    // ----- Scene 1: CLI Ingesta -----
+    activateScene(0);
+    await tweenPercent(0, 16, 9500);
+    await playScene1(payload, firstName);
+
+    // ----- Scene 2: Patterns -----
+    transitionTo(1);
+    await tweenPercent(16, 33, 10000);
+    await playScene2(patterns);
+
+    // ----- Scene 3: Cases comparison -----
+    transitionTo(2);
+    await tweenPercent(33, 50, 9500);
+    await playScene3();
+
+    // ----- Scene 4: Lever -----
+    transitionTo(3);
+    await tweenPercent(50, 67, 9500);
+    await playScene4();
+
+    // ----- Scene 5: Writing -----
+    transitionTo(4);
+    await tweenPercent(67, 84, 9500);
+    await playScene5(firstName);
+
+    // ----- Scene 6: Verification + spoiler -----
+    transitionTo(5);
+    await tweenPercent(84, 95, 4000);
+    await playScene6(apiPromise);
+
+    setPercent(100);
+
+    if (apiError) throw apiError;
+    return apiResult;
+  }
+
+  function transitionTo(idx) {
+    const all = sceneEls();
+    all.forEach((el, i) => {
+      if (el.classList.contains('is-active')) el.classList.add('is-leaving');
+    });
+    setTimeout(() => activateScene(idx), 230);
+  }
+
+  // ========= Scene 1: CLI ingesta =========
+  async function playScene1(payload, firstName) {
+    const cliBody = $('#cliBody');
+    if (!cliBody) return;
+    cliBody.innerHTML = '';
+    const tz = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { return ''; }})();
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = String(now.getSeconds()).padStart(2,'0');
+    const ctxLen = (payload.lead?.business_context || '').length;
+    const hash = Math.random().toString(16).slice(2,6) + '-' + Math.random().toString(16).slice(2,6) + '-' + Math.random().toString(16).slice(2,6);
+    const lines = [
+      { html: `<span class="prompt">&gt;</span> Sesión iniciada · <span class="accent">${hh}:${mm}:${ss}</span> · ${tz}` },
+      { html: `<span class="prompt">&gt;</span> Recibido de <span class="accent">${escapeHtml(firstName)}</span>: 12 respuestas · ${ctxLen} caracteres de contexto` },
+      { html: `<span class="prompt">&gt;</span> Idioma: ES · Origen: ${(document.referrer && new URL(document.referrer).hostname) || 'directo'}` },
+      { html: `<span class="prompt">&gt;</span> Encriptando datos... <span class="ok">[✓]</span>` },
+      { html: `<span class="prompt">&gt;</span> Hash de sesión: <span class="muted">${hash}</span>` },
+      { html: `<span class="prompt">&gt;</span> Conectando con el sistema de análisis...` }
+    ];
+    for (const line of lines) {
+      const el = document.createElement('div');
+      el.className = 'cli__line';
+      el.innerHTML = line.html;
+      cliBody.appendChild(el);
+      // Stream char-by-char effect: hide and reveal
+      await sleep(80);
+      // give a small variable pause between lines
+      await sleep(900 + Math.random() * 600);
+    }
+  }
+
+  // ========= Scene 2: Pattern chips =========
+  async function playScene2(patterns) {
+    const grid = $('#patternsGrid');
+    const caption = $('#patternsCaption');
+    const counter = $('#patternsCount');
+    if (!grid) return;
+    grid.innerHTML = '';
+    let matchCount = 0;
+    counter.textContent = '0';
+
+    // Render all chips in idle state
+    const chips = patterns.map(p => {
+      const el = document.createElement('div');
+      el.className = 'pchip';
+      el.innerHTML = `<span class="pchip__icon"></span><span>${escapeHtml(p.label)}</span>`;
+      grid.appendChild(el);
+      return el;
+    });
+
+    // Eval one by one (~1.05s each = ~9.5s total for 9)
+    for (let i = 0; i < patterns.length; i++) {
+      const p = patterns[i];
+      const chip = chips[i];
+      chip.classList.add('is-checking');
+      caption.textContent = p.match
+        ? `Probando: ${p.label}…`
+        : `Probando: ${p.label}…`;
+      await sleep(550);
+      chip.classList.remove('is-checking');
+      chip.classList.add(p.match ? 'is-match' : 'is-skip');
+      if (p.match) {
+        matchCount++;
+        counter.textContent = matchCount;
+        caption.textContent = `Patrón detectado: ${p.label}`;
+      } else {
+        caption.textContent = `${p.label} — sin riesgo en tu caso`;
+      }
+      await sleep(450);
+    }
+    caption.textContent = `${matchCount} patrones detectados en tu caso.`;
+    await sleep(500);
+  }
+
+  // ========= Scene 3: Cases comparison =========
+  async function playScene3() {
+    const grid = $('#casesGrid');
+    const caption = $('#casesCaption');
+    const score = $('#casesScore');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    // 17 real cases (from system prompt's archetypes + canonical case studies)
+    const cases = [
+      { i:'M', sub:'Mary' }, { i:'J', sub:'Julio' }, { i:'O', sub:'Omar' },
+      { i:'D', sub:'Daniel' }, { i:'M', sub:'Maryell' }, { i:'A', sub:'Andrés' },
+      { i:'E', sub:'Erika' }, { i:'J', sub:'Joao' }, { i:'I', sub:'Inés' },
+      { i:'L', sub:'Lupita' }, { i:'M', sub:'Mónica' }, { i:'E', sub:'Erick' },
+      { i:'R', sub:'Regina' }, { i:'C', sub:'Carlos' }, { i:'P', sub:'Paula' },
+      { i:'R', sub:'Rocío' }, { i:'F', sub:'Fernanda' }
+    ];
+    const winnerIdx = Math.floor(cases.length * 0.30); // about case 5 (Maryell-ish)
+
+    // Add scan line
+    const scan = document.createElement('div');
+    scan.className = 'cases-scan';
+    grid.appendChild(scan);
+
+    // Render cards in stagger
+    cases.forEach((c, i) => {
+      const card = document.createElement('div');
+      card.className = 'case-card';
+      card.innerHTML = `<div>${c.i}</div><div class="case-card__sub">${escapeHtml(c.sub)}</div>`;
+      grid.appendChild(card);
+      setTimeout(() => card.classList.add('is-revealed'), 60 * i);
+    });
+    await sleep(60 * cases.length + 200);
+
+    // Run scan
+    caption.textContent = 'Cruzando con casos en cartera…';
+    scan.classList.add('is-running');
+    await sleep(1700);
+    scan.classList.remove('is-running');
+
+    // Highlight winner
+    caption.textContent = 'Buscando el caso más parecido al tuyo…';
+    await sleep(800);
+    const winnerCard = grid.querySelectorAll('.case-card')[winnerIdx];
+    if (winnerCard) winnerCard.classList.add('is-winner');
+    caption.textContent = `Mayor coincidencia con tu caso: ${cases[winnerIdx].sub}`;
+
+    // Animate score counter 0 → 89
+    const to = 89;
+    let val = 0;
+    const dur = 2200;
+    const t0 = Date.now();
+    await new Promise(res => {
+      const tick = () => {
+        const t = Math.min(1, (Date.now() - t0) / dur);
+        val = Math.floor(t * to);
+        score.textContent = val;
+        if (t < 1) requestAnimationFrame(tick); else res();
+      };
+      tick();
+    });
+    await sleep(600);
+  }
+
+  // ========= Scene 4: Lever network =========
+  async function playScene4() {
+    const canvas = $('#leverCanvas');
+    const caption = $('#leverCaption');
+    const counter = $('#leverCount');
+    const redacted = canvas?.querySelector('.lever-redacted') || (() => {
+      const r = document.createElement('div');
+      r.className = 'lever-redacted';
+      r.textContent = 'Tu palanca #1: ████████████';
+      canvas.appendChild(r);
+      return r;
+    })();
+    if (!canvas) return;
+
+    // Clear previous nodes
+    canvas.querySelectorAll('.lnode').forEach(n => n.remove());
+    redacted.classList.remove('is-visible');
+
+    // Spawn 47 nodes
+    const N = 47;
+    const nodes = [];
+    for (let i = 0; i < N; i++) {
+      const n = document.createElement('div');
+      n.className = 'lnode';
+      n.style.left = (5 + Math.random() * 90) + '%';
+      n.style.top = (10 + Math.random() * 80) + '%';
+      n.style.opacity = 0.3 + Math.random() * 0.4;
+      canvas.appendChild(n);
+      nodes.push(n);
+    }
+    counter.textContent = N;
+    caption.textContent = 'Evaluando 47 posibles cambios en tu negocio…';
+    await sleep(1300);
+
+    // Filter waves: 47 → 12 → 5 → 3 → 1
+    const waves = [12, 5, 3, 1];
+    const waveCaptions = [
+      'Filtrando por ratio impacto / esfuerzo…',
+      'Eliminando los que no componen con el resto…',
+      'Aislando los de mayor efecto compuesto…',
+      'Encontrando el que más mueve el resultado…'
+    ];
+    let remaining = nodes.slice();
+    for (let w = 0; w < waves.length; w++) {
+      const target = waves[w];
+      caption.textContent = waveCaptions[w];
+      // Fade out random nodes until target count
+      while (remaining.length > target) {
+        const idx = Math.floor(Math.random() * remaining.length);
+        remaining[idx].classList.add('is-faded');
+        remaining.splice(idx, 1);
+        await sleep(40);
+      }
+      counter.textContent = target;
+      await sleep(700);
+    }
+
+    // Highlight final node
+    if (remaining[0]) {
+      remaining[0].classList.add('is-final');
+      remaining[0].style.left = '50%';
+      remaining[0].style.top = '50%';
+      remaining[0].style.transform = 'translate(-50%,-50%)';
+    }
+    redacted.classList.add('is-visible');
+    caption.textContent = 'Tu palanca #1 identificada.';
+    await sleep(1100);
+  }
+
+  // ========= Scene 5: Document writing =========
+  async function playScene5(firstName) {
+    const docBody = $('#docBody');
+    if (!docBody) return;
+    const fragments = [
+      `${firstName}, basado en tus 12 respuestas, lo primero que veo es un patrón claro…`,
+      `Calibrando el tono al perfil específico de tu negocio…`,
+      `Verificando que cada recomendación sea aplicable a tu caso real…`,
+      `Asegurando que cada palabra te sirva, ${firstName}.`
+    ];
+    docBody.innerHTML = '';
+    for (let i = 0; i < fragments.length; i++) {
+      const el = document.createElement('div');
+      docBody.appendChild(el);
+      await typewriter(el, fragments[i], 28, { cursorClass: 'doc__cursor' });
+      await sleep(400);
+      // Fade and clear before next
+      el.style.transition = 'opacity .35s';
+      el.style.opacity = '0.25';
+      await sleep(280);
+      docBody.innerHTML = '';
+    }
+  }
+
+  // ========= Scene 6: Verification + spoiler =========
+  async function playScene6(apiPromise) {
+    const list = $('#checklist');
+    const spoiler = $('#spoiler');
+    const cta = $('#sceneCta');
+    if (!list) return;
+
+    const items = [
+      'Análisis personalizado a tu perfil',
+      'Tono calibrado a tu negocio',
+      'Patrones de tu caso identificados',
+      'Cambio #1 con mayor impacto aislado',
+      'Plan de los próximos 30/60/90 días',
+      'Costo de no actuar cuantificado',
+      'La verdad incómoda que casi nadie te dirá'
+    ];
+
+    list.innerHTML = '';
+    const liEls = items.map(text => {
+      const li = document.createElement('li');
+      li.className = 'cli-item';
+      li.innerHTML = `<span class="cli-item__icon">⠋</span><span>${escapeHtml(text)}</span>`;
+      list.appendChild(li);
+      return li;
+    });
+
+    // Animate items: spinner → done, one by one. Slow down if API hasn't returned yet.
+    let result = null, done = false;
+    apiPromise.then(r => { result = r; done = true; }).catch(() => { done = true; });
+
+    for (let i = 0; i < liEls.length; i++) {
+      const li = liEls[i];
+      li.classList.add('is-running');
+      // Spinner duration depends on whether we need to stretch
+      const baseMs = 900;
+      const stretchMs = !done && i === liEls.length - 1 ? 2400 : baseMs;
+      await sleep(stretchMs);
+      li.classList.remove('is-running');
+      li.classList.add('is-done');
+      li.querySelector('.cli-item__icon').textContent = '✓';
+    }
+
+    // Wait for result if not done yet (loop a final "polishing" item)
+    while (!done) {
+      // Add a soft loop: pulse the last item
+      const last = liEls[liEls.length - 1];
+      last.classList.add('is-running');
+      last.querySelector('.cli-item__icon').textContent = '⠋';
+      await sleep(900);
+      last.classList.remove('is-running');
+      last.querySelector('.cli-item__icon').textContent = '✓';
+      await sleep(400);
+    }
+
+    // Spoiler reveal
+    if (result && result.arquetipo && result.arquetipo.nombre) {
+      $('#spoilerArchetype').textContent = result.arquetipo.nombre;
+      spoiler.hidden = false;
+    }
+    cta.hidden = false;
+
+    // CTA wires up to render the result
+    return new Promise(resolve => {
+      const btn = $('#btnSeeReport');
+      if (!btn) return resolve();
+      const onClick = () => {
+        btn.removeEventListener('click', onClick);
+        const r = window.__pendingResult || result;
+        if (r) {
+          renderResult(r);
+          clearState();
+        }
+        resolve();
+      };
+      btn.addEventListener('click', onClick);
+    });
+  }
+
+  // Legacy stubs (kept for the small old loader styles still referenced elsewhere)
+  function startLoader() {}
+  function stopLoader() {}
+  function finishLoader(cb) { if (cb) cb(); }
+
+  // Legacy spawn dots — keep for small loader scenes
   function spawnDots() {
     const c = $('#dotsCanvas');
     if (!c || c.childElementCount > 0) return;
@@ -316,68 +745,6 @@
     }
   }
 
-  function updateTicks(pct) {
-    const ticks = $$('.tick');
-    const activeIdx = Math.min(ticks.length - 1, Math.floor(pct / (100 / ticks.length)));
-    ticks.forEach((t, i) => t.classList.toggle('is-active', i <= activeIdx));
-  }
-
-  function setLoaderStep(pct) {
-    const step = LOADER_STEPS.find(s => pct <= s.to) || LOADER_STEPS[LOADER_STEPS.length - 1];
-    const el = $('#loaderStep');
-    if (el.textContent !== step.text) {
-      el.classList.add('is-fading');
-      setTimeout(() => { el.textContent = step.text; el.classList.remove('is-fading'); }, 220);
-    }
-  }
-
-  function renderLoader(pct) {
-    const c = Math.max(0, Math.min(100, Math.round(pct)));
-    $('#percentNum').textContent = c;
-    $('#progressLinearFill').style.width = c + '%';
-    updateTicks(c);
-    if (c < 100) setLoaderStep(c);
-    else $('#loaderStep').textContent = '¡Listo!';
-  }
-
-  function startLoader() {
-    spawnDots();
-    loaderPercent = 0; loaderFinishing = false;
-    renderLoader(0);
-    if (loaderTimer) clearInterval(loaderTimer);
-    loaderTimer = setInterval(() => {
-      if (loaderFinishing) return;
-      if (loaderPercent < 95) {
-        const inc = loaderPercent < 40 ? 1 : loaderPercent < 70 ? 0.7 : 0.3;
-        loaderPercent = Math.min(95, loaderPercent + inc);
-        renderLoader(loaderPercent);
-      }
-    }, 380);
-  }
-
-  function finishLoader(onDone) {
-    loaderFinishing = true;
-    if (loaderTimer) { clearInterval(loaderTimer); loaderTimer = null; }
-    const start = loaderPercent;
-    const t0 = Date.now();
-    const DUR = 700;
-    const tick = () => {
-      const t = Math.min(1, (Date.now() - t0) / DUR);
-      const pct = start + (100 - start) * (1 - Math.pow(1 - t, 3));
-      renderLoader(pct);
-      if (t >= 1) {
-        clearInterval(fi);
-        setTimeout(() => { try { onDone && onDone(); } catch (e) { console.error(e); } }, 180);
-      }
-    };
-    const fi = setInterval(tick, 16);
-    tick();
-  }
-
-  function stopLoader() {
-    if (loaderTimer) { clearInterval(loaderTimer); loaderTimer = null; }
-    loaderFinishing = false; loaderPercent = 0;
-  }
 
   /* ============== RENDER RESULT ============== */
   function renderResult(result) {
