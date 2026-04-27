@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" /></noscript>
 
-  <link rel="stylesheet" href="./assets/styles.css?v=1.1" />
+  <link rel="stylesheet" href="./assets/styles.css?v=1.2" />
 </head>
 
 <body class="theme-dark">
@@ -200,15 +200,30 @@
     <section class="view view-result" data-view="result">
       <div class="container">
 
+        <div class="result__meta">
+          <span id="rReportDate"></span>
+          <span class="result__meta-sep" aria-hidden="true"></span>
+          <span>Diagnóstico Infinite Flow</span>
+          <span class="result__meta-sep" aria-hidden="true"></span>
+          <span id="rReportId"></span>
+        </div>
+
         <div class="result__head">
-          <div class="result__kicker">Tu diagnóstico</div>
+          <div class="result__kicker">Tu arquetipo</div>
           <h1 class="result__archetype" id="rArchetype"></h1>
           <p class="result__phase" id="rPhase"></p>
         </div>
 
         <div class="result__block">
           <div class="result__block-title">Diagnóstico ejecutivo</div>
-          <p class="result__lectura" id="rLectura"></p>
+          <p class="result__lectura has-drop-cap" id="rLectura"></p>
+          <div class="analog-card" id="rAnalogCard" hidden>
+            <div class="analog-card__label">Caso análogo en nuestra cartera</div>
+            <div class="analog-card__name" id="rAnalogName"></div>
+            <div class="analog-card__line" id="rAnalogSnap"></div>
+            <div class="analog-card__line" id="rAnalogResult"></div>
+            <div class="analog-card__cita" id="rAnalogCita"></div>
+          </div>
         </div>
 
         <!-- Scores 3 áreas -->
@@ -247,10 +262,18 @@
           <p class="big-domino__why" id="rBigDominoWhy"></p>
         </div>
 
+        <!-- Puntos ciegos -->
+        <div class="result__block" id="rBlindSpotsBlock">
+          <div class="result__block-title">Puntos ciegos</div>
+          <div class="blind-spots" id="rBlindSpots"></div>
+        </div>
+
         <!-- Forbidden truth -->
         <div class="result__block">
           <div class="result__block-title">Lo que ningún consultor te diría</div>
-          <p class="forbidden-truth" id="rForbidden"></p>
+          <div class="forbidden-truth-wrap">
+            <p class="forbidden-truth" id="rForbidden"></p>
+          </div>
         </div>
 
         <!-- Plan 30/60/90 -->
@@ -262,12 +285,17 @@
         <!-- Costo de inacción -->
         <div class="result__block">
           <div class="result__block-title">Costo de inacción</div>
-          <p class="costo" id="rCosto"></p>
+          <div class="costo-wrap">
+            <div class="costo-wrap__label">Ventana crítica</div>
+            <div class="costo-wrap__ventana" id="rVentana"></div>
+            <p class="costo" id="rCosto"></p>
+          </div>
         </div>
 
         <!-- Cita Rodrigo -->
         <div class="result__block result__block--quote">
           <p class="rodrigo-quote" id="rQuote"></p>
+          <span class="rodrigo-quote__author">— Rodrigo Lohr</span>
         </div>
 
         <!-- CTA final -->
@@ -287,6 +315,6 @@
     </footer>
   </div>
 
-  <script src="./assets/quiz.js?v=1.1"></script>
+  <script src="./assets/quiz.js?v=1.2"></script>
 </body>
 </html>

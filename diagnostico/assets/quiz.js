@@ -389,6 +389,22 @@
     $('#rPhase').textContent = `${fase.nombre_paso ? `Paso ${fase.paso_actual} · ${fase.nombre_paso}` : ''}`;
     $('#rLectura').textContent = result.diagnostico_ejecutivo || '';
 
+    // Report meta
+    const today = new Date();
+    const months = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+    if ($('#rReportDate')) $('#rReportDate').textContent = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
+    if ($('#rReportId')) $('#rReportId').textContent = `Reporte #${Math.random().toString(36).slice(2,8).toUpperCase()}`;
+
+    // Cliente análogo card
+    const ca = arq.cliente_analogo || {};
+    if (ca.nombre) {
+      $('#rAnalogCard').hidden = false;
+      $('#rAnalogName').textContent = ca.nombre;
+      $('#rAnalogSnap').textContent = ca.snapshot || '';
+      $('#rAnalogResult').textContent = ca.resultado || '';
+      if (ca.cita) $('#rAnalogCita').textContent = `"${ca.cita}"`;
+    }
+
     // Scores
     const sc = $('#rScores');
     sc.innerHTML = '';
@@ -420,19 +436,43 @@
     markPhaseBar(fase.paso_actual);
     $('#rPhaseExplainer').textContent = fase.por_que_aqui || '';
 
-    // Patrones
+    // Patrones (numbered editorial list)
     const pp = $('#rPatrones');
     pp.innerHTML = '';
-    (result.patrones_activos || []).forEach(p => {
+    (result.patrones_activos || []).forEach((p, i) => {
       const div = document.createElement('div');
       div.className = 'pattern';
+      const num = String(i + 1).padStart(2, '0');
       div.innerHTML = `
-        <div class="pattern__name">${escapeHtml(p.nombre || '')}</div>
-        <p class="pattern__diag">${fmtBold(p.diagnostico || '')}</p>
+        <div class="pattern__index">${num}</div>
+        <div>
+          <div class="pattern__name">${escapeHtml((p.nombre || '').replace(/_/g,' '))}</div>
+          <p class="pattern__diag">${fmtBold(p.diagnostico || '')}</p>
+        </div>
       `;
       pp.appendChild(div);
     });
     $('#rPatronesBlock').style.display = (result.patrones_activos && result.patrones_activos.length) ? '' : 'none';
+
+    // Puntos ciegos
+    const bs = $('#rBlindSpots');
+    if (bs) {
+      bs.innerHTML = '';
+      (result.puntos_ciegos || []).forEach((b, i) => {
+        const div = document.createElement('div');
+        div.className = 'blind-spot';
+        div.innerHTML = `
+          <div class="blind-spot__num">${String(i+1).padStart(2,'0')}</div>
+          <div>
+            <div class="blind-spot__punto">${escapeHtml(b.punto || '')}</div>
+            <div class="blind-spot__cons">${escapeHtml(b.consecuencia || '')}</div>
+          </div>
+        `;
+        bs.appendChild(div);
+      });
+      const blockEl = $('#rBlindSpotsBlock');
+      if (blockEl) blockEl.style.display = (result.puntos_ciegos && result.puntos_ciegos.length) ? '' : 'none';
+    }
 
     // Big domino
     const bd = result.big_domino || {};
@@ -460,10 +500,13 @@
 
     // Costo
     const ci = result.costo_de_inaccion || {};
+    if ($('#rVentana') && ci.ventana_critica_meses) {
+      $('#rVentana').innerHTML = `Tienes <strong>${ci.ventana_critica_meses} meses</strong> antes de que el costo de no moverte se vuelva irreversible.`;
+    }
     $('#rCosto').textContent = ci.narrativa || '';
 
-    // Cita Rodrigo
-    $('#rQuote').textContent = `"${result.cita_final_rodrigo || ''}"`;
+    // Cita Rodrigo (sin comillas dobles, ya las maneja el CSS via :before)
+    $('#rQuote').textContent = result.cita_final_rodrigo || '';
 
     // CTA final
     const cta = result.cta_personalizado || {};
