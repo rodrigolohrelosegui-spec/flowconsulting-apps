@@ -1,0 +1,185 @@
+{
+  "diagnostic_id": "diagnostico_infinite_flow_v1",
+  "version": "1.0",
+  "last_updated": "2026-04-27",
+  "questions": [
+    {
+      "id": "Q1",
+      "section": "founder",
+      "section_label": "Founder Flow",
+      "section_num": 1,
+      "type": "single_choice",
+      "text": "¿Cuál es tu nivel de claridad sobre la dirección de tu negocio?",
+      "subtitle": "Visión a largo plazo, estrategia a mediano plazo, prioridades de este mes.",
+      "options": [
+        { "value": "a", "label": "Confusión total", "detail": "Siento que estoy cambiando de estrategia cada mes y no sé bien en qué enfocarme." },
+        { "value": "b", "label": "Duda constante", "detail": "Estamos implementando una estrategia pero tengo el presentimiento de que no es el mejor camino para el negocio." },
+        { "value": "c", "label": "Visión borrosa", "detail": "Tengo una idea de hacia dónde va el negocio, pero me cuesta saber qué priorizar y dónde poner mi energía para ir 10 veces más rápido." },
+        { "value": "d", "label": "Claridad absoluta", "detail": "Tengo un plan escrito a detalle con mis objetivos a 3 años, 1 año, 3 meses y las prioridades más importantes de este mes." }
+      ]
+    },
+    {
+      "id": "Q2",
+      "section": "founder",
+      "section_num": 1,
+      "type": "single_choice",
+      "text": "¿Cómo describirías tu productividad, enfoque y capacidad de ejecución?",
+      "subtitle": "Piensa en tu ritmo de trabajo del último mes.",
+      "options": [
+        { "value": "a", "label": "Bloqueado", "detail": "Tengo muchas ideas y planes, pero ejecuto poco. Le cuento a todos lo que quiero hacer y se me va la fuerza por la boca." },
+        { "value": "b", "label": "Acción desenfocada", "detail": "Siempre estoy ocupado, hago mil cosas pero termino el día sintiendo que no avancé en lo importante." },
+        { "value": "c", "label": "Intensidad insostenible", "detail": "Logro mis metas pero a un precio muy alto. Ya no me la estoy pasando bien, tengo demasiado estrés y no quiero vivir así para siempre." },
+        { "value": "d", "label": "Flow constante", "detail": "Avanzo todos los días porque tengo claridad de lo más importante y llevo un ritmo de trabajo que disfruto y podría sostener toda la vida." }
+      ]
+    },
+    {
+      "id": "Q3",
+      "section": "founder",
+      "section_num": 1,
+      "type": "single_choice",
+      "text": "¿Cuánto depende tu negocio de ti?",
+      "subtitle": "Piensa en si tienes sistemas claros que permitan que el negocio funcione de forma eficiente sin que tengas que estar en todo.",
+      "options": [
+        { "value": "a", "label": "Prisionero", "detail": "No hay sistemas, pura fuerza bruta. Vendo, entrego, apago incendios y termino el día con el cerebro fundido." },
+        { "value": "b", "label": "Cuello de botella", "detail": "Delego algunas cosas pero sale peor. Termino supervisando todo, re-explicando las cosas y haciéndolo todo yo." },
+        { "value": "c", "label": "Respirando", "detail": "Algunas cosas empiezan a funcionar sin mí. Puedo desconectarme unos días pero las cosas no avanzan si no estoy encima." },
+        { "value": "d", "label": "Libertad absoluta", "detail": "Tengo un sistema operativo claro que protege mi tiempo y energía. Tengo espacio para pensar con calma y si me voy de viaje el negocio sigue creciendo." }
+      ]
+    },
+    {
+      "id": "Q4",
+      "section": "founder",
+      "section_num": 1,
+      "type": "single_choice",
+      "text": "¿Qué tanto te estás apalancando de la Inteligencia Artificial para hacer más con menos?",
+      "subtitle": "Piensa en contenido, ventas, operaciones, atención al cliente — todo lo que podrías estar automatizando hoy.",
+      "options": [
+        { "value": "a", "label": "Ignorándolo", "detail": "Quisiera vivir en un mundo donde las cosas no vayan a cambiar. No he querido pensar mucho en esto porque me causa mucho estrés." },
+        { "value": "b", "label": "Abrumado", "detail": "Sé que el mundo va a cambiar y que debo ponerme al corriente, pero me siento confundido con tantas herramientas y cambios de todos los días." },
+        { "value": "c", "label": "Usuario básico", "detail": "Uso herramientas como ChatGPT o Claude diario como copywriter o terapeuta, pero sé que no les estoy sacando ni el 20% del provecho." },
+        { "value": "d", "label": "Fundador exponencial", "detail": "La IA es parte de cómo opera mi negocio y ya siento la ventaja injusta. Hacemos con 1 persona lo que mi competencia necesitará 20 para hacer." }
+      ]
+    },
+    {
+      "id": "Q5",
+      "section": "lead",
+      "section_label": "Lead Flow",
+      "section_num": 2,
+      "type": "single_choice",
+      "text": "¿Cuál es tu nivel de claridad de oferta y diferencial de marca?",
+      "subtitle": "Piensa en si tu cliente ideal entiende rápidamente qué haces, para quién y por qué tú eres su mejor opción.",
+      "options": [
+        { "value": "a", "label": "Confusión total", "detail": "No tengo claro qué me diferencia del resto. Si me preguntan qué hago, cada vez digo algo distinto y no estoy bien posicionado." },
+        { "value": "b", "label": "Oferta caducada", "detail": "Antes funcionaba, pero el mercado cambió. Sé que necesito reinventar mi mensaje y mi oferta, siento que estoy dejando mucho dinero en la mesa." },
+        { "value": "c", "label": "Claridad sin diferencial", "detail": "Mi oferta vende y la gente entiende qué hago, pero me comparan con la competencia. Si tuviera mejor posicionamiento, vendería más sin tener que empujar tanto." },
+        { "value": "d", "label": "Oferta magnética", "detail": "Mi cliente ideal entiende en segundos qué hago, por qué soy diferente y por qué debería trabajar conmigo. El marketing y las ventas son más fáciles gracias a esto." }
+      ]
+    },
+    {
+      "id": "Q6",
+      "section": "lead",
+      "section_num": 2,
+      "type": "single_choice",
+      "text": "¿Qué tan eficiente es tu sistema de contenido orgánico?",
+      "subtitle": "Piensa en tu proceso de creación, tu consistencia, y si tu contenido está generando seguidores, leads y ventas de forma predecible.",
+      "options": [
+        { "value": "a", "label": "Estancado", "detail": "Hay demasiada fricción en todo: generar ideas, grabarme, editar. Me cuesta mucho producir contenido y cuando publico, nadie parece escuchar." },
+        { "value": "b", "label": "Inconsistente", "detail": "Creo contenido pero no tengo un sistema claro. Publico cuando puedo, y aunque me trae algunos seguidores, casi no genera leads calificados ni ventas predecibles." },
+        { "value": "c", "label": "Funcionando a ciegas", "detail": "Nuestro contenido nos hace crecer y trae ventas, pero no tenemos claridad de qué contenido realmente vende ni cómo multiplicar resultados 10X sin morir en el intento." },
+        { "value": "d", "label": "Máquina de contenido", "detail": "Tengo un sistema sostenible de creación que no depende de mi inspiración. Sé qué tipo de contenido genera seguidores, leads y ventas — y cada mes los números crecen." }
+      ]
+    },
+    {
+      "id": "Q7",
+      "section": "lead",
+      "section_num": 2,
+      "type": "single_choice",
+      "text": "¿Qué tan eficientes son tus campañas de publicidad pagada?",
+      "subtitle": "Piensa en tu ROAS, costo por lead, y si tienes un sistema de ads que funciona de forma rentable y predecible.",
+      "options": [
+        { "value": "a", "label": "Sin ads", "detail": "No me apalanco de publicidad pagada. Si dejo de crear contenido, manifestar clientes o prospectar 1 a 1, no hay ventas." },
+        { "value": "b", "label": "ROAS menor a 2X", "detail": "Más de la mitad de mi inversión se la queda Meta y no tengo claridad de cómo dejar de tener a Mark Zuckerberg como socio mayoritario." },
+        { "value": "c", "label": "Rentable pero limitado", "detail": "Mi ROAS está entre 3X y 5X. Tenemos flujo de leads constante, pero tocamos un techo y no podemos escalar sin perder rentabilidad." },
+        { "value": "d", "label": "Marketing desbloqueado", "detail": "Mi ROAS está por encima de 10X. Tenemos flujo de leads prácticamente infinito. La única razón por la que no vendemos más es capacidad de entrega." }
+      ]
+    },
+    {
+      "id": "Q8",
+      "section": "lead",
+      "section_num": 2,
+      "type": "single_choice",
+      "text": "¿Qué tan eficiente es tu sistema de conversión y ventas?",
+      "subtitle": "Sin importar si vendes 1 a 1, tienes equipo de ventas o vendes 1 a muchos — piensa en cómo se siente el proceso de venta para ti y para tu cliente.",
+      "options": [
+        { "value": "a", "label": "No estoy vendiendo", "detail": "Me siento incómodo cobrando, siempre me dicen 'déjame pensarlo,' y cuando intento dar seguimiento nunca me contestan." },
+        { "value": "b", "label": "Venta forzada", "detail": "Vender es agotador. Tengo que prometer demasiado, convencer demasiado y hacer cosas con las que no me siento cómodo. Es la parte que más odio de mi negocio." },
+        { "value": "c", "label": "Cerrando con desgaste", "detail": "Cerramos ventas, pero a un costo muy alto. Hay que presionar demasiado al cliente y me preocupa estar manchando mi reputación." },
+        { "value": "d", "label": "Venta sin esfuerzo", "detail": "La claridad de mi oferta hace que vender se sienta como una conversación natural. No estamos 'cerrando al cliente' — estamos abriendo una relación de confianza." }
+      ]
+    },
+    {
+      "id": "Q9",
+      "section": "cash",
+      "section_label": "Cash Flow",
+      "section_num": 3,
+      "type": "single_choice_revenue",
+      "text": "¿Cuánto factura tu negocio al mes?",
+      "subtitle": "Esto nos ayuda a personalizar tu reporte. No hay respuesta correcta — solo la real.",
+      "options": [
+        { "value": "lt_2_5k",   "label": "Menos de $2,500 USD mensuales" },
+        { "value": "2_5_to_5k", "label": "De $2,500 a $5,000 USD mensuales" },
+        { "value": "5_to_15k",  "label": "De $5,000 a $15,000 USD mensuales" },
+        { "value": "15_to_50k", "label": "De $15,000 a $50,000 USD mensuales" },
+        { "value": "50_to_100k","label": "De $50,000 a $100,000 USD mensuales" },
+        { "value": "gt_100k",   "label": "Más de $100,000 USD mensuales" }
+      ]
+    },
+    {
+      "id": "Q10",
+      "section": "cash",
+      "section_num": 3,
+      "type": "single_choice",
+      "text": "¿Qué porcentaje de lo que facturas te queda realmente en la bolsa?",
+      "subtitle": "Toma en cuenta todos tus gastos: publicidad, equipo, plataformas, herramientas, producción y operación.",
+      "options": [
+        { "value": "a", "label": "Números rojos", "detail": "El negocio sigue perdiendo dinero y lo subsidio con mis ahorros o ingresos de otros trabajos." },
+        { "value": "b", "label": "Menos del 30%", "detail": "Facturamos, pero los gastos se comen la mayoría de las ganancias. No estoy tranquilo porque si algo sale mal, me voy a pérdida." },
+        { "value": "c", "label": "Rentable pero puede mejorar", "detail": "Mis márgenes están entre 30% y 65%. El negocio funciona, pero sé que podría quedarme con más si simplifico la operación." },
+        { "value": "d", "label": "Extremadamente rentable", "detail": "Mis márgenes están entre 70% y 90%. Mi negocio es ligero, eficiente y genera riqueza real." }
+      ]
+    },
+    {
+      "id": "Q11",
+      "section": "cash",
+      "section_num": 3,
+      "type": "single_choice",
+      "text": "¿Qué porcentaje de tus ventas viene de recompras o referidos?",
+      "subtitle": "Piensa en si tu entrega de servicio es tan buena que tus clientes regresan y te recomiendan — o si dependes de conseguir clientes nuevos cada mes.",
+      "options": [
+        { "value": "a", "label": "Dependencia total", "detail": "Casi ninguna venta viene de referidos o recompras. Si dejamos de crear contenido o los costos de ads suben, no tenemos negocio." },
+        { "value": "b", "label": "Goteo ocasional", "detail": "De vez en cuando un cliente regresa o nos refiere a alguien, pero no es predecible. La mayoría depende de adquirir clientes nuevos cada mes." },
+        { "value": "c", "label": "Motor en construcción", "detail": "Tenemos recompras y referidos con cierta frecuencia. Nuestros clientes están contentos, pero aún no tenemos un sistema claro para multiplicar eso intencionalmente." },
+        { "value": "d", "label": "Fans de por vida", "detail": "Más del 50% de nuestras ventas vienen de recompras o referidos. Nuestros clientes aman el servicio y se convierten en nuestro mejor marketing." }
+      ]
+    },
+    {
+      "id": "Q12",
+      "section": "cash",
+      "section_num": 3,
+      "type": "single_choice",
+      "text": "¿Qué tan escalable es tu modelo de negocio?",
+      "subtitle": "Cuando creces, ¿todo se vuelve más fácil o más complicado?",
+      "options": [
+        { "value": "a", "label": "Colapsando", "detail": "Me mato para mantener todo a flote con pura fuerza bruta. Cada vez nos cuesta más vender, los gastos suben y los márgenes se achican." },
+        { "value": "b", "label": "Ilusión de Apalancamiento", "detail": "Estamos vendiendo más, pero la complejidad operativa y los gastos crecen más rápido que nuestras ventas." },
+        { "value": "c", "label": "Crecimiento lineal", "detail": "Estamos creciendo, pero no escalando. Nuestros gastos y complejidad crecen a la misma velocidad que nuestras ventas. Para ganar más, asumo más estrés." },
+        { "value": "d", "label": "Apalancamiento Real", "detail": "El negocio crece con márgenes sanos. Sistemas y reputación crean un efecto bola de nieve donde las ventas pasan cada vez con menos esfuerzo." }
+      ]
+    }
+  ],
+  "sections": {
+    "founder": { "label": "Founder Flow", "subtitle": "Claridad mental y productividad del fundador", "num": 1, "of": 3 },
+    "lead":    { "label": "Lead Flow",    "subtitle": "Eficiencia de tu sistema de marketing",          "num": 2, "of": 3 },
+    "cash":    { "label": "Cash Flow",    "subtitle": "Escalabilidad de tu modelo de negocio",          "num": 3, "of": 3 }
+  }
+}
