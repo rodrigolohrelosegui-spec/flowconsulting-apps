@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-Llamada · Flow Consulting</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    /* ════════════════════════════════════════════════════════
+       BRAND PALETTE · Flow Consulting (dark + cyan glow)
+       ════════════════════════════════════════════════════════ */
+    :root {
+      --cyan:         #5FE8D7;
+      --cyan-deep:    #3DD4C2;
+      --cyan-bright:  #7FF4E5;
+      --cyan-soft:    rgba(95, 232, 215, 0.10);
+      --cyan-glow:    rgba(95, 232, 215, 0.18);
+      --bg:           #07131A;
+      --bg-2:         #0B1A22;
+      --bg-3:         #0F2530;
+      --bg-card:      rgba(15, 30, 38, 0.65);
+      --bg-card-hi:   rgba(20, 40, 50, 0.85);
+      --text:         #FFFFFF;
+      --text-soft:    rgba(255, 255, 255, 0.85);
+      --muted:        rgba(255, 255, 255, 0.55);
+      --muted-2:      rgba(255, 255, 255, 0.40);
+      --border:       rgba(255, 255, 255, 0.08);
+      --border-hi:    rgba(255, 255, 255, 0.14);
+      --border-cyan:  rgba(95, 232, 215, 0.30);
+      --max-w:        780px;
+      --ease:         cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Open Sans', -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-soft);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .ambient::before {
+      content: '';
+      position: absolute;
+      top: -25%; left: 50%;
+      transform: translateX(-50%);
+      width: 1100px; height: 1100px;
+      background: radial-gradient(circle at center, rgba(95,232,215,0.14) 0%, rgba(95,232,215,0.04) 35%, transparent 60%);
+      filter: blur(20px);
+    }
+    .ambient::after {
+      content: '';
+      position: absolute;
+      bottom: -10%; right: -10%;
+      width: 900px; height: 900px;
+      background: radial-gradient(circle at center, rgba(61,212,194,0.10) 0%, transparent 60%);
+      filter: blur(40px);
+    }
+    .ambient__grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3 { font-family: 'Montserrat', sans-serif; color: var(--text); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Hero ── */
+    .hero { padding: 120px 0 80px; text-align: center; position: relative; }
+    .hero__confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .hero__confetti span {
+      position: absolute; width: 6px; height: 6px; border-radius: 1px; opacity: 0;
+      animation: confetti-fall 3s var(--ease) forwards;
+    }
+    .hero__confetti span:nth-child(1)  { left:10%; top:0; background:var(--cyan);        animation-delay:.1s; transform:rotate(30deg); }
+    .hero__confetti span:nth-child(2)  { left:22%; top:0; background:var(--cyan-deep);   animation-delay:.4s; }
+    .hero__confetti span:nth-child(3)  { left:35%; top:0; background:var(--cyan);        animation-delay:.2s; transform:rotate(45deg); }
+    .hero__confetti span:nth-child(4)  { left:50%; top:0; background:var(--cyan-bright); animation-delay:.6s; }
+    .hero__confetti span:nth-child(5)  { left:65%; top:0; background:var(--cyan);        animation-delay:.3s; }
+    .hero__confetti span:nth-child(6)  { left:78%; top:0; background:var(--cyan-deep);   animation-delay:.5s; transform:rotate(60deg); }
+    .hero__confetti span:nth-child(7)  { left:88%; top:0; background:var(--cyan);        animation-delay:.7s; }
+    .hero__confetti span:nth-child(8)  { left:15%; top:0; background:var(--cyan-bright); animation-delay:.8s; }
+    .hero__confetti span:nth-child(9)  { left:72%; top:0; background:var(--cyan);        animation-delay:.9s; }
+    .hero__confetti span:nth-child(10) { left:42%; top:0; background:var(--cyan-deep);   animation-delay:1s; }
+    @keyframes confetti-fall {
+      0%   { opacity: 0; transform: translateY(-20px) rotate(0deg); }
+      20%  { opacity: 1; }
+      100% { opacity: 0; transform: translateY(220px) rotate(720deg); }
+    }
+
+    .hero__check {
+      width: 84px; height: 84px;
+      margin: 0 auto 36px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero__check::before, .hero__check::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--cyan);
+      opacity: 0;
+      animation: ping 2.4s ease-out infinite;
+    }
+    .hero__check::after { animation-delay: 1.2s; }
+    .hero__check-inner {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--cyan-bright) 0%, var(--cyan) 60%, var(--cyan-deep) 100%);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow:
+        0 0 0 6px rgba(95,232,215,0.10),
+        0 16px 48px -8px rgba(95,232,215,0.45),
+        inset 0 -2px 0 rgba(0,0,0,0.20);
+      animation: pop .8s var(--ease-spring) backwards;
+    }
+    .hero__check-inner svg { width: 30px; height: 30px; color: #07131A; stroke-width: 3.5; }
+    @keyframes ping {
+      0%   { opacity: 0.7; transform: scale(0.9); }
+      80%  { opacity: 0; transform: scale(1.5); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+    @keyframes pop { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 24px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-cyan);
+      border-radius: 100px;
+      background: var(--cyan-soft);
+    }
+    .eyebrow__dot {
+      width: 6px; height: 6px;
+      background: var(--cyan); border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
+
+    .hero__title {
+      font-size: clamp(36px, 6.5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -.025em;
+      line-height: 1.08;
+      margin-bottom: 20px;
+      max-width: 14ch;
+      margin-left: auto; margin-right: auto;
+      color: var(--text);
+    }
+    .hero__title em {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400; font-style: italic;
+      color: var(--cyan);
+    }
+    .hero__sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    .hero__meta { display: flex; justify-content: center; gap: 40px; margin-top: 48px; flex-wrap: wrap; }
+    .hero__meta-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .hero__meta-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: .10em; text-transform: uppercase;
+      color: var(--muted-2);
+    }
+    .hero__meta-value {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 700;
+      color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .hero__meta-value::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* ── Urgency ── */
+    .urgency {
+      margin: 0 auto 32px;
+      padding: 16px 22px;
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, rgba(95,232,215,0.10) 0%, rgba(95,232,215,0.03) 100%);
+      border: 1px solid var(--border-cyan);
+      border-radius: 14px;
+      position: relative; overflow: hidden;
+    }
+    .urgency::before {
+      content: ''; position: absolute; top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(95,232,215,0.18), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+    .urgency__icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--cyan-bright), var(--cyan));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #07131A; font-size: 18px;
+      box-shadow: 0 4px 12px rgba(95,232,215,0.30);
+    }
+    .urgency__text { flex: 1; }
+    .urgency__label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 800;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 2px;
+    }
+    .urgency__copy {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 600;
+      color: var(--text); line-height: 1.4;
+    }
+
+    /* ── Profile ── */
+    .profile {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 24px;
+      padding: 12px 18px 12px 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px -8px rgba(0,0,0,0.40);
+      width: fit-content;
+    }
+    .profile__avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%; object-fit: cover;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-deep) 100%);
+      padding: 2px; flex-shrink: 0;
+    }
+    .profile__name { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; line-height: 1.2; color: var(--text); }
+    .profile__role { font-size: 12px; color: var(--muted); line-height: 1.2; margin-top: 2px; }
+
+    /* ── Video player ── */
+    .video {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--bg-2);
+      cursor: pointer;
+      box-shadow:
+        0 30px 60px -20px rgba(0,0,0,0.55),
+        0 0 0 1px var(--border);
+      transition: transform .4s var(--ease), box-shadow .4s;
+    }
+    .video--featured {
+      box-shadow:
+        0 0 0 1px var(--border-cyan),
+        0 0 0 6px rgba(95,232,215,0.05),
+        0 30px 70px -15px rgba(95,232,215,0.30);
+    }
+    .video:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 40px 80px -20px rgba(0,0,0,0.60),
+        0 0 0 1px rgba(95,232,215,0.30);
+    }
+    .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* ── Custom thumbnail ── */
+    .vthumb {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px;
+      background:
+        radial-gradient(ellipse at 50% 45%, rgba(95,232,215,0.20) 0%, rgba(95,232,215,0.04) 40%, transparent 70%),
+        linear-gradient(180deg, var(--bg-3) 0%, var(--bg) 100%);
+      transition: opacity .25s ease;
+    }
+    .vthumb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right,  rgba(95,232,215,0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(95,232,215,0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%);
+      pointer-events: none;
+    }
+    .vthumb::after {
+      content: '';
+      position: absolute;
+      width: 560px; height: 560px;
+      border: 1px solid rgba(95,232,215,0.10);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .vthumb__top {
+      position: relative; z-index: 2;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .vthumb__kicker {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      padding: 5px 10px;
+      background: rgba(95,232,215,0.08);
+      border: 1px solid rgba(95,232,215,0.22);
+      border-radius: 100px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .vthumb__kicker::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%; background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+    }
+    .vthumb__kicker--plain::before { display: none; }
+
+    .vthumb__center {
+      position: relative; z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    .vthumb__icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(95,232,215,0.18), rgba(95,232,215,0.05));
+      border: 1px solid rgba(95,232,215,0.30);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--cyan);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.10),
+        0 8px 24px -8px rgba(95,232,215,0.30);
+    }
+    .vthumb__icon svg { width: 28px; height: 28px; }
+
+    .vthumb__title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(14px, 2.3vw, 19px);
+      font-weight: 800;
+      letter-spacing: -.015em;
+      color: var(--text);
+      line-height: 1.18;
+      text-align: center;
+      max-width: 22ch;
+    }
+    .vthumb__sub {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: .02em;
+      text-align: center;
+      max-width: 32ch;
+    }
+
+    .vthumb__bottom {
+      position: relative; z-index: 2;
+      display: flex; justify-content: flex-end; align-items: center;
+    }
+    .vthumb__play {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: #000;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(95,232,215,0.40);
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.40),
+        0 8px 20px rgba(0,0,0,0.50);
+      transition: transform .25s var(--ease-spring), box-shadow .25s, border-color .25s;
+      position: relative;
+    }
+    .vthumb__play::after {
+      content: '';
+      position: absolute; inset: -4px;
+      border-radius: 50%;
+      border: 1px solid rgba(95,232,215,0.50);
+      opacity: 0;
+      animation: ping 2.4s ease-out infinite;
+    }
+    .video:hover .vthumb__play, .cs-card:hover .vthumb__play {
+      transform: scale(1.1);
+      border-color: var(--cyan);
+      box-shadow:
+        0 0 0 4px rgba(95,232,215,0.15),
+        0 12px 28px rgba(95,232,215,0.30);
+    }
+    .vthumb__play svg {
+      width: 18px; height: 18px;
+      color: var(--cyan);
+      margin-left: 2px;
+    }
+
+    .vthumb--featured { padding: 28px; }
+    .vthumb--featured .vthumb__icon { width: 76px; height: 76px; border-radius: 20px; }
+    .vthumb--featured .vthumb__icon svg { width: 38px; height: 38px; }
+    .vthumb--featured .vthumb__title { font-size: clamp(20px, 3.5vw, 28px); }
+    .vthumb--featured .vthumb__play { width: 60px; height: 60px; }
+    .vthumb--featured .vthumb__play svg { width: 22px; height: 22px; }
+
+    .vthumb__avatar-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 14px 5px 5px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(95,232,215,0.22);
+      border-radius: 100px;
+      backdrop-filter: blur(10px);
+    }
+    .vthumb__avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+    .vthumb__avatar-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px; font-weight: 700;
+      color: var(--text); line-height: 1;
+    }
+
+    /* ── Section ── */
+    .section { padding: 96px 0; position: relative; }
+    .section__head { margin-bottom: 44px; }
+    .section__step {
+      display: inline-flex; align-items: baseline; gap: 14px;
+      font-family: 'Instrument Serif', serif;
+      font-size: 14px; font-weight: 400;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .section__step-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 60px; font-weight: 400;
+      line-height: 0.9; letter-spacing: -.04em;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-deep) 60%, transparent 130%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section__step-divider {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border-hi), transparent);
+      max-width: 80px;
+      align-self: center;
+      margin-left: 4px;
+    }
+    .section__title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(28px, 4.5vw, 42px);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      max-width: 18ch;
+      color: var(--text);
+    }
+    .section__title em {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400; font-style: italic;
+      color: var(--cyan);
+    }
+    .section__body {
+      font-size: 17px;
+      color: var(--text-soft);
+      margin-top: 14px;
+      line-height: 1.65;
+      max-width: 60ch;
+    }
+
+    .section-divider {
+      position: relative;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-hi) 50%, transparent);
+      margin: 0 auto;
+      max-width: 600px;
+    }
+    .section-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 8px; height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 4px rgba(95,232,215,0.12), 0 0 12px var(--cyan);
+    }
+
+    /* ── Case studies grid ── */
+    .cs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 20px;
+    }
+    @media (max-width: 640px) {
+      .cs-grid { grid-template-columns: 1fr; gap: 28px; }
+    }
+
+    .cs-item { display: flex; flex-direction: column; gap: 14px; }
+    .cs-card {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--bg-2);
+      cursor: pointer;
+      box-shadow:
+        0 4px 20px -10px rgba(0,0,0,0.50),
+        0 0 0 1px var(--border);
+      transition: transform .35s var(--ease), box-shadow .35s;
+    }
+    .cs-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 30px 60px -20px rgba(0,0,0,0.55),
+        0 0 0 1px var(--border-cyan);
+    }
+    .cs-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    .cs-summary {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      padding: 0 4px;
+    }
+    .cs-summary__name {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .cs-summary__name::before {
+      content: '';
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+    }
+    .cs-summary strong { color: var(--text-soft); font-weight: 600; }
+
+    /* ── About ── */
+    .about-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 480px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-link {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      backdrop-filter: blur(12px);
+      text-decoration: none;
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 600;
+      transition: all .25s var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .about-link::after {
+      content: '';
+      position: absolute; top: 50%; left: 0;
+      width: 4px; height: 0;
+      background: var(--cyan);
+      transform: translateY(-50%);
+      transition: height .25s var(--ease);
+      border-radius: 0 4px 4px 0;
+    }
+    .about-link:hover {
+      border-color: var(--border-cyan);
+      background: var(--bg-card-hi);
+      transform: translateX(4px);
+    }
+    .about-link:hover::after { height: 60%; box-shadow: 0 0 8px var(--cyan); }
+    .about-link__icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      padding: 8px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .about-link__arrow {
+      margin-left: auto;
+      font-size: 18px;
+      color: var(--muted-2);
+      transition: color .2s, transform .2s var(--ease);
+    }
+    .about-link:hover .about-link__arrow {
+      color: var(--cyan);
+      transform: translate(2px, -2px);
+    }
+
+    /* ── CTA ── */
+    .cta { padding: 100px 24px 120px; text-align: center; position: relative; }
+    .cta__inner {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 56px 32px;
+      background: linear-gradient(135deg, rgba(95,232,215,0.06) 0%, rgba(0,0,0,0.20) 100%);
+      border: 1px solid var(--border-cyan);
+      border-radius: 24px;
+      backdrop-filter: blur(12px);
+      position: relative; overflow: hidden;
+    }
+    .cta__inner::before {
+      content: '';
+      position: absolute; top: -50%; left: 50%;
+      transform: translateX(-50%);
+      width: 120%; height: 200%;
+      background: radial-gradient(ellipse at center, rgba(95,232,215,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .cta__inner > * { position: relative; }
+    .cta__title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(28px, 4.5vw, 38px);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .cta__title em {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400; font-style: italic;
+      color: var(--cyan);
+    }
+    .cta__sub {
+      font-size: 16px;
+      color: var(--text-soft);
+      margin-bottom: 36px;
+      max-width: 460px;
+      margin-left: auto; margin-right: auto;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--cyan-bright) 0%, var(--cyan) 60%, var(--cyan-deep) 100%);
+      color: #07131A;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px; font-weight: 800;
+      letter-spacing: .005em;
+      padding: 18px 42px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: transform .25s var(--ease-spring), box-shadow .25s;
+      box-shadow:
+        0 0 0 0 rgba(95,232,215,0),
+        0 12px 32px -6px rgba(95,232,215,0.50);
+      position: relative; overflow: hidden;
+    }
+    .btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.40), transparent 70%);
+      transform: translateX(-100%);
+      transition: transform .6s var(--ease);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 0 0 8px rgba(95,232,215,0.10),
+        0 20px 48px -6px rgba(95,232,215,0.55);
+    }
+    .btn:hover::after { transform: translateX(100%); }
+    .btn__arrow { transition: transform .25s var(--ease); }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    .cta__micro {
+      margin-top: 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 28px 24px 40px;
+      font-size: 12px;
+      color: var(--muted-2);
+      letter-spacing: .02em;
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+      background: var(--bg);
+    }
+    .footer a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer a:hover { color: var(--cyan); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid var(--border-cyan);
+      border-radius: 100px;
+      padding: 4px 10px;
+      margin-left: 12px;
+      vertical-align: middle;
+      background: var(--cyan-soft);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__grid"></div>
+</div>
+
+<!-- ── SVG ICON DEFINITIONS (sprite) ── -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Brush (Arte) -->
+    <symbol id="i-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.06 11.9l8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/>
+      <path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/>
+    </symbol>
+    <!-- Heart (Psicología/parejas) -->
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+    </symbol>
+    <!-- Smile (Odontología) -->
+    <symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+      <line x1="9" y1="9" x2="9.01" y2="9"/>
+      <line x1="15" y1="9" x2="15.01" y2="9"/>
+    </symbol>
+    <!-- Heart pulse (Cardiología) -->
+    <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+      <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>
+    </symbol>
+    <!-- Sparkles (Espiritualidad) -->
+    <symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/>
+      <path d="M5 3v4M3 5h4M19 17v4M17 19h4"/>
+    </symbol>
+    <!-- Shapes (Branding) -->
+    <symbol id="i-shapes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <circle cx="17.5" cy="17.5" r="3.5"/>
+    </symbol>
+    <!-- Workflow (B2B) -->
+    <symbol id="i-flow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="6" height="6" rx="1"/>
+      <rect x="15" y="15" width="6" height="6" rx="1"/>
+      <path d="M9 6h6a3 3 0 0 1 3 3v6"/>
+      <path d="M6 9v6a3 3 0 0 0 3 3h6"/>
+    </symbol>
+    <!-- Trending up (Marketing) -->
+    <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+      <polyline points="16 7 22 7 22 13"/>
+    </symbol>
+    <!-- Flower bloom (Desarrollo Personal Femenino) -->
+    <symbol id="i-bloom" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M12 9c0-3-2-5-2-5s2 1 2 5z"/>
+      <path d="M12 15c0 3 2 5 2 5s-2-1-2-5z"/>
+      <path d="M9 12c-3 0-5-2-5-2s1 2 5 2z"/>
+      <path d="M15 12c3 0 5-2 5-2s-1 2-5 2z"/>
+      <path d="M9.7 9.7C7.6 7.6 7 4.8 7 4.8s2.8.6 4.9 2.7"/>
+      <path d="M14.3 14.3c2.1 2.1 2.7 4.9 2.7 4.9s-2.8-.6-4.9-2.7"/>
+    </symbol>
+    <!-- Book open (Educación) -->
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </symbol>
+    <!-- Infinity (Lifestyle / Roadmap) -->
+    <symbol id="i-infinity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18.178 8c5.096 0 5.096 8 0 8-5.095 0-7.133-8-12.739-8-4.585 0-4.585 8 0 8 5.606 0 7.644-8 12.739-8z"/>
+    </symbol>
+    <!-- Compass (Coaching) -->
+    <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+    </symbol>
+    <!-- Target (Ventas) -->
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2"/>
+    </symbol>
+    <!-- Lightbulb (Mentoría) -->
+    <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18h6M10 22h4"/>
+      <path d="M12 2a7 7 0 0 0-4 12.74V17h8v-2.26A7 7 0 0 0 12 2z"/>
+    </symbol>
+    <!-- Play in circle (Cursos) -->
+    <symbol id="i-play-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="10 8 16 12 10 16 10 8"/>
+    </symbol>
+    <!-- Phone call (Confirmación) -->
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </symbol>
+    <!-- Wave (History) -->
+    <symbol id="i-wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 8c1.5 0 2.5-1.5 4-1.5S8.5 8 10 8s2.5-1.5 4-1.5S16.5 8 18 8s2.5-1.5 4-1.5"/>
+      <path d="M2 13c1.5 0 2.5-1.5 4-1.5s2.5 1.5 4 1.5 2.5-1.5 4-1.5 2.5 1.5 4 1.5 2.5-1.5 4-1.5"/>
+      <path d="M2 18c1.5 0 2.5-1.5 4-1.5s2.5 1.5 4 1.5 2.5-1.5 4-1.5 2.5 1.5 4 1.5 2.5-1.5 4-1.5"/>
+    </symbol>
+    <!-- Play (button) -->
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+    <!-- Check -->
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__confetti" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="hero__check">
+      <div class="hero__check-inner">
+        <svg><use href="#i-check"/></svg>
+      </div>
+    </div>
+
+    <span class="eyebrow">
+      <span class="eyebrow__dot"></span>
+      Flow Consulting · Pre-llamada
+    </span>
+
+    <h1 class="hero__title">¡Felicidades por agendar tu <em>llamada</em>!</h1>
+    <p class="hero__sub">Te grabé un video rápido explicando los siguientes pasos para aprovechar nuestra llamada al máximo.</p>
+
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Llamada</span>
+        <span class="hero__meta-value">Confirmada</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Tiempo de prep</span>
+        <span class="hero__meta-value">~ 25 min</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Pasos</span>
+        <span class="hero__meta-value">3 simples</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- VIDEO DE CONFIRMACIÓN -->
+  <section class="reveal" style="padding-bottom: 96px">
+    <div class="urgency">
+      <div class="urgency__icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 6l7.5 13h-15L12 8zm-1 4v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+      </div>
+      <div class="urgency__text">
+        <div class="urgency__label">Importante · Acción requerida</div>
+        <div class="urgency__copy">Mira este video para confirmar tu llamada</div>
+      </div>
+    </div>
+
+    <div class="profile">
+      <img class="profile__avatar"
+        src="https://content.app-sources.com/s/578212822343850601/uploads/Images/sin_fondo-6097240.png?format=webp"
+        alt="Rodrigo Lohr" />
+      <div>
+        <div class="profile__name">Rodrigo Lohr</div>
+        <div class="profile__role">Fundador · Flow Consulting</div>
+      </div>
+    </div>
+
+    <div class="video video--featured" onclick="loadYT(this,'XQXSbiDLwq0')">
+      <div class="vthumb vthumb--featured">
+        <div class="vthumb__top">
+          <div class="vthumb__avatar-wrap">
+            <img class="vthumb__avatar" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/sin_fondo-6097240.png?format=webp" alt="Rodrigo Lohr" />
+            <span class="vthumb__avatar-name">Rodrigo Lohr</span>
+          </div>
+          <span class="vthumb__kicker">Confirmación · 02 min</span>
+        </div>
+        <div class="vthumb__center">
+          <div class="vthumb__icon"><svg><use href="#i-phone"/></svg></div>
+          <div class="vthumb__title">Mira este video para confirmar tu llamada</div>
+          <div class="vthumb__sub">Los 2 minutos más importantes antes de nuestra sesión</div>
+        </div>
+        <div class="vthumb__bottom">
+          <div class="vthumb__play"><svg><use href="#i-play"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PASO 1 · ROADMAP -->
+  <section class="section reveal">
+    <div class="section__head">
+      <div class="section__step">
+        <span class="section__step-num">01</span>
+        <span>Paso uno</span>
+        <span class="section__step-divider"></span>
+      </div>
+      <h2 class="section__title">Conoce el <em>Roadmap</em> de Flow Consulting</h2>
+      <p class="section__body">Nuestra filosofía y el sistema exacto que le permite a nuestros clientes escalar sus negocios sin sacrificar rentabilidad, libertad ni paz mental.</p>
+    </div>
+
+    <div class="video" onclick="loadYT(this,'08tTKgO1JIM')">
+      <div class="vthumb vthumb--featured">
+        <div class="vthumb__top">
+          <span class="vthumb__kicker">Paso 01 · Roadmap</span>
+          <span class="vthumb__kicker vthumb__kicker--plain">~ 12 min</span>
+        </div>
+        <div class="vthumb__center">
+          <div class="vthumb__icon"><svg><use href="#i-infinity"/></svg></div>
+          <div class="vthumb__title">El Roadmap de Flow Consulting</div>
+          <div class="vthumb__sub">Lead Flow · Cash Flow · Flow State · Systemic Flow</div>
+        </div>
+        <div class="vthumb__bottom">
+          <div class="vthumb__play"><svg><use href="#i-play"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PASO 2 · CASOS DE ESTUDIO (ordenados por impacto) -->
+  <section class="section reveal">
+    <div class="section__head">
+      <div class="section__step">
+        <span class="section__step-num">02</span>
+        <span>Paso dos</span>
+        <span class="section__step-divider"></span>
+      </div>
+      <h2 class="section__title">Mira nuestros <em>casos de estudio</em></h2>
+      <p class="section__body">La mejor forma de saber cómo es trabajar con nosotros es escuchar a quienes estuvieron en tu lugar hace unos meses. El resumen aparece en los primeros 3 minutos de cada video.</p>
+    </div>
+
+    <div class="cs-grid">
+
+      <!-- 1 · Andrés Mora · Arte (impact 10) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'ltYb6cHe52c')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Arte</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-brush"/></svg></div>
+              <div class="vthumb__title">$97K en 3 meses vendiendo arte</div>
+              <div class="vthumb__sub">Andrés Mora</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Andrés Mora</span>
+          Pasó de vender un producto de <strong>$50/mes</strong> a una oferta de <strong>$5,390</strong> (100× más cara). En 3 meses facturó <strong>$97,000</strong> con menos de $4K en publicidad — automatizando ventas con Evergreen en un nicho que muchos consideran imposible.
+        </p>
+      </div>
+
+      <!-- 2 · Mari Carmen · Psicología (impact 10) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'-A7jbb_Sz8I')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Psicología</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-heart"/></svg></div>
+              <div class="vthumb__title">De endeudada a Disney en 6 meses</div>
+              <div class="vthumb__sub">Mari Carmen · 400K seguidores</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Mari Carmen</span>
+          Psicóloga con 400K seguidores: subió precios <strong>10×</strong> ($250 → $2,500), simplificó equipo de 7 a 2 personas, salió de deudas y ahora hace semanas de <strong>$15K</strong> de ganancia. Por fin pudo llevar a sus hijos a Disney.
+        </p>
+      </div>
+
+      <!-- 3 · Erika Herrera · Odontología (impact 10) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'yLStPGJ99n8')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Odontología</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-smile"/></svg></div>
+              <div class="vthumb__title">$21K en su primera semana sin pauta</div>
+              <div class="vthumb__sub">Erika Herrera</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Erika Herrera</span>
+          Asesora de odontólogos saturados: dejó los lanzamientos agotadores y vendió <strong>$21,000 en su primera semana</strong> — 100% orgánico, $0 en pauta. Ahora factura <strong>$6K/semana</strong> de forma consistente con menos equipo y más impacto.
+        </p>
+      </div>
+
+      <!-- 4 · Médico ECG · Cardiología (impact 9) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'dBa5G1AgmBs')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Cardiología</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-pulse"/></svg></div>
+              <div class="vthumb__title">$80K en 2 meses con ROAS de 15×</div>
+              <div class="vthumb__sub">Médico Cardiólogo · ECG</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Médico Cardiólogo</span>
+          Experto en electrocardiografía facturó entre <strong>$60K y $80K en 2 meses</strong> con solo $4-5K de inversión publicitaria (<strong>ROAS 13-15×</strong>). Implementó la estrategia en 7 días y pasó de 2 a 6 personas en su equipo.
+        </p>
+      </div>
+
+      <!-- 5 · Mariel · Espiritualidad (impact 9) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'xU2C807XX_I')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Espiritualidad</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-sparkle"/></svg></div>
+              <div class="vthumb__title">De membresía de $32 a $70K en un mes</div>
+              <div class="vthumb__sub">Mariel</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Mariel</span>
+          Pasó de membresías baratas con baja retención a vender <strong>high ticket de $7K</strong> facturando <strong>$70K el primer mes</strong>. Hoy con oferta Evergreen de $3K vende todos los días en automático y arma equipo full-time.
+        </p>
+      </div>
+
+      <!-- 6 · Inés · Branding (impact 9) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'96lUcUPZS4o')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Branding</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-shapes"/></svg></div>
+              <div class="vthumb__title">De 7 meses sin facturar a 30K€ en 60 días</div>
+              <div class="vthumb__sub">Inés · Diseñadora de marca</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Inés</span>
+          Diseñadora de marca llevaba <strong>7 meses sin facturar nada</strong>. En 30 días reactivó su negocio: <strong>30,000€ en 2 meses</strong> y un proyecto adicional de <strong>11,000€</strong> cerrado durante la propia entrevista.
+        </p>
+      </div>
+
+      <!-- 7 · Omar Cabrera · B2B (impact 9) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'TxUvYp4uwBY')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Procesos B2B</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-flow"/></svg></div>
+              <div class="vthumb__title">Triplicó lanzamiento: de $49K a $150K</div>
+              <div class="vthumb__sub">Omar Cabrera</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Omar Cabrera</span>
+          Consultor de equipos auto-gerenciables, estancado en lanzamientos de <strong>$49K</strong>. Tras ajustar copy y narrativa de su webinar, en el siguiente lanzamiento facturó más de <strong>$150K en menos de una semana</strong> — 3× resultados con la misma inversión publicitaria.
+        </p>
+      </div>
+
+      <!-- 8 · Julio · Marketing (impact 8) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'PhkLkYtuewI')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Agencia de Marketing</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-trend"/></svg></div>
+              <div class="vthumb__title">De $20K a $75K sin pauta pagada</div>
+              <div class="vthumb__sub">Julio · Dueño de agencia</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Julio</span>
+          Marketer y dueño de agencia, estancado en <strong>$20K mensuales</strong>. Creó oferta high ticket, simplificó embudos hacia ventas por llamada Evergreen, y el primer mes alcanzó <strong>$75,000</strong> — 100% orgánico, sin meter más de $5K en pauta.
+        </p>
+      </div>
+
+      <!-- 9 · Alejandra · Desarrollo Personal (impact 7) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'0XH7Fb-ZGBY')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Desarrollo Personal</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-bloom"/></svg></div>
+              <div class="vthumb__title">Pagué $60K que apagaron mi esencia</div>
+              <div class="vthumb__sub">Alejandra · 400K mujeres en comunidad</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Alejandra</span>
+          Mentora con comunidad de <strong>400K mujeres</strong>: había pagado <strong>$60K a un mentor de EU</strong> que la metió en estrategias masculinas que apagaron su creatividad. Reconectó con su esencia, destrabó cobrar high ticket y reactivó marketing ético alineado.
+        </p>
+      </div>
+
+      <!-- 10 · Daniel · Educación Online (impact 7) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'3SGCqhN45DU')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Educación Online</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-book"/></svg></div>
+              <div class="vthumb__title">$350K en el mejor mes de su historia</div>
+              <div class="vthumb__sub">Daniel · Cursos en español</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Daniel</span>
+          Tras mes y medio trabajando juntos en un lanzamiento con Hotmart, facturó alrededor de <strong>$350K</strong> — el mayor mes de ventas de curso en línea en español en la historia de su empresa.
+        </p>
+      </div>
+
+      <!-- 11 · Regina · Lifestyle (impact 6) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'gaKsssy9eSg')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Sostenibilidad</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-infinity"/></svg></div>
+              <div class="vthumb__title">15 lanzamientos sin quemarme</div>
+              <div class="vthumb__sub">Regina</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Regina</span>
+          Emprendedora "caos caminando" valora el coaching por simplificar su modelo. Lleva <strong>8 años con la misma oferta</strong> optimizándola, ya hizo <strong>15 lanzamientos</strong> y disfruta del proceso sin agotarse — sostenibilidad sobre crecimiento explosivo.
+        </p>
+      </div>
+
+      <!-- 12 · Cliente · Coaching (impact 4) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'clK29Mh8KII')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Coaching</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-compass"/></svg></div>
+              <div class="vthumb__title">Lo único que realmente me trajo dinero</div>
+              <div class="vthumb__sub">Testimonio breve</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Cliente</span>
+          Tras invertir en múltiples mentorías sin resultado, el acompañamiento con Rodrigo fue lo único que le trajo dinero: factura más con menos personas, salió de deudas y entendió el flow al simplificar su negocio.
+        </p>
+      </div>
+
+      <!-- 13 · Cliente · Ventas Digitales (impact 3) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'nx-cv6CkOR0')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Ventas Digitales</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-target"/></svg></div>
+              <div class="vthumb__title">Mi máquina de leads infinitos</div>
+              <div class="vthumb__sub">Testimonio breve</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Cliente</span>
+          Comparte cómo se volvió "amiga de las ventas" construyendo una estructura comercial sostenible. El flow como sistema replicable, no como hacerlo todo sola.
+        </p>
+      </div>
+
+      <!-- 14 · Vivi · Mentoría 60+ (impact 9) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'kwoD3asxxmY')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Mentoría +60</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-bulb"/></svg></div>
+              <div class="vthumb__title">$6,200 en su primera semana a los 60+</div>
+              <div class="vthumb__sub">Vivi</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Vivi</span>
+          Mujer de <strong>60+ años</strong> que partió de cero en marketing digital tras carrera corporativa. Llevaba <strong>2 años trabajando 24/7</strong> sin resultados y endeudada. Vendió <strong>$6,200 en su primera semana</strong> sin gastar nada en pauta — ticket subió de $347 a $1,650.
+        </p>
+      </div>
+
+      <!-- 15 · Daniel Marcos · Cursos Online (impact 10) -->
+      <div class="cs-item">
+        <div class="cs-card" onclick="loadYT(this,'PVm5mtQwpYI')">
+          <div class="vthumb">
+            <div class="vthumb__top"><span class="vthumb__kicker">Caso · Cursos Online</span></div>
+            <div class="vthumb__center">
+              <div class="vthumb__icon"><svg><use href="#i-play-circle"/></svg></div>
+              <div class="vthumb__title">El mayor mes de ventas de su historia</div>
+              <div class="vthumb__sub">Daniel Marcos · Growth Institute</div>
+            </div>
+            <div class="vthumb__bottom"><div class="vthumb__play"><svg><use href="#i-play"/></svg></div></div>
+          </div>
+        </div>
+        <p class="cs-summary">
+          <span class="cs-summary__name">Daniel Marcos</span>
+          Cofundador y CEO de Growth Institute (vendió empresa en <strong>$700M</strong> a Santander). En mes y medio facturó <strong>$350,860 con ROAS casi 4×</strong> y 170 nuevos miembros — el mayor mes de ventas en español en la historia de Growth.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- PASO 3 · CONÓCENOS -->
+  <section class="section reveal">
+    <div class="section__head">
+      <div class="section__step">
+        <span class="section__step-num">03</span>
+        <span>Paso tres <span class="badge">Opcional</span></span>
+        <span class="section__step-divider"></span>
+      </div>
+      <h2 class="section__title">Conoce un poco <em>más sobre nosotros</em></h2>
+      <p class="section__body">La historia detrás de Flow Consulting, los valores del equipo y por qué Rodrigo construyó esta metodología desde su propia experiencia de burnout.</p>
+    </div>
+
+    <div class="video" style="margin-bottom: 28px" onclick="loadYT(this,'I0pB4JWUbZg')">
+      <div class="vthumb vthumb--featured">
+        <div class="vthumb__top">
+          <div class="vthumb__avatar-wrap">
+            <img class="vthumb__avatar" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/sin_fondo-6097240.png?format=webp" alt="Rodrigo Lohr" />
+            <span class="vthumb__avatar-name">Rodrigo Lohr</span>
+          </div>
+          <span class="vthumb__kicker">Nuestra historia</span>
+        </div>
+        <div class="vthumb__center">
+          <div class="vthumb__icon"><svg><use href="#i-wave"/></svg></div>
+          <div class="vthumb__title">Por qué construí Flow Consulting</div>
+          <div class="vthumb__sub">Burnout, valores y la metodología detrás del sistema</div>
+        </div>
+        <div class="vthumb__bottom">
+          <div class="vthumb__play"><svg><use href="#i-play"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <a class="about-link" href="https://www.instagram.com/stories/highlights/18017148233244086" target="_blank" rel="noopener">
+        <img class="about-link__icon" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/ig-3318641.png?format=webp" alt="Instagram" />
+        <span>Instagram Highlights</span>
+        <span class="about-link__arrow">↗</span>
+      </a>
+      <a class="about-link" href="https://www.instagram.com/rodrigo.lohr" target="_blank" rel="noopener">
+        <img class="about-link__icon" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/Handle_Instagram_2-6096841.png?format=webp" alt="@rodrigo.lohr" />
+        <span>@rodrigo.lohr</span>
+        <span class="about-link__arrow">↗</span>
+      </a>
+      <a class="about-link" href="https://www.linkedin.com/in/rodrigolohr/" target="_blank" rel="noopener">
+        <img class="about-link__icon" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/linkedin-3318641.png?format=webp" alt="LinkedIn" />
+        <span>LinkedIn</span>
+        <span class="about-link__arrow">↗</span>
+      </a>
+      <a class="about-link" href="https://wa.link/yta6p1" target="_blank" rel="noopener">
+        <img class="about-link__icon" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/whats-3318642.png?format=webp" alt="WhatsApp" />
+        <span>WhatsApp</span>
+        <span class="about-link__arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+</div><!-- /wrap -->
+
+<!-- CTA FINAL -->
+<div class="cta reveal">
+  <div class="cta__inner">
+    <h2 class="cta__title">¿Listo para tu <em>llamada</em>?</h2>
+    <p class="cta__sub">Si ya viste el video de confirmación y exploraste los casos de estudio, estás 100% preparado para sacarle el máximo a nuestra sesión.</p>
+    <a class="btn" href="#">
+      Confirmar mi lugar
+      <span class="btn__arrow">→</span>
+    </a>
+    <div class="cta__micro">Nos vemos pronto · Flow Consulting</div>
+  </div>
+</div>
+
+<footer class="footer">
+  Flow Consulting · <a href="https://flowconsulting.co" target="_blank" rel="noopener">flowconsulting.co</a>
+</footer>
+
+<script>
+  function loadYT(el, id) {
+    if (el.querySelector('iframe')) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.allowFullscreen = true;
+    const vthumb = el.querySelector('.vthumb');
+    if (vthumb) vthumb.style.display = 'none';
+    el.appendChild(iframe);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
