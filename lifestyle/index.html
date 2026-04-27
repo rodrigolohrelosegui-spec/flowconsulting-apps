@@ -10,9 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <!-- Reduced font weights: Montserrat 500/700/800/900 (was 6 weights), Open Sans 400/600/700 (was 5 weights) -->
 <!-- font-display: swap renders text immediately with fallback, then swaps when web font loads -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" media="print" onload="this.media='all'" />
-<noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" /></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+<noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
 <style>
 /* ════════════════════════════════════════════════════════
    BRAND TOKENS · Flow Consulting (cyan / dark)
@@ -50,8 +50,8 @@
 
   --border-cyan:  rgba(95, 232, 215, 0.30);
 
-  --max-w:        760px;
-  --read-w:       640px;
+  --max-w:        1080px;
+  --read-w:       720px;
   --ease:         cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -71,10 +71,11 @@ body {
 
 h1,h2,h3,h4 { font-family: 'Montserrat', sans-serif; color: var(--ink); }
 em.serif, .serif {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 700;
   color: var(--cyan-ink);  /* default for light layer */
+  letter-spacing: -.005em;
 }
 .interface .serif, .callout .serif, .pat-box .serif, .testi .serif, .cta .serif {
   color: var(--cyan);  /* on dark backgrounds, use bright glow */
@@ -369,22 +370,32 @@ em.serif, .serif {
   padding: 56px 0 72px;
   border-top: 1px solid var(--on-dark-line);
 }
+.toc__head { margin-bottom: 36px; }
 .toc__lbl {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--on-dark);
+  margin-bottom: 6px;
+  text-transform: none;
+}
+.toc__lbl .toc__lbl-num {
   color: var(--cyan);
-  margin-bottom: 36px;
+  font-weight: 800;
+}
+.toc__sub {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--on-dark-muted);
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 .toc__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px 32px;
-}
-@media (max-width: 600px) {
-  .toc__grid { grid-template-columns: 1fr; gap: 24px; }
+  grid-template-columns: 1fr;
+  gap: 28px;
 }
 .toc__sec {
   position: relative;
@@ -393,20 +404,28 @@ em.serif, .serif {
 .toc__sec::before {
   content: '';
   position: absolute;
-  left: 0; top: 6px;
+  left: 0; top: 8px;
   width: 8px; height: 8px;
   border-radius: 50%;
   background: var(--cyan);
   box-shadow: 0 0 8px var(--cyan);
 }
 .toc__sec-t {
+  display: inline-block;
   font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--on-dark);
   margin-bottom: 12px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+a.toc__sec-t:hover {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
 }
 .toc__sec ul { list-style: none; padding: 0; }
 .toc__sec li {
@@ -445,8 +464,10 @@ em.serif, .serif {
 .section {
   padding: 80px 0;
   border-bottom: 1px solid var(--ink-line);
+  scroll-margin-top: 24px;
 }
 .section:last-of-type { border-bottom: none; }
+.callout, .cta { scroll-margin-top: 24px; }
 
 .section__inner {
   max-width: var(--read-w);
@@ -455,22 +476,33 @@ em.serif, .serif {
 
 .s-label {
   display: inline-flex;
-  align-items: center;
-  gap: 12px;
+  align-items: baseline;
+  gap: 14px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
-  letter-spacing: .22em;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--cyan-ink);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background: var(--cyan-soft-2);
+  border-radius: 100px;
+  border: 1px solid rgba(20,184,166,0.18);
 }
-.s-label::before {
-  content: '';
-  width: 8px; height: 8px;
+.s-label__num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cyan-deeper);
+  opacity: .65;
+  letter-spacing: .18em;
+}
+.s-label__sep {
+  width: 4px; height: 4px;
   border-radius: 50%;
   background: var(--cyan-mid);
-  box-shadow: 0 0 0 3px var(--cyan-soft-2);
+  align-self: center;
+  opacity: .5;
 }
 .s-title {
   font-family: 'Montserrat', sans-serif;
@@ -482,9 +514,9 @@ em.serif, .serif {
   color: var(--ink);
 }
 .s-title .serif {
-  font-family: 'Instrument Serif', serif;
-  font-weight: 400;
-  font-style: italic;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-style: normal;
   color: var(--cyan-ink);
 }
 
@@ -611,10 +643,10 @@ blockquote {
 
 /* Inline brand concept (legible on light) */
 .concept {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1.12em;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1em;
   color: var(--cyan-ink);
   letter-spacing: -.005em;
   background: linear-gradient(180deg, transparent 75%, rgba(20,184,166,0.20) 75%);
@@ -656,16 +688,11 @@ p.pull::after {
 }
 p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
-/* Drop cap on first paragraph of each section */
-.lead::first-letter {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 4em;
-  line-height: 0.85;
-  float: left;
-  padding: 6px 12px 0 0;
-  color: var(--cyan-ink);
+/* Lead paragraph — slightly emphasized first paragraph */
+.lead {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
 }
 
 /* Pain list */
@@ -744,12 +771,12 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   letter-spacing: -.01em;
 }
 .ilusion__line:last-of-type {
-  font-weight: 400;
-  font-style: italic;
-  font-family: 'Instrument Serif', serif;
+  font-weight: 600;
+  font-style: normal;
+  font-family: 'Montserrat', sans-serif;
   color: var(--cyan);
-  font-size: clamp(20px, 3vw, 26px);
-  margin-top: 8px;
+  font-size: clamp(19px, 2.8vw, 24px);
+  margin-top: 12px;
 }
 
 /* Stat ribbon embedded in dark callout */
@@ -868,49 +895,45 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   flex-shrink: 0;
 }
 
-/* Pattern box */
+/* Pattern conclusion (lives inside .cases-wrap) */
 .pat-box {
-  background: linear-gradient(180deg, var(--dark-2) 0%, var(--dark) 100%);
+  background: transparent;
   color: var(--on-dark);
-  border-radius: 22px;
-  padding: 56px 36px;
-  margin: 44px 0 28px;
+  padding: 16px 8px 0;
+  margin: 0;
   text-align: center;
-  border: 1px solid var(--border-cyan);
+  border: none;
+  border-top: 1px solid var(--on-dark-line-2);
   position: relative;
-  overflow: hidden;
 }
-.pat-box::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: 50%;
-  transform: translateX(-50%);
-  width: 120%; height: 200%;
-  background: radial-gradient(ellipse at center, rgba(95,232,215,0.16) 0%, transparent 50%);
-  pointer-events: none;
-}
-.pat-box > * { position: relative; }
 .pat-box h3 {
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(22px, 3.5vw, 28px);
   font-weight: 800;
   color: var(--on-dark);
-  margin-bottom: 12px;
+  margin: 28px 0 12px;
   line-height: 1.2;
 }
 .pat-box h3 .serif {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 800;
   color: var(--cyan);
 }
 .pat-box p {
   font-size: 15px;
-  color: var(--on-dark-soft);
-  margin-bottom: 0;
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
+  color: rgba(255,255,255,0.85);
+  margin: 0 auto 14px;
+  max-width: 560px;
+  line-height: 1.6;
+}
+.pat-box p:last-child { margin-bottom: 0; }
+.pat-box .pat-box__sec {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  font-style: normal;
+  margin-top: 18px;
+  letter-spacing: .01em;
 }
 
 /* ════════════════════════════════════════════════════════
@@ -959,7 +982,39 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 }
 .cr strong { color: var(--cyan-ink); font-weight: 700; }
 
-/* Disney photo placeholder */
+/* Disney moment — message + photos */
+.disney-moment {
+  margin: 32px 0 36px;
+}
+.disney-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+.disney-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--ink-line);
+  box-shadow: 0 18px 40px -16px rgba(7,19,26,0.30);
+  display: block;
+  background: var(--paper);
+}
+.disney-grid--msg img { object-fit: contain; background: #1F1F1F; }
+@media (max-width: 600px) {
+  .disney-grid { grid-template-columns: 1fr; gap: 14px; }
+}
+.disney-cap {
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 14px;
+  letter-spacing: .01em;
+}
+
+/* Disney photo placeholder (legacy) */
 .media-ph {
   background: linear-gradient(135deg, var(--paper) 0%, rgba(20,184,166,0.05) 100%);
   border: 1.5px dashed rgba(20,184,166,0.55);
@@ -1027,10 +1082,10 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   padding-top: 20px;
 }
 .step__num {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(96px, 14vw, 140px);
-  font-weight: 400;
-  font-style: italic;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(88px, 12vw, 120px);
+  font-weight: 900;
+  font-style: normal;
   line-height: 0.85;
   letter-spacing: -.05em;
   background: linear-gradient(135deg, var(--cyan-mid) 0%, var(--cyan-ink) 60%, var(--cyan-deeper) 100%);
@@ -1095,14 +1150,51 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 /* ════════════════════════════════════════════════════════
    TESTIMONIALS
    ════════════════════════════════════════════════════════ */
+/* Wide section override for case studies — uses full container width */
+#patron .section__inner { max-width: var(--max-w); }
+
+.cases-wrap {
+  background: linear-gradient(180deg, var(--dark) 0%, var(--dark-2) 100%);
+  border: 1px solid var(--border-cyan);
+  border-radius: 28px;
+  padding: 40px 36px 48px;
+  margin: 32px 0 8px;
+  position: relative;
+  overflow: hidden;
+}
+.cases-wrap::before {
+  content: '';
+  position: absolute;
+  top: -30%; left: 50%;
+  transform: translateX(-50%);
+  width: 120%; height: 100%;
+  background: radial-gradient(ellipse at top, rgba(95,232,215,0.10) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cases-wrap > * { position: relative; }
+.cases-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-bottom: 36px;
+}
+@media (min-width: 880px) {
+  .cases-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .cases-wrap { padding: 28px 18px 32px; border-radius: 20px; }
+}
+
 .testi {
-  background: linear-gradient(180deg, var(--dark-3) 0%, var(--dark) 100%);
+  background: linear-gradient(180deg, var(--dark-3) 0%, var(--dark-2) 100%);
   color: var(--on-dark);
   border-radius: 18px;
-  padding: 32px 32px 28px;
-  margin: 28px 0;
-  border: 1px solid var(--on-dark-line);
+  padding: 28px 28px 24px;
+  margin: 0;
+  border: 1px solid var(--on-dark-line-2);
   box-shadow: 0 20px 50px -20px rgba(0,0,0,0.30);
+  display: flex;
+  flex-direction: column;
 }
 .testi__head {
   display: flex;
@@ -1128,24 +1220,33 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 }
 .testi__niche {
   font-size: 12px;
-  color: var(--on-dark-muted);
+  color: rgba(255,255,255,0.85);
   line-height: 1.2;
   margin-top: 3px;
 }
 .testi p {
   font-size: 15px;
-  color: var(--on-dark-soft);
+  color: #FFFFFF;
   margin-bottom: 14px;
   line-height: 1.65;
+}
+.testi p strong,
+.testi blockquote strong {
+  color: var(--cyan);
+  font-weight: 700;
+}
+.testi blockquote {
+  color: #FFFFFF;
 }
 .testi blockquote {
   border-left: 2px solid var(--cyan);
   padding: 4px 0 4px 18px;
   margin: 16px 0;
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-size: 16px;
-  line-height: 1.45;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--on-dark);
 }
 .testi blockquote::before { display: none; }
@@ -1174,6 +1275,32 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   border: none;
+}
+.testi__video--pending {
+  cursor: default;
+  background: linear-gradient(135deg, var(--dark-2) 0%, var(--dark-3) 100%);
+  border: 1px dashed rgba(95,232,215,0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.testi__video--pending:hover { transform: none; }
+.testi__pending {
+  text-align: center;
+  padding: 18px;
+}
+.testi__pending-lbl {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.testi__pending-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
 }
 .testi__overlay {
   position: absolute;
@@ -1256,9 +1383,9 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   margin-bottom: 14px;
 }
 .cta__title .serif {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 800;
   color: var(--cyan);
 }
 .cta__sub {
@@ -1412,10 +1539,6 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
   <!-- Hero -->
   <header class="hero hero--a">
-    <div class="hero-a__photo">
-      <img src="./assets/testimonios/marycarmen-rostro.webp" alt="Mary Carmen" width="200" height="200" fetchpriority="high" />
-    </div>
-
     <div class="hero-meta">
       <span class="hero-meta__lbl">Caso de Estudio</span>
       <span class="hero-meta__sep"></span>
@@ -1427,7 +1550,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
     </h1>
 
     <p class="hero__sub">
-      Cómo <strong>Mary Carmen</strong>, psicóloga con 400K+ de comunidad, pasó de estar <strong>endeudada</strong> vendiendo cursos online a facturar <strong>$60K al mes</strong> con <strong>+80% de ganancia</strong>.
+      Cómo esta <strong>psicóloga</strong> pasó de estar <strong>endeudada</strong> vendiendo cursos online a facturar <strong>$60K/mes</strong> con <strong>+80% de ganancia</strong>.
     </p>
 
     <div class="stat-ribbon">
@@ -1440,10 +1563,13 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
   <!-- TOC -->
   <section class="toc">
-    <div class="toc__lbl">Índice</div>
+    <div class="toc__head">
+      <div class="toc__lbl">Índice</div>
+      <div class="toc__sub">Esto es lo que aprenderás al terminar de leer este caso de estudio.</div>
+    </div>
     <div class="toc__grid">
       <div class="toc__sec">
-        <div class="toc__sec-t">El Problema</div>
+        <a class="toc__sec-t" href="#problema">Parte 1 · El Problema</a>
         <ul>
           <li><a href="#problema">Conoce a Mary Carmen</a></li>
           <li><a href="#problema">¿Los cursos online están muertos?</a></li>
@@ -1452,7 +1578,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
         </ul>
       </div>
       <div class="toc__sec">
-        <div class="toc__sec-t">El Rediseño</div>
+        <a class="toc__sec-t" href="#redisenio">Parte 2 · El Rediseño</a>
         <ul>
           <li><a href="#redisenio">10× más con 10× menos infraestructura</a></li>
           <li><a href="#redisenio">Lifestyle Business Exponencial</a></li>
@@ -1460,7 +1586,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
         </ul>
       </div>
       <div class="toc__sec">
-        <div class="toc__sec-t">El Proceso</div>
+        <a class="toc__sec-t" href="#proceso">Parte 3 · El Proceso</a>
         <ul>
           <li><a href="#proceso">El roadmap de 3 pasos</a></li>
           <li><a href="#proceso">Nueva oferta, nuevo funnel, matemáticas simples</a></li>
@@ -1468,7 +1594,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
         </ul>
       </div>
       <div class="toc__sec">
-        <div class="toc__sec-t">El Patrón</div>
+        <a class="toc__sec-t" href="#patron">Parte 4 · El Patrón</a>
         <ul>
           <li><a href="#patron">Ejemplos replicables del Lifestyle Business</a></li>
           <li><a href="#patron">Entrevista con Mary Carmen</a></li>
@@ -1491,7 +1617,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
     <div class="container">
     <div class="section__inner reveal">
 
-      <div class="s-label">El Problema</div>
+      <div class="s-label"><span class="s-label__num">Parte 1</span><span class="s-label__sep"></span>El Problema</div>
       <h2 class="s-title">Conoce a <span class="serif">Mary Carmen</span></h2>
 
       <div class="stages">
@@ -1617,7 +1743,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
     <div class="container">
     <div class="section__inner reveal">
 
-      <div class="s-label">El Rediseño</div>
+      <div class="s-label"><span class="s-label__num">Parte 2</span><span class="s-label__sep"></span>El Rediseño</div>
       <h2 class="s-title">¿Cómo ganar 10× más con 10× <span class="serif">menos infraestructura</span>?</h2>
 
       <p>Para rediseñar el negocio de Mary Carmen, me inspiré en un libro que me inspiró para simplificar mi propio negocio: <strong>Exponential Organizations</strong>, de Salim Ismail.</p>
@@ -1686,10 +1812,16 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
       <p>Pero lo que más le importa a ella, finalmente invitó a sus hijos y a su esposo a Disney:</p>
 
-      <div class="media-ph">
-        <div class="media-ph__icon"><svg><use href="#i-camera"/></svg></div>
-        <div class="media-ph__title">Espacio para mensaje y fotos de Disney</div>
-        <div class="media-ph__sub">Insertar screenshot del mensaje + imágenes familiares</div>
+      <div class="disney-moment">
+        <div class="disney-grid">
+          <div class="disney-grid--msg">
+            <img src="./assets/testimonios/marycarmen-mensaje.jpg" alt="Mensaje de Mary Carmen agradeciendo después de cumplir el sueño de Disney" loading="lazy" />
+          </div>
+          <div>
+            <img src="./assets/testimonios/marycarmen-disney.jpg" alt="Mary Carmen con sus hijos en Disney viendo el desfile con el Pato Donald" loading="lazy" />
+          </div>
+        </div>
+        <div class="disney-cap">El sueño que parecía inalcanzable, hecho realidad.</div>
       </div>
 
       <p><strong>Ahora déjame contarte exactamente cómo lo hicimos, paso a paso.</strong></p>
@@ -1703,7 +1835,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
     <div class="container">
     <div class="section__inner reveal">
 
-      <div class="s-label">El Proceso</div>
+      <div class="s-label"><span class="s-label__num">Parte 3</span><span class="s-label__sep"></span>El Proceso</div>
       <h2 class="s-title">El roadmap de <span class="serif">tres pasos</span></h2>
 
       <!-- Paso 1 -->
@@ -1823,111 +1955,132 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
     <div class="container">
     <div class="section__inner reveal">
 
-      <div class="s-label">El Patrón</div>
+      <div class="s-label"><span class="s-label__num">Parte 4</span><span class="s-label__sep"></span>El Patrón</div>
       <h2 class="s-title">Ejemplos replicables del <span class="serif">Lifestyle Business Exponencial</span></h2>
 
-      <!-- Erika Herrera -->
-      <div class="testi">
-        <div class="testi__head">
-          <img class="testi__avatar" src="./assets/testimonios/erika.jpg" alt="Erika Herrera" />
-          <div>
-            <div class="testi__name">Erika Herrera</div>
-            <div class="testi__niche">Consultora de marketing para odontólogos</div>
+      <div class="cases-wrap">
+        <div class="cases-grid">
+
+          <!-- Mary Carmen Mejía -->
+          <div class="testi">
+            <div class="testi__head">
+              <img class="testi__avatar" src="./assets/testimonios/marycarmen.jpg" alt="Mary Carmen Mejía" />
+              <div>
+                <div class="testi__name">Mary Carmen Mejía</div>
+                <div class="testi__niche">Psicóloga · 400K+ comunidad</div>
+              </div>
+            </div>
+            <p>La protagonista de este caso. Hace un año no sabía cómo pagar la nómina. Hoy factura <strong>$15K a la semana con +80% de rentabilidad</strong> trabajando con una sola persona en su equipo — y cumplió el sueño que parecía imposible: llevar a sus hijos a Disney.</p>
+            <blockquote>Recuperé mi paz, mi tiempo y la posibilidad de estar presente con mis hijos.</blockquote>
+            <div class="testi__video" onclick="loadYT(this,'-A7jbb_Sz8I')">
+              <img src="https://img.youtube.com/vi/-A7jbb_Sz8I/maxresdefault.jpg" alt="Video Mary Carmen — Disney" loading="lazy" />
+              <div class="testi__overlay">
+                <div class="testi__play"><svg><use href="#i-play"/></svg></div>
+              </div>
+            </div>
           </div>
+
+          <!-- Erika Herrera -->
+          <div class="testi">
+            <div class="testi__head">
+              <img class="testi__avatar" src="./assets/testimonios/erika.jpg" alt="Erika Herrera" />
+              <div>
+                <div class="testi__name">Erika Herrera</div>
+                <div class="testi__niche">Consultora de marketing para odontólogos</div>
+              </div>
+            </div>
+            <p>Llevaba casi 10 años haciendo lanzamientos que la dejaban exhausta. En uno de sus mejores lanzamientos facturó $50K USD pero no le quedó nada en la bolsa — de hecho perdió dinero. Diseñamos una estrategia orgánica evergreen alineada a la vida que quería, y en su <strong>primera semana facturó $21,000 USD con 80% de rentabilidad</strong>.</p>
+            <blockquote>Ninguna plata vale mi tiempo, mi paz, mi salud mental y emocional. Eso no tiene precio.</blockquote>
+            <div class="testi__video" onclick="loadYT(this,'yLStPGJ99n8')">
+              <img src="https://img.youtube.com/vi/yLStPGJ99n8/maxresdefault.jpg" alt="Video testimonio Erika Herrera" loading="lazy" />
+              <div class="testi__overlay">
+                <div class="testi__play"><svg><use href="#i-play"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alejandra Ramírez -->
+          <div class="testi">
+            <div class="testi__head">
+              <img class="testi__avatar" src="./assets/testimonios/alejandra.jpg" alt="Alejandra Ramírez" />
+              <div>
+                <div class="testi__name">Alejandra Ramírez</div>
+                <div class="testi__niche">Fundadora de Hola Sueños · 400K+ mujeres</div>
+              </div>
+            </div>
+            <p>Pagó $60,000 USD por una mentoría con uno de los referentes más grandes de marketing en Estados Unidos. Recibió estrategias rígidas que no estaban conectadas con su esencia. Trabajamos en alinear su estrategia a sus valores y estilo de vida — y volvió a amar su negocio.</p>
+            <blockquote>Me metí en una cajita que limitó mi creatividad y mi energía femenina. Me desconecté, me sentía perdida y frustrada.</blockquote>
+            <div class="testi__video" onclick="loadYT(this,'0XH7Fb-ZGBY')">
+              <img src="https://img.youtube.com/vi/0XH7Fb-ZGBY/maxresdefault.jpg" alt="Video testimonio Alejandra Ramírez" loading="lazy" />
+              <div class="testi__overlay">
+                <div class="testi__play"><svg><use href="#i-play"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Regina Righi -->
+          <div class="testi">
+            <div class="testi__head">
+              <img class="testi__avatar" src="./assets/testimonios/regina.jpg" alt="Regina Righi" />
+              <div>
+                <div class="testi__name">Regina Righi</div>
+                <div class="testi__niche">Consultora de imagen</div>
+              </div>
+            </div>
+            <p>Llegó con mil ideas, queriendo hacer todo al mismo tiempo. Aprendió que más no siempre es mejor y que proteger su energía no es un lujo — es lo que le permite seguir creciendo sin quemarse.</p>
+            <div class="testi__video" onclick="loadYT(this,'gaKsssy9eSg')">
+              <img src="https://img.youtube.com/vi/gaKsssy9eSg/maxresdefault.jpg" alt="Video testimonio Regina Righi" loading="lazy" />
+              <div class="testi__overlay">
+                <div class="testi__play"><svg><use href="#i-play"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inés Arroyo -->
+          <div class="testi">
+            <div class="testi__head">
+              <img class="testi__avatar" src="./assets/testimonios/ines.jpg" alt="Inés Arroyo" />
+              <div>
+                <div class="testi__name">Inés Arroyo</div>
+                <div class="testi__niche">Fundadora de Diseño Holístico</div>
+              </div>
+            </div>
+            <p>Llevaba <strong>7 meses sin facturar un solo euro</strong>. No era que no supiera vender — estaba paralizada. Hicimos 4 ajustes y una estrategia de email simple, y en 30 días desbloqueó su facturación. <strong>€30,000 en dos meses.</strong></p>
+            <div class="testi__video" onclick="loadYT(this,'96lUcUPZS4o')">
+              <img src="https://img.youtube.com/vi/96lUcUPZS4o/maxresdefault.jpg" alt="Video testimonio Inés Arroyo" loading="lazy" />
+              <div class="testi__overlay">
+                <div class="testi__play"><svg><use href="#i-play"/></svg></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Maryell Cisneros -->
+          <div class="testi">
+            <div class="testi__head">
+              <img class="testi__avatar" src="./assets/testimonios/maryell.jpg" alt="Maryell Cisneros" />
+              <div>
+                <div class="testi__name">Maryell Cisneros</div>
+                <div class="testi__niche">Negocio de desarrollo personal</div>
+              </div>
+            </div>
+            <p>Decía que era pésima vendiendo. Cambió su relación con las ventas y generó <strong>$70,000 con su programa</strong>. Dijo que aprender a amar las ventas fue su game changer.</p>
+            <div class="testi__video" onclick="loadYT(this,'xU2C807XX_I')">
+              <img src="https://img.youtube.com/vi/xU2C807XX_I/maxresdefault.jpg" alt="Video testimonio Maryell Cisneros" loading="lazy" />
+              <div class="testi__overlay">
+                <div class="testi__play"><svg><use href="#i-play"/></svg></div>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <p>Llevaba casi 10 años haciendo lanzamientos que la dejaban exhausta. En uno de sus mejores lanzamientos facturó $50K USD pero no le quedó nada en la bolsa — de hecho perdió dinero. Pudimos haber optimizado los lanzamientos, pero diseñamos una estrategia más alineada con la vida y el negocio que ella quería. Implementamos una estrategia orgánica evergreen, y en su <strong>primera semana facturó $21,000 USD con 80% de rentabilidad</strong>.</p>
-        <blockquote>Ninguna plata vale mi tiempo, mi paz, mi salud mental y emocional. Eso no tiene precio.</blockquote>
-        <div class="testi__video" onclick="loadYT(this,'yLStPGJ99n8')">
-          <img src="https://img.youtube.com/vi/yLStPGJ99n8/maxresdefault.jpg" alt="Video testimonio Erika Herrera" loading="lazy" />
-          <div class="testi__overlay">
-            <div class="testi__play"><svg><use href="#i-play"/></svg></div>
-          </div>
+
+        <div class="pat-box">
+          <h3>Ninguna trabajó <span class="serif">más duro</span>.<br>Todas <span class="serif">simplificaron</span>.</h3>
+          <p>No solo facturan más — todas tienen más libertad, más rentabilidad y más paz mental.</p>
+          <p>No eres la única persona que termina el día agotada, dudando si vas a poder escalar tu negocio sin romperte por dentro. Todas ellas estuvieron en tu lugar.</p>
+          <p class="pat-box__sec">Pero no me creas a mí — tómate el tiempo de escuchar sus entrevistas y decide por ti misma.</p>
         </div>
       </div>
-
-      <!-- Alejandra Ramírez -->
-      <div class="testi">
-        <div class="testi__head">
-          <img class="testi__avatar" src="./assets/testimonios/alejandra.jpg" alt="Alejandra Ramírez" />
-          <div>
-            <div class="testi__name">Alejandra Ramírez</div>
-            <div class="testi__niche">Fundadora de Hola Sueños · 400K+ mujeres</div>
-          </div>
-        </div>
-        <p>Pagó $60,000 USD por una mentoría con uno de los referentes más grandes de marketing en Estados Unidos. Recibió estrategias rígidas que no estaban conectadas con su esencia.</p>
-        <blockquote>Me metí en una cajita que limitó mi creatividad y limitó por completo mi energía femenina. Me desconecté, me sentía muy perdida, me sentía súper frustrada.</blockquote>
-        <blockquote>Si implementas una estrategia que no está alineada con tu verdad, lo único que va a hacer es fragmentarte por dentro. Y cuando te fragmentas por dentro, no hay nada que sirva.</blockquote>
-        <p>Trabajamos en alinear su estrategia a sus valores y al estilo de vida que quiere tener, para que se desbloqueara y pudiera escalar volviendo a amar su negocio.</p>
-        <div class="testi__video" onclick="loadYT(this,'0XH7Fb-ZGBY')">
-          <img src="https://img.youtube.com/vi/0XH7Fb-ZGBY/maxresdefault.jpg" alt="Video testimonio Alejandra Ramírez" loading="lazy" />
-          <div class="testi__overlay">
-            <div class="testi__play"><svg><use href="#i-play"/></svg></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Regina Righi -->
-      <div class="testi">
-        <div class="testi__head">
-          <img class="testi__avatar" src="./assets/testimonios/regina.jpg" alt="Regina Righi" />
-          <div>
-            <div class="testi__name">Regina Righi</div>
-            <div class="testi__niche">Consultora de imagen</div>
-          </div>
-        </div>
-        <p>Llegó con mil ideas, queriendo hacer todo al mismo tiempo. Aprendió que más no siempre es mejor y que proteger su energía no es un lujo — es lo que le permite seguir creciendo sin quemarse.</p>
-        <div class="testi__video" onclick="loadYT(this,'gaKsssy9eSg')">
-          <img src="https://img.youtube.com/vi/gaKsssy9eSg/maxresdefault.jpg" alt="Video testimonio Regina Righi" loading="lazy" />
-          <div class="testi__overlay">
-            <div class="testi__play"><svg><use href="#i-play"/></svg></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Inés Arroyo -->
-      <div class="testi">
-        <div class="testi__head">
-          <img class="testi__avatar" src="./assets/testimonios/ines.jpg" alt="Inés Arroyo" />
-          <div>
-            <div class="testi__name">Inés Arroyo</div>
-            <div class="testi__niche">Fundadora de Diseño Holístico</div>
-          </div>
-        </div>
-        <p>Llevaba <strong>7 meses sin facturar un solo euro</strong>. No era que no supiera vender — estaba paralizada. Trabajamos en que regresara a su centro, hicimos 4 ajustes y una estrategia de email simple, y en 30 días desbloqueó su facturación. <strong>€30,000 en dos meses.</strong></p>
-        <div class="testi__video" onclick="loadYT(this,'96lUcUPZS4o')">
-          <img src="https://img.youtube.com/vi/96lUcUPZS4o/maxresdefault.jpg" alt="Video testimonio Inés Arroyo" loading="lazy" />
-          <div class="testi__overlay">
-            <div class="testi__play"><svg><use href="#i-play"/></svg></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Maryell Cisneros -->
-      <div class="testi">
-        <div class="testi__head">
-          <img class="testi__avatar" src="./assets/testimonios/maryell.jpg" alt="Maryell Cisneros" />
-          <div>
-            <div class="testi__name">Maryell Cisneros</div>
-            <div class="testi__niche">Negocio de desarrollo personal</div>
-          </div>
-        </div>
-        <p>Decía que era pésima vendiendo. Cambió su relación con las ventas y generó <strong>$70,000 con su programa</strong>. Dijo que aprender a amar las ventas fue su game changer.</p>
-        <div class="testi__video" onclick="loadYT(this,'xU2C807XX_I')">
-          <img src="https://img.youtube.com/vi/xU2C807XX_I/maxresdefault.jpg" alt="Video testimonio Maryell Cisneros" loading="lazy" />
-          <div class="testi__overlay">
-            <div class="testi__play"><svg><use href="#i-play"/></svg></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pat-box">
-        <h3>Ninguna trabajó <span class="serif">más duro</span>.<br>Todas <span class="serif">simplificaron</span>.</h3>
-        <p>No solo facturan más — todas tienen más libertad, más rentabilidad y más paz mental.</p>
-      </div>
-
-      <p class="text-center">No eres la única persona que termina el día agotada y no duerme bien por estar dudando si va a poder escalar su negocio sin romperse por dentro. Todas ellas estuvieron en tu lugar.</p>
-
-      <p class="t-sec text-center">Pero no me creas a mí, tómate el tiempo de escuchar sus entrevistas y decide por ti misma.</p>
 
     </div>
     </div>
@@ -2007,9 +2160,10 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   function loadYT(el, id) {
     if (el.querySelector('iframe')) return;
     const iframe = document.createElement('iframe');
-    iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
     iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
     const img = el.querySelector('img');
     const overlay = el.querySelector('.testi__overlay');
     if (img) img.style.display = 'none';
