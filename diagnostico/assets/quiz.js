@@ -6,13 +6,12 @@
   'use strict';
 
   const CFG = {
-    // Webhook n8n (pendiente de crear). Mientras no exista → fallback local.
-    WEBHOOK_URL: '',  // ej. 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/diagnostico-flow'
-    USE_LOCAL_FALLBACK: true,
+    WEBHOOK_URL: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/diagnostico-flow',
+    USE_LOCAL_FALLBACK: false,
     URL_BOOKING: 'https://www.flowconsulting.co',
     QUESTIONS_PATH: './assets/questions.json',
     STORAGE_KEY: 'fc_diag_state_v1',
-    REQUEST_TIMEOUT_MS: 60000
+    REQUEST_TIMEOUT_MS: 120000
   };
 
   const state = {
