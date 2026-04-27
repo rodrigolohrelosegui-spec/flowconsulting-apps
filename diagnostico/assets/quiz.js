@@ -19,7 +19,8 @@
     cursor: 0,
     answers: {},
     lead: { name: '', email: '', whatsapp: '', business_context: '' },
-    timings: { startedAt: null, shownAt: {}, perQuestion: {} }
+    timings: { startedAt: null, shownAt: {}, perQuestion: {} },
+    advancing: false  // prevents double-tap skipping a question
   };
 
   /* DOM helpers */
@@ -68,6 +69,9 @@
   function renderQuestion() {
     const q = state.config.questions[state.cursor];
     if (!q) return;
+
+    // Reset the advancing guard so the user can interact with the freshly rendered question
+    state.advancing = false;
 
     state.timings.shownAt[q.id] = Date.now();
     if (!state.timings.startedAt) state.timings.startedAt = Date.now();
@@ -120,6 +124,11 @@
   }
 
   function selectOption(qid, opt) {
+    // Guard against double-tap / rage-tap that would skip a question.
+    // Once an option is selected, ignore further clicks until the next question renders.
+    if (state.advancing) return;
+    state.advancing = true;
+
     state.answers[qid] = opt.value;
     const shown = state.timings.shownAt[qid];
     if (shown) state.timings.perQuestion[qid] = Math.round((Date.now() - shown) / 1000);
@@ -131,6 +140,9 @@
       const sel = b.dataset.value === opt.value;
       b.classList.toggle('is-selected', sel);
       b.setAttribute('aria-checked', sel ? 'true' : 'false');
+      // Disable all options on this question to avoid late clicks landing on the next render
+      b.disabled = true;
+      b.style.pointerEvents = 'none';
     });
 
     setTimeout(advance, 220);
