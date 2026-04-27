@@ -1163,3 +1163,62 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   text-transform: uppercase;
   color: var(--cyan);
 }
+
+/* ============================================================
+   v1.3 · Legibility pass
+   Min text sizes: 11px small-caps labels · 12px metadata · 14px body content
+   Following WCAG/web-design conventions for laptop & retina readability.
+   ============================================================ */
+
+/* All small uppercase labels lifted from 10px → 11px (safer minimum on non-retina) */
+.hero__meta-item .label,
+.score__label,
+.phase__hint,
+.result__meta,
+.costo-wrap__label,
+.analog-card__label {
+  font-size: 11px;
+}
+
+/* Field counter (not uppercase) — bump to 12px */
+.field__counter { font-size: 12px; }
+
+/* Body content (lectura, acción, descripción) — bump from 13px to 14px */
+.score__lectura,
+.plan__step-action,
+.muted,
+.field__error,
+.capture__legal,
+.analog-card__line {
+  font-size: 14px;
+}
+
+/* Hero micro-copy below CTA — readable at arm's length */
+.hero__micro { font-size: 14px; }
+
+/* Question subtitle — was 15px, lift to 16px so prompt context is unmissable */
+.question__sub { font-size: 16px; line-height: 1.6; }
+
+/* Option detail italic — was 14px italic. Keep 14px but ensure line-height comfortable */
+.option__detail { line-height: 1.55; }
+
+/* Pattern diagnostic / phase explainer — these are mini-paragraphs, keep at 14-15 */
+.pattern__diag, .phase-explainer { font-size: 15px; line-height: 1.65; }
+
+/* Forbidden truth — push to 17px (it IS the centerpiece) */
+.forbidden-truth { font-size: 17px; line-height: 1.75; }
+
+/* Big domino "why" — supporting paragraph for the centerpiece */
+.big-domino__why { font-size: 16px; line-height: 1.7; }
+
+/* Plan step action — content, not metadata — 14px confirmed */
+.plan__step-action { font-size: 14px; line-height: 1.6; }
+
+/* Footer slightly larger so it reads on laptops */
+.footer { font-size: 14px; }
+
+/* Result block titles (currently 11px small-caps) — lift to 12px for hierarchy strength */
+.result__block-title { font-size: 12px; }
+
+/* CTA final paragraph — readable at arm's length */
+.cta-final p { font-size: 16px; line-height: 1.7; }
