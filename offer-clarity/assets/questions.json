@@ -9,11 +9,11 @@
       "id": "Q1",
       "type": "textarea",
       "required": true,
-      "min_chars": 30,
+      "min_chars": 0,
       "max_chars": 500,
-      "label": "Tu bio de Instagram (o LinkedIn)",
-      "hint": "Pegá la bio tal como está hoy. Sin pulirla.",
-      "placeholder": "Ejemplo: Ayudo a coaches a vender high ticket sin webinars. DM para aplicar",
+      "label": "¿Cómo te describís hoy en una frase?",
+      "hint": "La frase corta que usás para presentarte. Puede ser tu bio de Instagram o LinkedIn, tu pitch en una reunión, o lo que respondés cuando te preguntan a qué te dedicás. Pegala tal cual la decís hoy.",
+      "placeholder": "Ejemplo: 'Ayudo a empresas medianas a reducir su tiempo de operación un 30% con automatizaciones simples'",
       "skip_allowed": false
     },
     {
@@ -22,11 +22,11 @@
       "required": false,
       "min_chars": 0,
       "max_chars": 1500,
-      "label": "Titular de tu landing + 3 bullets clave",
-      "hint": "Si tenés landing publicada. Si no, saltá esta pregunta.",
-      "placeholder": "Headline + 3 bullets exactos como están en tu página.",
+      "label": "Tu copy más visible (landing, web, perfil de servicios)",
+      "hint": "El titular y los 2 o 3 puntos más importantes que un cliente lee antes de decidir trabajar contigo. Si no tenés sitio web ni landing, saltá la pregunta.",
+      "placeholder": "Pegá el headline + bullets/promesas tal cual están publicados.",
       "skip_allowed": true,
-      "skip_label": "No tengo landing todavía"
+      "skip_label": "No tengo landing ni sitio publicado"
     },
     {
       "id": "Q3a",

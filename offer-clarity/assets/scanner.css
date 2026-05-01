@@ -56,25 +56,78 @@
 }
 .exec-summary p:last-child { margin-bottom: 0; }
 
-/* ---------- Hero proof ---------- */
+/* ---------- Hero subtitle (multi-paragraph subhook) ---------- */
+.hero__subtitle p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  margin: 0 0 14px 0;
+}
+.hero__subtitle p:last-child {
+  margin-bottom: 0;
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ---------- Hero CTA microcopy with mecanismo único ---------- */
+.hero__mecanismo {
+  margin-top: 16px;
+  text-align: left;
+  max-width: 560px;
+}
+.hero__mecanismo p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0 0 10px 0;
+}
+.hero__mecanismo p:last-child { margin-bottom: 0; }
+.hero__mecanismo p:nth-child(2) {
+  color: var(--text-soft);
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+}
+
+/* ---------- Hero proof (stacked cases + coda) ---------- */
 .hero__proof {
   margin-top: 36px;
   padding-top: 24px;
   border-top: 1px solid var(--border);
 }
-.hero__proof p {
+.hero__proof > p {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-soft);
   margin: 0;
 }
-.hero__proof-list {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--text-soft);
+.hero__proof-list-stack {
+  margin: 14px 0 18px 0;
+  padding: 0;
+  list-style: none;
 }
-.hero__proof-list strong {
+.hero__proof-list-stack li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.hero__proof-list-stack li:last-child { border-bottom: none; }
+.hero__proof-list-stack strong {
   color: var(--accent);
+  font-weight: 700;
+}
+.hero__proof-coda {
+  margin-top: 14px !important;
+  padding: 16px 20px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+  color: var(--text-soft) !important;
+}
+.hero__proof-coda strong {
+  color: var(--text);
   font-weight: 700;
 }
 
