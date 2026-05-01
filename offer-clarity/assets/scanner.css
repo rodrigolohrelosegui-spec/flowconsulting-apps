@@ -21,6 +21,41 @@
   --red: #ff5e5e;
 }
 
+/* ============================================================
+   GLOBAL OVERRIDES — kill italics + serif inherited from styles.css
+   ============================================================ */
+.view-result, .view-result * {
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif !important;
+  font-style: normal !important;
+}
+.view-result em,
+.view-result i {
+  font-style: normal !important;
+  font-family: inherit !important;
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+
+/* ---------- Executive summary (replaces .result__phase usage) ---------- */
+.exec-summary {
+  margin-top: 12px;
+  margin-bottom: 28px;
+}
+.exec-summary p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0 0 12px 0;
+  font-family: 'Inter', sans-serif !important;
+  font-style: normal !important;
+}
+.exec-summary p:first-child {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+.exec-summary p:last-child { margin-bottom: 0; }
+
 /* ---------- Hero proof ---------- */
 .hero__proof {
   margin-top: 36px;
@@ -121,6 +156,17 @@
 }
 .question__counter.is-warning { color: var(--amber); }
 .question__counter.is-error { color: var(--red); }
+
+.question__error {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(255, 94, 94, 0.1);
+  border-left: 3px solid var(--red);
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ffb3b3;
+}
 
 /* ---------- Single choice (rectangular) ---------- */
 .question__choices {

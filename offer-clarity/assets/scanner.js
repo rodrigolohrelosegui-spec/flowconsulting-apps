@@ -11,7 +11,7 @@
   /* --------- Config --------- */
   const CFG = {
     WEBHOOK: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/offer-clarity',
-    URL_DISCOVERY: 'https://api.leadconnectorhq.com/widget/bookings/flowconsulting/discovery',
+    URL_DISCOVERY: 'https://calendly.com/contacto-flowconsulting/llamada-de-exploracion-flow-consulting?utm_source=offer-clarity-scanner&utm_id=lm-offer-clarity',
     QUESTIONS_PATH: './assets/questions.json',
     STORAGE_KEY: 'fc_offer_clarity_state_v2',
     REQUEST_TIMEOUT_MS: 120000,
@@ -147,18 +147,34 @@
     ta.maxLength = q.max_chars || 2000;
     ta.value = state.answers[q.id] || '';
 
+    const minChars = q.min_chars || 0;
+    const maxChars = q.max_chars || 2000;
+
+    // Counter with min indicator visible from the start
     const counter = document.createElement('div');
     counter.className = 'question__counter';
+
+    // Inline error message (shown below textarea when validation fails)
+    const errMsg = document.createElement('div');
+    errMsg.className = 'question__error';
+    errMsg.setAttribute('role', 'alert');
+    errMsg.setAttribute('aria-live', 'polite');
+    errMsg.hidden = true;
+
     const updateCounter = () => {
       const len = ta.value.length;
-      counter.textContent = `${len} / ${q.max_chars || 2000}`;
-      counter.classList.toggle('is-warning', q.required && len > 0 && len < (q.min_chars || 0));
-      counter.classList.toggle('is-error', len > (q.max_chars || 2000) - 50);
+      const minHint = minChars > 0 ? ` · mínimo ${minChars}` : '';
+      counter.textContent = `${len} / ${maxChars}${minHint}`;
+      counter.classList.toggle('is-warning', minChars > 0 && len > 0 && len < minChars);
+      counter.classList.toggle('is-error', len > maxChars - 50);
+      // Hide error message as soon as user types past minimum
+      if (len >= minChars && !errMsg.hidden) errMsg.hidden = true;
     };
     ta.addEventListener('input', updateCounter);
     updateCounter();
 
     wrap.appendChild(ta);
+    wrap.appendChild(errMsg);
     wrap.appendChild(counter);
 
     const btnWrap = document.createElement('div');
@@ -168,10 +184,17 @@
     btn.textContent = 'Continuar';
     btn.addEventListener('click', () => {
       const v = ta.value.trim();
-      if (q.required && v.length < (q.min_chars || 1)) {
+      if (q.required && v.length < Math.max(minChars, 1)) {
         ta.focus();
         ta.classList.add('is-invalid');
-        setTimeout(() => ta.classList.remove('is-invalid'), 2000);
+        const need = Math.max(minChars, 1);
+        if (minChars > 0) {
+          errMsg.textContent = `Necesito al menos ${need} caracteres para que el análisis sea útil. Llevás ${v.length}.`;
+        } else {
+          errMsg.textContent = `Esta respuesta es obligatoria. Si no la tenés, no podemos analizarla.`;
+        }
+        errMsg.hidden = false;
+        setTimeout(() => ta.classList.remove('is-invalid'), 1500);
         return;
       }
       state.answers[q.id] = v;
@@ -610,12 +633,38 @@
     });
   }
 
+  // Render text as short paragraphs (Isra Bravo style: 1-2 lines max).
+  // Splits by double newlines OR single newlines OR sentence boundaries when
+  // a "block" exceeds 22 words. Forces short visual paragraphs even if the
+  // model returns prose without enough line breaks.
   function textToParagraphs(s) {
     if (!s) return '';
-    // Split by double newlines (paragraphs) and single newlines (line breaks)
-    return String(s).split(/\n\n+/).map(p =>
-      `<p>${escapeHtml(p.trim()).replace(/\n/g, '<br>')}</p>`
-    ).join('');
+    const raw = String(s).trim();
+    // Step 1: split by double or single newlines
+    let chunks = raw.split(/\n+/).map(c => c.trim()).filter(Boolean);
+    // Step 2: for each chunk longer than ~22 words, split by sentence
+    const out = [];
+    chunks.forEach(c => {
+      const words = c.split(/\s+/).length;
+      if (words <= 22) { out.push(c); return; }
+      // Split by ". " keeping period. Also split by "? " and "! "
+      const sentences = c.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [c];
+      let buf = '';
+      sentences.forEach(sent => {
+        const trimmed = sent.trim();
+        if (!trimmed) return;
+        const bufWords = buf ? buf.split(/\s+/).length : 0;
+        const sentWords = trimmed.split(/\s+/).length;
+        if (bufWords + sentWords <= 22 && buf) {
+          buf = buf + ' ' + trimmed;
+        } else {
+          if (buf) out.push(buf.trim());
+          buf = trimmed;
+        }
+      });
+      if (buf) out.push(buf.trim());
+    });
+    return out.map(p => `<p>${escapeHtml(p)}</p>`).join('');
   }
 
   function escapeHtml(s) {
