@@ -1,0 +1,88 @@
+{
+  "diagnostic_id": "offer_clarity_scanner_v1",
+  "version": "1.0",
+  "last_updated": "2026-04-30",
+  "name": "Offer Clarity Scanner · Flow Consulting",
+  "description": "Pega tu copy real. La IA scorea 4 pilares narrativos y te dice qué frase está saboteando tu conversión.",
+  "questions": [
+    {
+      "id": "Q1",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 30,
+      "max_chars": 500,
+      "label": "Tu bio de Instagram (o LinkedIn)",
+      "hint": "Pegá la bio EXACTA, tal como está hoy. No la edites.",
+      "placeholder": "Pegá la bio sin pulirla. Ejemplo: 'Ayudo a coaches a vender high ticket sin webinars | DM para aplicar'. Si tiene typos o suena rara, pegala así."
+    },
+    {
+      "id": "Q2",
+      "type": "textarea",
+      "required": false,
+      "min_chars": 0,
+      "max_chars": 1500,
+      "label": "Titular de tu landing principal + 3 bullets clave",
+      "hint": "Si tenés landing, pegá el headline + los 3 bullets/promesas más fuertes. Si no tenés landing, dejalo vacío.",
+      "placeholder": "Headline: La forma más rápida de duplicar tu agencia sin contratar más gente.\n\n• Sistema probado con 47 agencias\n• Sin ads pagados\n• Resultados en 60 días"
+    },
+    {
+      "id": "Q3",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 50,
+      "max_chars": 1000,
+      "label": "Tu oferta principal — qué vendés, a quién, cuánto cuesta, qué transformación prometés",
+      "hint": "En palabras propias. No copies tu landing — describime tu oferta como se la describirías a un amigo.",
+      "placeholder": "En palabras propias, sin landing copy. Ejemplo: 'Programa para coaches facturando $5-15K que quieren saltar a $30K. 12 semanas, $4K. Salen con la oferta clara y los primeros clientes high-ticket'."
+    },
+    {
+      "id": "Q4",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 5,
+      "max_chars": 500,
+      "label": "Tu mecanismo único — ¿tenés UN nombre / UN sistema propio que diferencia? ¿Cuál?",
+      "hint": "Ejemplo: 'Sistema A³', 'Infinite Flow', 'Funnel Minimalista'. Si no tenés todavía, escribí: 'no tengo todavía'.",
+      "placeholder": "El Funnel Minimalista — 3 piezas conectadas: contenido orgánico, DM script, y una llamada. Sin ads, sin webinar, sin VSL."
+    },
+    {
+      "id": "Q5",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 5,
+      "max_chars": 1000,
+      "label": "Tu prueba — ¿qué casos / números / nombres específicos podés citar?",
+      "hint": "Cuanto más específico, mejor. Si no tenés todavía, escribí: 'ninguna aún' (eso ya es un dato).",
+      "placeholder": "Tengo 3 casos: Maria duplicó de $8K a $16K en 90 días. Carlos cerró 4 clientes high-ticket en 30 días. Ana lanzó su primer programa y vendió 12 plazas a $1,500."
+    },
+    {
+      "id": "Q6",
+      "type": "single_choice_metadata",
+      "scoring_role": "metadata_revenue",
+      "required": true,
+      "label": "¿Cuánto factura tu negocio al mes (aproximado)?",
+      "hint": "Sé honesto. Esto calibra el análisis. Nadie va a juzgarte por la cifra.",
+      "options": [
+        { "value": "A", "label": "Menos de $2.5K USD / mes (validando)" },
+        { "value": "B", "label": "$2.5K - $15K / mes" },
+        { "value": "C", "label": "$15K - $50K / mes" },
+        { "value": "D", "label": "$50K - $200K / mes" },
+        { "value": "E", "label": "Más de $200K / mes" }
+      ]
+    },
+    {
+      "id": "Q7",
+      "type": "single_choice_metadata",
+      "scoring_role": "metadata_tenure",
+      "required": true,
+      "label": "¿Hace cuánto trabajás en este negocio?",
+      "hint": "Calibra urgencia y el caso análogo más cercano a tu momento.",
+      "options": [
+        { "value": "A", "label": "Menos de 6 meses" },
+        { "value": "B", "label": "6 meses a 2 años" },
+        { "value": "C", "label": "2 a 5 años" },
+        { "value": "D", "label": "Más de 5 años" }
+      ]
+    }
+  ]
+}

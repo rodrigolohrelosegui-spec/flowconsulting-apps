@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FAFAFA" />
+
+  <title>{{LM_TITLE}} · Flow Consulting</title>
+  <meta name="description" content="{{LM_META_DESCRIPTION}}" />
+  <meta name="author" content="Rodrigo Lohr · Flow Consulting" />
+  <link rel="canonical" href="https://apps.flowconsulting.co/{{LM_SLUG}}/" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A1628'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Inter,sans-serif' font-weight='900' font-size='20' fill='%23D9FC67'%3EF%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png" />
+
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_419" />
+  <meta property="og:site_name" content="Flow Consulting" />
+  <meta property="og:title" content="{{LM_TITLE}} · Flow Consulting" />
+  <meta property="og:description" content="{{LM_OG_DESCRIPTION}}" />
+  <meta property="og:url" content="https://apps.flowconsulting.co/{{LM_SLUG}}/" />
+  <meta property="og:image" content="https://apps.flowconsulting.co/{{LM_SLUG}}/assets/og-image.png" />
+  <meta property="og:image:secure_url" content="https://apps.flowconsulting.co/{{LM_SLUG}}/assets/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="{{LM_OG_IMAGE_ALT}}" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{LM_TITLE}} · Flow Consulting" />
+  <meta name="twitter:description" content="{{LM_OG_DESCRIPTION}}" />
+  <meta name="twitter:image" content="https://apps.flowconsulting.co/{{LM_SLUG}}/assets/og-image.png" />
+  <meta name="twitter:image:alt" content="{{LM_OG_IMAGE_ALT}}" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./assets/styles.css?v=1.1" />
+
+  <!-- Analytics placeholders · descomenta el que prefieras y reemplaza ID -->
+  <!-- GA4:
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+  </script>
+  -->
+  <!-- Plausible:
+  <script defer data-domain="apps.flowconsulting.co" src="https://plausible.io/js/script.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  -->
+</head>
+
+<body class="theme-dark">
+  <div class="app">
+    <!-- Progress bar (hidden on landing + result) -->
+    <div class="progress-wrap" id="progressWrap" hidden>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">Pregunta 1 de 8</div>
+    </div>
+
+    <!-- ============ VIEW: LANDING ============ -->
+    <section class="view view-landing is-active" data-view="landing">
+      <div class="container">
+        <div class="hero">
+          <span class="eyebrow hero__kicker">{{LM_EYEBROW}}</span>
+
+          <h1 class="hero__title">
+            {{LM_HERO_TITLE_PART_1}} <span class="mark">{{LM_HERO_TITLE_HIGHLIGHT}}</span>{{LM_HERO_TITLE_PART_2}}
+          </h1>
+
+          <p class="lead hero__subtitle">
+            {{LM_HERO_SUBTITLE}}
+          </p>
+
+          <div class="hero__cta">
+            <button class="btn btn--primary btn--lg" id="btnStart">
+              {{LM_CTA_START}}
+              <span aria-hidden="true">→</span>
+            </button>
+            <span class="hero__micro">{{LM_CTA_MICRO}}</span>
+          </div>
+
+          <div class="hero__meta">
+            <div class="hero__meta-item">
+              <span class="label">Duración</span>
+              <span class="value">{{LM_DURATION}}</span>
+            </div>
+            <div class="hero__meta-item">
+              <span class="label">Resultado</span>
+              <span class="value">{{LM_RESULT_TYPE}}</span>
+            </div>
+            <div class="hero__meta-item">
+              <span class="label">Entrega</span>
+              <span class="value">Inmediata + email</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: QUESTION (dinámica) ============ -->
+    <section class="view view-question" data-view="question">
+      <div class="container">
+        <div class="question" id="questionSlot">
+          <!-- inyectado por JS -->
+        </div>
+
+        <div class="nav">
+          <button class="nav__back" id="btnBack" type="button" disabled>← Atrás</button>
+          <span class="muted" id="questionCounter"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: CAPTURE (email + name) ============ -->
+    <section class="view view-capture" data-view="capture">
+      <div class="container">
+        <div class="capture">
+          <span class="eyebrow">Último paso</span>
+          <h2 class="capture__title" id="captureTitle">¿A dónde te envío tu diagnóstico?</h2>
+          <p class="capture__subtitle" id="captureSubtitle">
+            Tu resultado se muestra en esta pantalla ahora mismo. Además te envío por email tu Arsenal IA como bonus.
+          </p>
+
+          <form class="form" id="captureForm" novalidate>
+            <div class="field">
+              <label class="field__label" for="fieldName">Nombre</label>
+              <input class="field__input" type="text" id="fieldName" name="name" autocomplete="given-name" placeholder="Tu nombre" required />
+              <div class="field__error" id="errName" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="fieldEmail">Email</label>
+              <input class="field__input" type="email" id="fieldEmail" name="email" autocomplete="email" placeholder="tu@email.com" required />
+              <div class="field__error" id="errEmail" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="field field--optional" id="fieldBusinessWrap">
+              <label class="field__label" for="fieldBusiness">
+                Cuéntame algo de tu negocio <span class="field__optional">opcional · para afinar tu diagnóstico</span>
+              </label>
+              <textarea
+                class="field__input field__textarea"
+                id="fieldBusiness"
+                name="business_context"
+                placeholder="Por ejemplo: a qué te dedicas, qué dolor te está quitando el sueño, qué intentaste con IA que no funcionó, o cualquier contexto que me ayude a leerte mejor."
+                maxlength="500"
+                rows="4"></textarea>
+              <div class="field__counter"><span id="businessCount">0</span> / 500</div>
+            </div>
+
+            <button class="btn btn--primary btn--lg btn--block capture__cta" type="submit" id="btnSubmit">
+              Ver mi diagnóstico
+            </button>
+
+            <p class="capture__legal">
+              Al enviar aceptas recibir correos de Flow Consulting con el resultado de tu diagnóstico y contenido relacionado. Puedes darte de baja en cualquier momento.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: LOADING (ICP ideal) ============ -->
+    <section class="view view-loading" data-view="loading">
+      <div class="loader2">
+        <!-- Canvas de dots animados de fondo (motion graphics) -->
+        <div class="dots-canvas" id="dotsCanvas" aria-hidden="true"></div>
+
+        <!-- Contenido por encima -->
+        <div class="loader2__inner container">
+          <div class="percent">
+            <span class="percent__num" id="percentNum">0</span><span class="percent__sign">%</span>
+          </div>
+
+          <div class="progress-linear" aria-hidden="true">
+            <div class="progress-linear__fill" id="progressLinearFill"></div>
+          </div>
+
+          <div class="loader2__title">Analizando tu diagnóstico</div>
+          <div class="loader2__step" id="loaderStep">Aplicando scoring…</div>
+
+          <div class="loader2__ticks" id="loaderTicks">
+            <span class="tick is-active" data-tick="0"></span>
+            <span class="tick" data-tick="1"></span>
+            <span class="tick" data-tick="2"></span>
+            <span class="tick" data-tick="3"></span>
+            <span class="tick" data-tick="4"></span>
+            <span class="tick" data-tick="5"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: ERROR ============ -->
+    <section class="view view-error" data-view="error">
+      <div class="container">
+        <div class="error-box">
+          <h3>Algo se trabó del lado nuestro</h3>
+          <p id="errorMsg">No pudimos procesar tu diagnóstico en este momento.</p>
+          <button class="btn btn--primary" id="btnRetry" type="button">Reintentar</button>
+          <p class="muted" style="margin-top:16px">Si el problema persiste, escríbeme a <strong>rodrigo@flowconsulting.co</strong> con tu email y te lo mando personalmente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: RESULT (ICP ideal) ============ -->
+    <section class="view view-result" data-view="result">
+      <div class="container">
+        <!-- Bloque 1 · Diagnóstico personalizado -->
+        <div class="result__kicker">Tu arquetipo</div>
+        <h1 class="result__archetype" id="rArchetype"></h1>
+        <p class="result__phase" id="rPhase"></p>
+
+        <div class="result__block">
+          <div class="result__block-title">Tu lectura diagnóstica</div>
+          <p class="result__lectura" id="rLectura"></p>
+        </div>
+
+        <div class="result__block">
+          <div class="result__block-title">Tu fase en la Fórmula A³</div>
+          <div class="a3-phases" id="rA3Phases">
+            <div class="a3-phase" data-phase="pre">
+              <div class="a3-phase__dot"></div>
+              <div class="a3-phase__label">Pre-A³</div>
+              <div class="a3-phase__hint">Sin instalar</div>
+            </div>
+            <div class="a3-phase__line"></div>
+            <div class="a3-phase" data-phase="1">
+              <div class="a3-phase__dot"></div>
+              <div class="a3-phase__label">Amplifica</div>
+              <div class="a3-phase__hint">Fase 1</div>
+            </div>
+            <div class="a3-phase__line"></div>
+            <div class="a3-phase" data-phase="2">
+              <div class="a3-phase__dot"></div>
+              <div class="a3-phase__label">Automatiza</div>
+              <div class="a3-phase__hint">Fase 2</div>
+            </div>
+            <div class="a3-phase__line"></div>
+            <div class="a3-phase" data-phase="3">
+              <div class="a3-phase__dot"></div>
+              <div class="a3-phase__label">Acelera</div>
+              <div class="a3-phase__hint">Fase 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result__block">
+          <div class="result__block-title">Tu Alfa del Piloto restante</div>
+          <div class="alfa">
+            <span class="alfa__number" id="rAlfaNum">—</span>
+            <span class="alfa__unit">meses</span>
+          </div>
+          <p class="alfa__meta" id="rAlfaMeta">antes de que tu ventaja caduque</p>
+        </div>
+
+        <div class="result__block">
+          <div class="result__block-title">Los 3 riesgos de quedarte acá</div>
+          <ol class="result-list" id="rRiesgos"></ol>
+        </div>
+
+        <div class="result__block">
+          <div class="result__block-title">Qué mover</div>
+          <ol class="result-list" id="rAcciones"></ol>
+        </div>
+
+        <!-- Bloque 2 · Puente -->
+        <div class="bridge">
+          <h2>Ya sabes dónde estás. Ahora te muestro el mapa completo.</h2>
+          <p>Tu diagnóstico te dijo qué fase eres y qué 3 cosas te frenan. Pero la mayoría falla al implementar porque instala los pasos en el orden equivocado — <strong>Automatiza antes de Amplificar, o Acelera sin Automatizar</strong>. En los 27 minutos que siguen te muestro el orden exacto que usan empresarios LATAM que están en Fase 3 hoy.</p>
+        </div>
+
+        <!-- Bloque 3 · VSL Amplifica -->
+        <div class="vsl-block">
+          <span class="video-tag">
+            <span class="video-tag__dot" aria-hidden="true"></span>
+            Paso 1 · 27 minutos
+          </span>
+
+          <div class="video-wrap" id="videoWrap">
+            <video
+              id="vslPlayer"
+              class="video-el"
+              playsinline
+              preload="metadata"
+              src="https://assets.cdn.filesafe.space/tpTv19VPVM7CtzKtBFp2/media/69e3c0cf38381eafa859b85d.mp4">
+              Tu navegador no soporta video HTML5.
+            </video>
+
+            <div class="video-overlay" id="videoOverlay" role="button" tabindex="0" aria-label="Reproducir video">
+              <div class="video-play-btn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div class="video-overlay__title">Dale play al video</div>
+              <div class="video-overlay__sub">27 minutos · Activa el sonido</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA final -->
+        <div class="cta-final" id="ctaFinal">
+          <h3 id="ctaFinalTitle">7 de 10 empresarios instalan la Fórmula A³ en desorden y vuelven a empezar.</h3>
+          <p id="ctaFinalText">En Amplifica corregimos las 2 trampas que te hacen reiniciar: el paso que saltaste en Fase 1 y el que instalaste antes de tiempo. Semana a semana, en vivo.</p>
+          <a class="btn btn--primary btn--lg" id="ctaFinalBtn" href="https://www.flowconsulting.co/amplifica" target="_blank" rel="noopener">Entrar a Amplifica →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      Flow Consulting · <a href="https://www.flowconsulting.co" target="_blank" rel="noopener">flowconsulting.co</a>
+    </footer>
+  </div>
+
+  <script src="./assets/quiz.js?v=1.1"></script>
+</body>
+</html>

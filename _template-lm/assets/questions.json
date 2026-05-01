@@ -1,0 +1,362 @@
+{
+  "diagnostic_id": "diagnostico_del_piloto_v1",
+  "version": "1.1",
+  "last_updated": "2026-04-21",
+  "routes": {
+    "dueno": "Q1.A",
+    "directivo": "Q1.B",
+    "individual": "Q1.C"
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "role": "all",
+      "type": "single_choice_routing",
+      "text": "¿Desde dónde estás respondiendo este diagnóstico?",
+      "options": [
+        { "value": "A", "label": "Dueño, socio o fundador", "points": 0, "route": "dueno" },
+        { "value": "B", "label": "Directivo de área en empresa ajena", "points": 0, "route": "directivo" },
+        { "value": "C", "label": "Empleado individual o solopreneur (sin empresa propia todavía)", "points": 0, "route": "individual" }
+      ]
+    },
+    {
+      "id": "Q2",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_metadata",
+      "scoring_role": "metadata_revenue",
+      "text_dueno": "¿Cuánto factura tu empresa al mes (aproximado)?",
+      "text_directivo": "¿Cuánto factura la empresa donde diriges tu área (aproximado)?",
+      "text_individual": "¿Cuánto generas tú al mes como profesional (sueldo o facturación propia)?",
+      "options_dueno": [
+        { "value": "A", "label": "Menos de $10K USD / mes", "points": 0 },
+        { "value": "B", "label": "$10K a $50K / mes", "points": 1 },
+        { "value": "C", "label": "$50K a $200K / mes", "points": 2 },
+        { "value": "D", "label": "Más de $200K / mes", "points": 3 }
+      ],
+      "options_directivo": [
+        { "value": "A", "label": "Menos de $100K / mes", "points": 0 },
+        { "value": "B", "label": "$100K a $500K / mes", "points": 1 },
+        { "value": "C", "label": "$500K a $2M / mes", "points": 2 },
+        { "value": "D", "label": "Más de $2M / mes", "points": 3 }
+      ],
+      "options_individual": [
+        { "value": "A", "label": "Menos de $3K / mes", "points": 0 },
+        { "value": "B", "label": "$3K a $10K / mes", "points": 1 },
+        { "value": "C", "label": "$10K a $30K / mes", "points": 2 },
+        { "value": "D", "label": "Más de $30K / mes", "points": 3 }
+      ]
+    },
+    {
+      "id": "Q3",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice",
+      "scoring_role": "size",
+      "text_dueno": "¿Cuántas personas trabajan en tu empresa hoy (tú incluido)?",
+      "text_directivo": "¿Cuántas personas están bajo tu dirección directa hoy?",
+      "text_individual": "¿Cuánta gente trabaja contigo en el día a día (equipo directo o colegas cercanos)?",
+      "options_dueno": [
+        { "value": "A", "label": "Solo yo · sin equipo", "points": 0 },
+        { "value": "B", "label": "Entre 2 y 10 personas", "points": 1 },
+        { "value": "C", "label": "Entre 11 y 50 personas", "points": 2 },
+        { "value": "D", "label": "Más de 50 personas", "points": 3 }
+      ],
+      "options_directivo": [
+        { "value": "A", "label": "Líder sin equipo directo todavía", "points": 0 },
+        { "value": "B", "label": "2 a 5 personas", "points": 1 },
+        { "value": "C", "label": "6 a 15 personas", "points": 2 },
+        { "value": "D", "label": "Más de 15 personas", "points": 3 }
+      ],
+      "options_individual": [
+        { "value": "A", "label": "Solo yo · trabajo solo", "points": 0 },
+        { "value": "B", "label": "Colaboro con 2 a 5 personas cercanas", "points": 1 },
+        { "value": "C", "label": "Parte de un equipo de 6 a 15", "points": 2 },
+        { "value": "D", "label": "Parte de un equipo de más de 15", "points": 3 }
+      ]
+    },
+    {
+      "id": "Q4",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_segmentation",
+      "points": 0,
+      "text_dueno": "Tu industria define qué tan rápido caduca tu ventaja. ¿En cuál operas?",
+      "text_individual": "Tu sector define qué tan rápido caduca tu ventaja. ¿En cuál te desempeñas?",
+      "options_individual": [
+        { "value": "Servicios profesionales", "label": "Servicios profesionales" },
+        { "value": "Marketing/agencia", "label": "Marketing / agencia / creatividad" },
+        { "value": "E-commerce/retail", "label": "E-commerce / retail" },
+        { "value": "Manufactura/distribución", "label": "Manufactura / distribución" },
+        { "value": "Salud", "label": "Salud" },
+        { "value": "Educación", "label": "Educación" },
+        { "value": "Construcción/inmobiliaria", "label": "Construcción / inmobiliaria" },
+        { "value": "Tecnología/SaaS", "label": "Tecnología / software / SaaS" },
+        { "value": "Otra", "label": "Otra" }
+      ],
+      "options_dueno": [
+        { "value": "Servicios profesionales", "label": "Servicios profesionales" },
+        { "value": "Marketing/agencia", "label": "Marketing / agencia" },
+        { "value": "E-commerce/retail", "label": "E-commerce / retail" },
+        { "value": "Manufactura/distribución", "label": "Manufactura / distribución" },
+        { "value": "Salud", "label": "Salud" },
+        { "value": "Educación", "label": "Educación" },
+        { "value": "Construcción/inmobiliaria", "label": "Construcción / inmobiliaria" },
+        { "value": "Tecnología/SaaS", "label": "Tecnología / SaaS" },
+        { "value": "Otra", "label": "Otra" }
+      ],
+      "text_directivo": "¿Qué área diriges?",
+      "options_directivo": [
+        { "value": "Marketing", "label": "Marketing" },
+        { "value": "Ventas", "label": "Ventas" },
+        { "value": "Operaciones", "label": "Operaciones" },
+        { "value": "Finanzas", "label": "Finanzas" },
+        { "value": "Producto/Tecnología", "label": "Producto / Tecnología" },
+        { "value": "RRHH", "label": "RRHH" },
+        { "value": "Atención al cliente", "label": "Atención al cliente" },
+        { "value": "Otra", "label": "Otra" }
+      ]
+    },
+    {
+      "id": "Q5",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_anchor",
+      "scoring_role": "anchor",
+      "text_dueno": "Siendo honesto contigo mismo, ¿cuál es tu situación real con IA en tu empresa hoy?",
+      "text_directivo": "Siendo honesto contigo mismo, ¿cuál es la situación real con IA en tu área hoy?",
+      "text_individual": "Siendo honesto contigo mismo, ¿cuál es tu situación real con IA hoy en tu trabajo del día a día?",
+      "options": [
+        { "value": "A", "label": "Casi no uso IA", "points": 0, "phase": "pre_a3" },
+        { "value": "B", "label": "Uso IA todos los días pero el negocio opera igual", "points": 1, "phase": "fase_1_amplifica" },
+        { "value": "C", "label": "Al menos 1 sistema produce algo sin mi intervención", "points": 2, "phase": "fase_2_inicial" },
+        { "value": "D", "label": "Varios sistemas operan. Decisiones operativas ya no pasan por mí", "points": 3, "phase": "fase_2_solida" },
+        { "value": "E", "label": "Ventaja imposible de copiar gracias a sistemas que se retroalimentan", "points": 4, "phase": "fase_3_acelera" }
+      ]
+    },
+    {
+      "id": "Q6",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_validator",
+      "scoring_role": "validator",
+      "text_dueno": "Si mañana desapareces 30 días sin tocar WhatsApp, email ni llamadas · ¿qué pasa con tu empresa?",
+      "text_directivo": "Si mañana desapareces 30 días sin estar disponible · ¿qué pasa con tu área?",
+      "text_individual": "Si mañana desapareces 30 días sin tocar nada del trabajo · ¿qué pasa con lo que haces?",
+      "options": [
+        { "value": "A", "label": "Todo se rompe. Operativa, clientes, decisiones · no sé si haya empresa al volver.", "points": 0, "dependency": "extreme" },
+        { "value": "B", "label": "Hay caos. Sobrevive pero vuelvo a un mes de errores y fuegos que tengo que apagar.", "points": 1, "dependency": "high" },
+        { "value": "C", "label": "La operación sigue estable · pero no se toma ninguna decisión nueva. No avanza.", "points": 2, "dependency": "medium" },
+        { "value": "D", "label": "Sigue creciendo sin mí. Las decisiones las toman sistemas o personas.", "points": 3, "dependency": "low" }
+      ]
+    },
+    {
+      "id": "Q7",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_metadata",
+      "scoring_role": "metadata_bottleneck",
+      "text_dueno": "¿Cuál es el mayor cuello de botella que hoy frena el crecimiento de tu empresa?",
+      "text_directivo": "¿Cuál es el mayor cuello de botella que hoy frena el crecimiento de tu área?",
+      "text_individual": "¿Cuál es el mayor cuello de botella que hoy frena tu crecimiento profesional?",
+      "options_dueno": [
+        { "value": "leads", "label": "Conseguir suficientes leads o prospectos calificados" },
+        { "value": "ventas", "label": "Cerrar ventas · convertir prospectos en clientes" },
+        { "value": "delivery", "label": "Entregar bien al cliente sin quemarme" },
+        { "value": "equipo", "label": "Equipo · contratar y gestionar personas" },
+        { "value": "fundador", "label": "Yo mismo · todo depende de mí" }
+      ],
+      "options_directivo": [
+        { "value": "aprobacion", "label": "Conseguir aprobación o presupuesto para iniciativas" },
+        { "value": "resultados", "label": "Mostrar resultados a la junta o al C-level" },
+        { "value": "equipo", "label": "Equipo · contratar o coordinar personas" },
+        { "value": "burnout", "label": "Cumplir sin trabajar 60 horas por semana" },
+        { "value": "fundador", "label": "Yo mismo · todo depende de mí" }
+      ],
+      "options_individual": [
+        { "value": "visibilidad", "label": "Conseguir visibilidad · que me vean en mi sector" },
+        { "value": "primer_cliente", "label": "Cerrar mi primer cliente (o el siguiente ascenso)" },
+        { "value": "burnout", "label": "Cumplir sin trabajar de más" },
+        { "value": "ayuda", "label": "Encontrar a quién pedirle ayuda o mentoría" },
+        { "value": "fundador", "label": "Yo mismo · todo depende de mí" }
+      ]
+    },
+    {
+      "id": "Q8",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_modifier",
+      "scoring_role": "modifier_shadow_ai",
+      "text_dueno": "Si ahora mismo caminaras por los escritorios de tu equipo, ¿cuántos tienen IA abierta sin que tú la hayas autorizado o sugerido?",
+      "text_directivo": "Si ahora mismo caminaras por los escritorios de tu equipo, ¿cuántos tienen IA abierta sin que tú la hayas autorizado o sugerido?",
+      "text_individual": "¿Qué tanto sabes de cómo otros en tu sector o tu empresa usan IA para su trabajo?",
+      "options_dueno": [
+        { "value": "A", "label": "Probablemente varios · casi no lo sé", "points": 0, "shadow_ai_alert": true },
+        { "value": "B", "label": "Sé que algunos la usan por su cuenta, sin estándar", "points": 1, "shadow_ai_alert": true },
+        { "value": "C", "label": "Está en la conversación del equipo, la mayoría sabe que puede usarla", "points": 2, "shadow_ai_alert": false },
+        { "value": "D", "label": "Tengo estrategia clara, sé exactamente quién usa qué y para qué", "points": 3, "shadow_ai_alert": false },
+        { "value": "E", "label": "N/A · no tengo equipo bajo mi responsabilidad", "points": 2, "shadow_ai_alert": false }
+      ],
+      "options_individual": [
+        { "value": "A", "label": "Casi nada · la mayoría no comparte cómo lo usa", "points": 0, "shadow_ai_alert": true },
+        { "value": "B", "label": "Sé que algunos colegas la usan pero no me cuentan mucho", "points": 1, "shadow_ai_alert": true },
+        { "value": "C", "label": "Hablo con colegas sobre cómo la usan cada cual", "points": 2, "shadow_ai_alert": false },
+        { "value": "D", "label": "Tengo rutinas claras y sé exactamente dónde me ayuda y dónde no", "points": 3, "shadow_ai_alert": false }
+      ]
+    },
+    {
+      "id": "Q9",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_modifier",
+      "scoring_role": "modifier_stack_nonlinear",
+      "text_dueno": "De las herramientas de IA que pagas cada mes, ¿cuántas tu equipo abre al menos 3 veces por semana?",
+      "text_directivo": "De las herramientas de IA que pagas cada mes, ¿cuántas tu equipo abre al menos 3 veces por semana?",
+      "text_individual": "De las herramientas de IA que pagas cada mes, ¿cuántas abres tú al menos 3 veces por semana?",
+      "options": [
+        { "value": "A", "label": "Casi ninguna · pago por cosas que casi no uso", "points": 0, "stack_alert": "underutilization" },
+        { "value": "B", "label": "1 o 2 herramientas están realmente vivas", "points": 2, "stack_alert": null },
+        { "value": "C", "label": "3 a 5 herramientas uso regularmente", "points": 1, "stack_alert": "overspend" },
+        { "value": "D", "label": "Todas las uso · tengo integración real entre ellas", "points": 0, "stack_alert": "overspend_critical" }
+      ]
+    },
+    {
+      "id": "Q10",
+      "role": "dueno|directivo|individual",
+      "type": "single_choice_modifier",
+      "scoring_role": "modifier_urgency",
+      "text": "Si pudieras resolver bien el tema IA en los próximos 90 días, ¿qué tan importante sería?",
+      "options": [
+        { "value": "A", "label": "Crítico. Pierdo ventaja competitiva cada trimestre", "points": 3, "urgency": "critical" },
+        { "value": "B", "label": "Muy importante. Es el momento", "points": 2, "urgency": "high" },
+        { "value": "C", "label": "Relevante pero no urgente", "points": 1, "urgency": "medium" },
+        { "value": "D", "label": "No es prioridad ahora", "points": 0, "urgency": "low" }
+      ]
+    }
+  ],
+
+  "scoring_engine": {
+    "step_1_anchor_map": {
+      "0": { "archetype_dueno": "el_mejor_empleado", "archetype_directivo": "el_experimentador_solo" },
+      "1": { "archetype_dueno": "el_amplificado_en_neutro", "archetype_directivo": "el_lider_silencioso" },
+      "2": { "archetype_dueno": "el_disenador_de_sistemas", "archetype_directivo": "el_implementador_del_area" },
+      "3": { "archetype_dueno": "el_disenador_de_sistemas", "archetype_directivo": "el_implementador_del_area" },
+      "4": { "archetype_dueno": "el_empresario_exponencial", "archetype_directivo": "el_estratega_de_ia" }
+    },
+    "archetype_levels": [
+      "el_mejor_empleado",
+      "el_experimentador_solo",
+      "el_amplificado_en_neutro",
+      "el_lider_silencioso",
+      "el_disenador_de_sistemas",
+      "el_implementador_del_area",
+      "el_empresario_exponencial",
+      "el_estratega_de_ia"
+    ],
+    "step_2_validator_rules": [
+      {
+        "condition": "q5_points >= 2 && q6_points === 0",
+        "action": "degrade_archetype_one_level",
+        "note": "Prospecto se sobrevalora. La dependencia extrema contradice la fase declarada."
+      },
+      {
+        "condition": "q5_points <= 1 && q6_points >= 2",
+        "action": "keep_archetype_add_upside_note",
+        "note": "Prospecto se subvalora. Output menciona: 'tienes más de lo que crees'."
+      }
+    ]
+  },
+
+  "alfa_del_piloto": {
+    "base_months": 36,
+    "formula": "max(6, base + industry_modifier + phase_modifier + size_modifier)",
+    "industry_pace_multipliers": {
+      "Tecnología/SaaS": -12,
+      "Marketing/agencia": -8,
+      "E-commerce/retail": -6,
+      "Servicios profesionales": -2,
+      "Salud": 0,
+      "Educación": 0,
+      "Manufactura/distribución": 2,
+      "Construcción/inmobiliaria": 4,
+      "Otra": 0
+    },
+    "phase_modifier_rule": "0 si phase === 'fase_3_acelera', else -(phase_level * 2) donde phase_level = q5.points",
+    "size_modifier_rule": "+3 si Q3==D, +1 si Q3==C, 0 en otros casos · basado en personas del equipo (no revenue)"
+  },
+
+  "archetypes": {
+    "el_mejor_empleado": {
+      "nombre": "El Mejor Empleado",
+      "ruta": "dueno",
+      "fase": "Pre-A³",
+      "fase_copy": "Pre-A³. El auto apagado. Ni siquiera estás en neutro.",
+      "color": "rojo",
+      "alfa_rango_tipico": "18-30 meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": null
+    },
+    "el_amplificado_en_neutro": {
+      "nombre": "El Amplificado en Neutro",
+      "ruta": "dueno",
+      "fase": "Fase 1 · Amplifica",
+      "fase_copy": "Fase 1 · Amplifica. Estás en neutro con el motor prendido. Sientes vibrar. No avanzas.",
+      "color": "naranja",
+      "alfa_rango_tipico": "18-30 meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": null
+    },
+    "el_disenador_de_sistemas": {
+      "nombre": "El Diseñador de Sistemas",
+      "ruta": "dueno",
+      "fase": "Fase 2 · Automatiza",
+      "fase_copy": "Fase 2 · Automatiza. Metiste la marcha. El auto jala. Pero todavía no es velocidad de crucero.",
+      "color": "amarillo",
+      "alfa_rango_tipico": "12-24 meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": "amplifica_29"
+    },
+    "el_empresario_exponencial": {
+      "nombre": "El Empresario Exponencial",
+      "ruta": "dueno",
+      "fase": "Fase 3 · Acelera",
+      "fase_copy": "Fase 3 · Acelera. Velocidad de crucero. Tu competencia se ve chica en el espejo retrovisor.",
+      "color": "verde",
+      "alfa_rango_tipico": "24-36+ meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": "discovery_call_flow_ibs"
+    },
+    "el_experimentador_solo": {
+      "nombre": "El Experimentador Solo",
+      "ruta": "directivo",
+      "fase": "Pre-A³",
+      "fase_copy": "Pre-A³. Tu área opera como hace 3 años.",
+      "color": "rojo",
+      "alfa_rango_tipico": "18-30 meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": null
+    },
+    "el_lider_silencioso": {
+      "nombre": "El Líder Silencioso",
+      "ruta": "directivo",
+      "fase": "Fase 1 · Amplifica (solo a nivel personal)",
+      "fase_copy": "Fase 1 · Amplifica, pero solo a nivel personal. Tu área está atrás de ti.",
+      "color": "naranja",
+      "alfa_rango_tipico": "18-30 meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": null
+    },
+    "el_implementador_del_area": {
+      "nombre": "El Implementador del Área",
+      "ruta": "directivo",
+      "fase": "Fase 2 · Automatiza",
+      "fase_copy": "Fase 2 · Automatiza. Tu área multiplica output sin multiplicar cabezas.",
+      "color": "amarillo",
+      "alfa_rango_tipico": "12-24 meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": "amplifica_29"
+    },
+    "el_estratega_de_ia": {
+      "nombre": "El Estratega de IA",
+      "ruta": "directivo",
+      "fase": "Fase 3 · Acelera (aplicada al área)",
+      "fase_copy": "Fase 3 · Acelera aplicada al área. Velocidad de crucero departamental.",
+      "color": "verde",
+      "alfa_rango_tipico": "24-36+ meses",
+      "cta_primary": "VSL",
+      "cta_secondary_if_urgent": "amplifica_29"
+    }
+  }
+}
