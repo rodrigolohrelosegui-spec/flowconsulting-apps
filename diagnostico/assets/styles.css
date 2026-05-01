@@ -108,7 +108,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .progress-section {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
@@ -146,7 +146,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   align-items: center;
   gap: 8px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -212,7 +212,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .hero__meta-item { display: flex; flex-direction: column; gap: 4px; }
 .hero__meta-item .label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .18em;
   text-transform: uppercase;
@@ -283,7 +283,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .question__section {
   display: inline-block;
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -431,7 +431,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   box-shadow: 0 0 0 3px var(--cyan-glow);
 }
 .field__textarea { resize: vertical; min-height: 100px; line-height: 1.5; }
-.field__counter { font-size: 11px; color: var(--on-dark-muted); text-align: right; }
+.field__counter { font-size: 12px; color: var(--on-dark-muted); text-align: right; }
 .field__counter.is-near-limit { color: #FFA94D; }
 .field__error { color: #FF7A7A; font-size: 13px; min-height: 1em; }
 .capture__legal { font-size: 12px; color: var(--on-dark-muted); margin-top: 8px; line-height: 1.5; }
@@ -539,7 +539,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .result__head { text-align: center; margin-bottom: 40px; }
 .result__kicker {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -584,7 +584,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .result__block-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -609,7 +609,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .score__label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -683,7 +683,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   font-size: 12px;
   color: var(--on-dark);
 }
-.phase__hint { font-size: 10px; color: var(--on-dark-muted); letter-spacing: .1em; text-transform: uppercase; }
+.phase__hint { font-size: 12px; color: var(--on-dark-muted); letter-spacing: .1em; text-transform: uppercase; }
 .phase__line {
   flex: 1; min-width: 12px;
   height: 2px;
@@ -825,7 +825,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   justify-content: center;
   gap: 18px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1071,7 +1071,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .costo-wrap__label {
   display: inline-block;
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1102,7 +1102,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .analog-card__label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1157,7 +1157,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   margin-top: 20px;
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1177,7 +1177,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .result__meta,
 .costo-wrap__label,
 .analog-card__label {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 /* Field counter (not uppercase) — bump to 12px */
@@ -1297,7 +1297,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 
 .scene__kicker {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1328,7 +1328,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .scene__counter-label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -1454,7 +1454,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: 100%;
   color: var(--dark);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 900;
 }
 .pchip.is-skip {
@@ -1511,7 +1511,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   opacity: 0.5;
   animation: ping 1.6s ease-out infinite;
 }
-.case-card__sub { font-size: 9px; letter-spacing: .14em; color: var(--on-dark-muted); margin-top: 2px; font-weight: 600; }
+.case-card__sub { font-size: 12px; letter-spacing: .14em; color: var(--on-dark-muted); margin-top: 2px; font-weight: 600; }
 .case-card.is-winner .case-card__sub { color: var(--cyan); }
 
 /* Scan line overlay */
@@ -1705,7 +1705,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 }
 .spoiler__label {
   font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .24em;
   text-transform: uppercase;
@@ -1749,7 +1749,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .loader-v2__stage { min-height: 0; }
 
 /* Tighter scene padding */
-.scene__kicker { margin-bottom: 14px; font-size: 10px; }
+.scene__kicker { margin-bottom: 14px; font-size: 12px; }
 .scene__caption { margin-top: 12px; font-size: 13px; }
 .scene__counter { margin-top: 12px; gap: 2px; }
 .scene__counter-num { font-size: 26px; }
@@ -1758,17 +1758,17 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 /* Compact CLI for mobile */
 .cli__body { padding: 14px 16px; min-height: 160px; font-size: 12px; }
 .cli__bar { padding: 10px 14px; }
-.cli__title { font-size: 11px; }
+.cli__title { font-size: 12px; }
 
 /* Compact pattern chips */
-.pchip { padding: 11px 12px; font-size: 11px; min-height: 48px; gap: 8px; }
+.pchip { padding: 11px 12px; font-size: 12px; min-height: 48px; gap: 8px; }
 .pchip__icon { width: 14px; height: 14px; }
 .patterns-grid { gap: 8px; }
 
 /* Compact cases */
 .cases-grid { padding: 14px; gap: 8px; }
 .case-card { font-size: 16px; }
-.case-card__sub { font-size: 8px; }
+.case-card__sub { font-size: 12px; }
 
 /* Compact lever canvas */
 .lever-canvas { height: 220px; }
@@ -1807,7 +1807,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
 .scene__sub {
   margin-top: 4px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: .03em;
   color: var(--on-dark-muted);
   min-height: 1.4em;
@@ -1887,12 +1887,12 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   .loader-v2__head .percent { font-size: 36px; margin-bottom: 4px; }
   .loader-v2__head .progress-linear { margin-bottom: 6px; }
   .scene__kicker { margin-bottom: 10px; }
-  .cli__body { min-height: 130px; padding: 12px 14px; font-size: 11.5px; }
+  .cli__body { min-height: 130px; padding: 12px 14px; font-size: 12px; }
   .lever-canvas { height: 180px; }
   .doc { min-height: 150px; padding: 14px 16px; }
   .doc__body { min-height: 70px; font-size: 13px; }
   .checklist { gap: 4px; }
-  .cli-item { padding: 6px 12px; font-size: 11.5px; }
+  .cli-item { padding: 6px 12px; font-size: 12px; }
 }
 
 /* ============================================================
@@ -1906,7 +1906,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   align-items: center;
   gap: 8px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: .04em;
   color: #FCD34D;
@@ -2092,7 +2092,7 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   color: var(--cyan);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: .06em;
   text-transform: uppercase;
   margin-right: 6px;
