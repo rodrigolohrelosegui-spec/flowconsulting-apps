@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A1628" />
+
+  <title>Tu ruta personalizada · Flow Consulting</title>
+  <meta name="description" content="Cuéntanos en seis preguntas dónde estás hoy. Nuestro agente de Flow Consulting lee tu caso y te devuelve el diagnóstico personalizado con la ruta correcta para ti." />
+  <meta name="author" content="Rodrigo Lohr · Flow Consulting" />
+  <link rel="canonical" href="https://apps.flowconsulting.co/doc-de-oferta/" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A1628'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Inter,sans-serif' font-weight='900' font-size='20' fill='%2300E5FF'%3EFC%3C/text%3E%3C/svg%3E" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_419" />
+  <meta property="og:site_name" content="Flow Consulting" />
+  <meta property="og:title" content="Tu ruta personalizada · Flow Consulting" />
+  <meta property="og:description" content="Cuéntanos dónde estás. Nuestro agente lee tu caso y te devuelve la ruta personalizada para ti." />
+  <meta property="og:url" content="https://apps.flowconsulting.co/doc-de-oferta/" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tu ruta personalizada · Flow Consulting" />
+  <meta name="twitter:description" content="Contanos dónde estás. El agente de Flow Consulting lee tu caso y te guía a la ruta correcta." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./assets/styles.css?v=1.0" />
+  <link rel="stylesheet" href="./assets/scanner.css?v=1.0" />
+  <link rel="stylesheet" href="./assets/doc.css?v=1.0" />
+</head>
+
+<body class="theme-dark">
+  <div class="app">
+    <!-- Progress bar (hidden on landing + result) -->
+    <div class="progress-wrap" id="progressWrap" hidden>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">Paso 1 de 6</div>
+    </div>
+
+    <!-- ============ VIEW: LANDING ============ -->
+    <section class="view view-landing is-active" data-view="landing">
+      <div class="container">
+        <div class="hero">
+          <span class="eyebrow hero__kicker">Ruta Personalizada · Flow Consulting</span>
+
+          <h1 class="hero__title">
+            Antes de hablar contigo,<br>
+            queremos <span class="mark">entender tu caso</span>.<br>
+            Y darte la ruta correcta.
+          </h1>
+
+          <div class="lead hero__subtitle">
+            <p>No nos gusta cuando los procesos de venta se sienten como una rifa.</p>
+            <p>Tú cuentas tu historia, alguien te tira un programa genérico, y al final no sabes si era para ti o si solo querían cerrarte.</p>
+            <p>Por eso creamos esto.</p>
+            <p>Seis preguntas cortas sobre tu negocio. Nuestro agente de Flow Consulting lee tu caso, lo cruza con cinco años de clientes reales, y te devuelve un diagnóstico personalizado con la ruta que tiene sentido para ti.</p>
+            <p>Si esa ruta es uno de nuestros programas, te lo decimos. Si todavía no es el momento, también. En ese caso te mandamos directo a la masterclass gratis. No queremos venderle nada a nadie que no esté listo.</p>
+          </div>
+
+          <div class="hero__cta">
+            <button class="btn btn--primary btn--lg" id="btnStart">
+              Ver mi ruta personalizada
+              <span aria-hidden="true">→</span>
+            </button>
+            <div class="hero__micro hero__mecanismo">
+              <p>6 preguntas cortas (menos de 2 minutos). Tu diagnóstico tarda alrededor de 90 segundos en armarse.</p>
+              <p>Lo escribe nuestro agente de Flow Consulting con la lectura de Rodrigo, calibrado contra cinco años de clientes reales en cuatro continentes.</p>
+              <p>Tu nombre, tus números y tu objetivo aparecen citados a lo largo de toda la ruta. No es un template. Es para ti, en serio.</p>
+            </div>
+          </div>
+
+          <div class="hero__meta">
+            <div class="hero__meta-item">
+              <span class="label">Duración</span>
+              <span class="value">~ 90 segundos</span>
+            </div>
+            <div class="hero__meta-item">
+              <span class="label">Lo que recibes</span>
+              <span class="value">Diagnóstico + ruta</span>
+            </div>
+            <div class="hero__meta-item">
+              <span class="label">Entrega</span>
+              <span class="value">Inmediata + email</span>
+            </div>
+          </div>
+
+          <div class="hero__proof">
+            <p class="muted">El agente conoce las cuatro rutas posibles para acompañarte:</p>
+            <ul class="hero__proof-list-stack">
+              <li><strong>Incubadora</strong>. Si todavía estás bajo los 10K al mes y necesitas claridad de oferta y un sistema de leads que funcione.</li>
+              <li><strong>Aceleradora</strong>. Si ya pasaste los 10K y sientes el techo del modelo actual. Lifestyle business y Flow Funnel.</li>
+              <li><strong>Beyond Flow</strong>. Trabajo 1:1 privado con Rodrigo. Solo 5 founders por año. Para 7-8 cifras o C-Suite que ya tienen el negocio pero les falta la paz.</li>
+              <li><strong>Flow Consulting Executive</strong>. Capacitación, retiros y coaching ejecutivo para equipos directivos. Hemos trabajado con Siemens, Pepsico, Unilever, Mitsubishi, DHL y PwC.</li>
+            </ul>
+            <p class="hero__proof-coda">Si ninguna ruta es para ti hoy, también te lo decimos.<br>Lo último que queremos es hacerte perder tiempo, ni a ti ni a nosotros.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: QUESTION (dinámica) ============ -->
+    <section class="view view-question" data-view="question">
+      <div class="container">
+        <div class="question" id="questionSlot"></div>
+
+        <div class="nav">
+          <button class="nav__back" id="btnBack" type="button" disabled>← Atrás</button>
+          <span class="muted" id="questionCounter"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: CAPTURE ============ -->
+    <section class="view view-capture" data-view="capture">
+      <div class="container">
+        <div class="capture">
+          <span class="eyebrow">Último paso</span>
+          <h2 class="capture__title">¿A dónde te enviamos tu diagnóstico?</h2>
+          <p class="capture__subtitle">
+            Tu ruta personalizada aparece en pantalla apenas el agente termina, sin esperar email. Igual te la mandamos por correo para que la tengas a mano cuando la quieras volver a leer (y para que se la pases a tu pareja o socio si tu decisión también pasa por ellos).
+          </p>
+
+          <form class="form" id="captureForm" novalidate>
+            <div class="field">
+              <label class="field__label" for="fieldName">Nombre</label>
+              <input class="field__input" type="text" id="fieldName" name="name" autocomplete="given-name" placeholder="Tu nombre" required />
+              <div class="field__error" id="errName" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="fieldEmail">Email</label>
+              <input class="field__input" type="email" id="fieldEmail" name="email" autocomplete="email" placeholder="tu@email.com" required />
+              <div class="field__error" id="errEmail" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="field field--optional">
+              <label class="field__label" for="fieldBusiness">
+                Algo extra que quieras que sepa <span class="field__optional">opcional · 1-2 líneas</span>
+              </label>
+              <textarea
+                class="field__input field__textarea"
+                id="fieldBusiness"
+                name="business_context"
+                placeholder="Ejemplo: 'me lo recomendó X cliente', 'vengo del podcast con Y', 'estoy decidiendo entre Flow Consulting y otra mentoría'."
+                maxlength="500"
+                rows="3"></textarea>
+              <div class="field__counter"><span id="businessCount">0</span> / 500</div>
+            </div>
+
+            <button class="btn btn--primary btn--lg btn--block capture__cta" type="submit" id="btnSubmit">
+              Ver mi ruta personalizada
+            </button>
+
+            <p class="capture__legal">
+              Al enviar aceptas recibir correos de Flow Consulting con tu diagnóstico y contenido relacionado. Puedes darte de baja en cualquier momento.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: LOADING (cinematic 6-scene) ============ -->
+    <section class="view view-loading" data-view="loading">
+      <div class="loader-v2">
+        <div class="dots-canvas" id="dotsCanvas" aria-hidden="true"></div>
+
+        <div class="loader-v2__head container container--narrow">
+          <div class="percent">
+            <span class="percent__num" id="percentNum">0</span><span class="percent__sign">%</span>
+          </div>
+          <div class="progress-linear" aria-hidden="true">
+            <div class="progress-linear__fill" id="progressLinearFill"></div>
+          </div>
+          <div class="scene-dots" id="sceneDots">
+            <span class="scene-dot is-active"></span><span class="scene-dot"></span><span class="scene-dot"></span>
+            <span class="scene-dot"></span><span class="scene-dot"></span><span class="scene-dot"></span>
+          </div>
+          <div class="loader-warn" id="loaderWarn">
+            <span class="loader-warn__dot" aria-hidden="true"></span>
+            No cierres esta pestaña para no perder tu avance
+          </div>
+        </div>
+
+        <div class="loader-v2__stage container container--narrow">
+
+          <!-- Scene 1: CLI ingesta -->
+          <div class="scene scene-1 is-active" data-scene="1">
+            <div class="cli">
+              <div class="cli__bar">
+                <span class="cli__dot cli__dot--r"></span>
+                <span class="cli__dot cli__dot--y"></span>
+                <span class="cli__dot cli__dot--g"></span>
+                <span class="cli__title">flow-consulting · agente leyendo tu caso</span>
+              </div>
+              <div class="cli__body" id="cliBody"></div>
+            </div>
+          </div>
+
+          <!-- Scene 2: leyendo señales del prospecto -->
+          <div class="scene scene-2" data-scene="2">
+            <div class="scene__kicker">FASE 2 · Leyendo señales en tu situación</div>
+            <div class="patterns-grid" id="patternsGrid"></div>
+            <div class="scene__caption" id="patternsCaption">Probando 9 señales contra tus respuestas…</div>
+            <div class="scene__counter">
+              <span class="scene__counter-label">Señales detectadas</span>
+              <span class="scene__counter-num" id="patternsCount">0</span>
+            </div>
+          </div>
+
+          <!-- Scene 3: contraste con clientes auditados -->
+          <div class="scene scene-3" data-scene="3">
+            <div class="scene__kicker">FASE 3 · Contrastando con clientes reales</div>
+            <div class="cases-grid" id="casesGrid"></div>
+            <div class="scene__caption" id="casesCaption">Cruzando tu etapa con clientes que pasaron por la misma situación…</div>
+            <div class="scene__counter">
+              <span class="scene__counter-label">Match de patrón</span>
+              <span class="scene__counter-num"><span id="casesScore">0</span><small>%</small></span>
+            </div>
+          </div>
+
+          <!-- Scene 4: routing a la ruta correcta -->
+          <div class="scene scene-4" data-scene="4">
+            <div class="scene__kicker">FASE 4 · Eligiendo la ruta correcta para ti</div>
+            <div class="lever-canvas" id="leverCanvas">
+              <svg class="kgraph" viewBox="0 0 480 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                  <radialGradient id="kgNodeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#5FE8D7" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#5FE8D7" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <g class="kgraph__edges" id="kgEdges"></g>
+                <g class="kgraph__nodes" id="kgNodes"></g>
+                <g class="kgraph__final" id="kgFinal"></g>
+              </svg>
+              <div class="lever-redacted">Tu ruta correcta: ████████████</div>
+            </div>
+            <div class="scene__caption" id="leverCaption">Pesando las 4 rutas posibles contra tu etapa, cuello y objetivo…</div>
+            <div class="scene__counter">
+              <span class="scene__counter-label">Rutas evaluadas</span>
+              <span class="scene__counter-num" id="leverCount">4</span>
+            </div>
+          </div>
+
+          <!-- Scene 5: writing -->
+          <div class="scene scene-5" data-scene="5">
+            <div class="scene__kicker">FASE 5 · Escribiendo tu diagnóstico</div>
+            <div class="doc">
+              <div class="doc__header">
+                <div class="doc__line doc__line--meta"></div>
+                <div class="doc__line doc__line--title"></div>
+              </div>
+              <div class="doc__body" id="docBody"></div>
+            </div>
+            <div class="scene__caption">Calibrando voz, tono y honestidad del documento…</div>
+          </div>
+
+          <!-- Scene 6: verification + spoiler -->
+          <div class="scene scene-6" data-scene="6">
+            <div class="scene__kicker">FASE 6 · Verificación final</div>
+            <ul class="checklist" id="checklist"></ul>
+            <div class="scene__caption" id="scene6Caption" hidden>
+              <span id="scene6CaptionText">Procesando</span><span class="dotdot" id="scene6Dots">...</span>
+            </div>
+
+            <div class="spoiler" id="spoiler" hidden>
+              <div class="spoiler__label">RUTA RECOMENDADA</div>
+              <div class="spoiler__text">Para tu etapa y tu cuello, la ruta que tiene sentido para ti es</div>
+              <div class="spoiler__archetype" id="spoilerArchetype"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: ERROR ============ -->
+    <section class="view view-error" data-view="error">
+      <div class="container">
+        <div class="error-box">
+          <h3>Algo se trabó del lado nuestro</h3>
+          <p id="errorMsg">No pudimos armar tu diagnóstico en este momento.</p>
+          <button class="btn btn--primary" id="btnRetry" type="button">Reintentar</button>
+          <p class="muted" style="margin-top:16px">Si persiste, escríbeme a <strong>rodrigo@flowconsulting.co</strong> y lo arreglamos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: RESULT ============ -->
+    <section class="view view-result" data-view="result">
+      <div class="container">
+
+        <!-- Bloque 1 · Saludo personalizado -->
+        <div class="result__kicker">Tu diagnóstico</div>
+        <h1 class="result__archetype" id="rArchetype">Tu ruta personalizada</h1>
+        <div class="exec-summary" id="rSaludo"></div>
+
+        <!-- Bloque 2 · Ruta recomendada -->
+        <div class="result__block result__block--accent doc-program">
+          <div class="result__block-title">Tu ruta recomendada</div>
+          <div class="program-card" id="rPrograma"></div>
+        </div>
+
+        <!-- Bloque 3 · Por qué para ti -->
+        <div class="result__block">
+          <div class="result__block-title">Por qué esta ruta para ti</div>
+          <ul class="por-que-list" id="rPorQue"></ul>
+        </div>
+
+        <!-- Bloque 4 · Qué incluye -->
+        <div class="result__block">
+          <div class="result__block-title">Qué incluye este acompañamiento</div>
+          <div class="que-incluye-list" id="rQueIncluye"></div>
+        </div>
+
+        <!-- Bloque 5 · Caso análogo -->
+        <div class="result__block">
+          <div class="result__block-title">Alguien que pasó por algo parecido a lo tuyo</div>
+          <div class="case-study" id="rCaseStudy"></div>
+        </div>
+
+        <!-- Bloque 6 · Forbidden truth -->
+        <div class="result__block result__block--truth">
+          <div class="result__block-title">La verdad incómoda antes de la llamada</div>
+          <p class="forbidden-truth" id="rForbiddenTruth"></p>
+        </div>
+
+        <!-- Bloque 7 · Proyección 12 meses -->
+        <div class="result__block">
+          <div class="result__block-title">Cómo se ve tu próximo año</div>
+          <div class="projection" id="rProjection"></div>
+        </div>
+
+        <!-- Bloque 8 · Por qué NO es para ti -->
+        <div class="result__block result__block--neg">
+          <div class="result__block-title">Por qué esta ruta podría NO ser para ti</div>
+          <p class="por-que-no" id="rPorQueNo"></p>
+        </div>
+
+        <!-- Cita Rodrigo -->
+        <blockquote class="rodrigo-quote" id="rRodrigoQuote"></blockquote>
+
+        <!-- Bloque CTA final -->
+        <div class="cta-block" id="rCta">
+          <h2 class="cta-block__headline" id="rCtaHeadline"></h2>
+          <p class="cta-block__razon" id="rCtaRazon"></p>
+          <div class="cta-block__que-pasa" id="rCtaQuePasa"></div>
+          <a class="btn btn--primary btn--lg btn--block" id="btnBookCall" href="#" target="_blank" rel="noopener">
+            Agendar llamada con el equipo de Rodrigo
+            <span aria-hidden="true">→</span>
+          </a>
+          <p class="muted" style="margin-top:12px;text-align:center">5 spots por semana. Sin presión. Sin pitch agresivo.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="./assets/scanner.js?v=1.0"></script>
+</body>
+</html>

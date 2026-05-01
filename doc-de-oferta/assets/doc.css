@@ -1,0 +1,245 @@
+/* ==========================================================================
+   doc-de-oferta · doc.css
+   Componentes específicos de LM #10 (program card, por-que, que-incluye, por-que-no)
+   Hereda de styles.css + scanner.css. Solo overrides + componentes nuevos.
+   ========================================================================== */
+
+/* ----- Programa recomendado: hero card ----- */
+.doc-program {
+  margin-top: 12px;
+}
+
+.program-card {
+  position: relative;
+  padding: 32px 28px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(95, 232, 215, 0.08), rgba(0, 229, 255, 0.04));
+  border: 1px solid rgba(95, 232, 215, 0.22);
+  overflow: hidden;
+}
+
+.program-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(95, 232, 215, 0.10), transparent 60%);
+  pointer-events: none;
+}
+
+.program-card__slug {
+  display: inline-block;
+  font-size: 11px !important;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(95, 232, 215, 0.85) !important;
+  font-weight: 600;
+  font-style: normal !important;
+  margin-bottom: 8px;
+}
+
+.program-card__nombre {
+  font-size: 28px;
+  font-weight: 700;
+  font-style: normal !important;
+  color: rgba(255, 255, 255, 0.96) !important;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.program-card__razon p {
+  font-size: 16px !important;
+  font-style: normal !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  line-height: 1.55;
+  margin: 0 0 12px 0;
+}
+
+.program-card__razon p:last-child { margin-bottom: 0; }
+
+/* Variantes por programa (gradient accents distintos) */
+.program-card.program--incubadora {
+  border-color: rgba(95, 232, 215, 0.28);
+  background: linear-gradient(135deg, rgba(95, 232, 215, 0.10), rgba(0, 229, 255, 0.04));
+}
+.program-card.program--aceleradora {
+  border-color: rgba(0, 229, 255, 0.32);
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.12), rgba(95, 232, 215, 0.05));
+}
+.program-card.program--beyond {
+  border-color: rgba(212, 175, 55, 0.35);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.10), rgba(95, 232, 215, 0.04));
+}
+.program-card.program--executive {
+  border-color: rgba(180, 200, 240, 0.28);
+  background: linear-gradient(135deg, rgba(180, 200, 240, 0.08), rgba(0, 229, 255, 0.04));
+}
+.program-card.program--masterclass {
+  border-color: rgba(255, 200, 120, 0.30);
+  background: linear-gradient(135deg, rgba(255, 200, 120, 0.10), rgba(95, 232, 215, 0.04));
+}
+
+/* ----- Por qué para vos: lista ----- */
+.por-que-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.por-que-item {
+  position: relative;
+  padding: 14px 18px 14px 44px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid rgba(95, 232, 215, 0.55);
+  border-radius: 8px;
+  font-size: 16px !important;
+  font-style: normal !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  line-height: 1.55;
+}
+
+.por-que-item::before {
+  content: '✓';
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(95, 232, 215, 0.85);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* ----- Qué incluye: cards ----- */
+.que-incluye-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.que-incluye-item {
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+}
+
+.que-incluye-item__nombre {
+  font-weight: 700;
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.96) !important;
+  font-style: normal !important;
+  margin-bottom: 8px;
+}
+
+.que-incluye-item__traduccion p {
+  font-size: 15px !important;
+  font-style: normal !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  line-height: 1.55;
+  margin: 0 0 8px 0;
+}
+
+.que-incluye-item__traduccion p:last-child { margin-bottom: 0; }
+
+/* ----- Por qué NO es para vos ----- */
+.result__block--neg {
+  background: rgba(255, 100, 100, 0.04);
+  border-left: 3px solid rgba(255, 140, 140, 0.45);
+}
+
+.por-que-no {
+  font-size: 16px !important;
+  font-style: normal !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  line-height: 1.6;
+}
+
+.por-que-no p {
+  margin: 0 0 12px 0;
+  font-size: 16px !important;
+  font-style: normal !important;
+}
+
+.por-que-no p:last-child { margin-bottom: 0; }
+
+/* ----- Override: text in result block must NEVER be italic regardless of inherited classes ----- */
+.view-result *,
+.view-result p,
+.view-result div,
+.view-result span,
+.view-result blockquote,
+.view-result li {
+  font-style: normal !important;
+}
+
+.view-result p {
+  font-size: 16px !important;
+}
+
+/* ----- Cita de Rodrigo: quote bug fix + nuevo formato ----- */
+/* Mata las pseudo-comillas heredadas de styles.css y scanner.css */
+.rodrigo-quote::before,
+.rodrigo-quote::after {
+  content: none !important;
+  display: none !important;
+}
+
+.rodrigo-quote {
+  margin: 32px 0 !important;
+  padding: 22px 28px !important;
+  background: rgba(95, 232, 215, 0.06) !important;
+  border-left: 3px solid rgba(95, 232, 215, 0.65) !important;
+  border-radius: 8px;
+  font-size: 18px !important;
+  font-style: normal !important;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92) !important;
+  line-height: 1.5;
+  position: relative;
+}
+
+.rodrigo-quote__mark {
+  color: rgba(95, 232, 215, 0.85);
+  font-weight: 700;
+  margin: 0 4px;
+}
+
+.rodrigo-quote__author {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px !important;
+  font-style: normal !important;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(95, 232, 215, 0.75) !important;
+}
+
+/* ----- Caso análogo: video embebido (responsive 16:9) ----- */
+.case-study__video-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  margin: 18px 0 8px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.case-study__video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ----- Mobile ----- */
+@media (max-width: 720px) {
+  .program-card { padding: 24px 20px; }
+  .program-card__nombre { font-size: 24px; }
+  .por-que-item { padding-left: 38px; font-size: 15px !important; }
+  .que-incluye-item { padding: 14px 16px; }
+}

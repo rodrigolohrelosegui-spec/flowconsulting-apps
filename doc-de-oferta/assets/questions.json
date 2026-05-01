@@ -1,0 +1,101 @@
+{
+  "diagnostic_id": "doc_de_oferta_v2",
+  "version": "2.0",
+  "last_updated": "2026-05-01",
+  "name": "Tu ruta personalizada · Flow Consulting",
+  "description": "Seis preguntas. Nuestro agente lee tu caso y te devuelve la ruta correcta para ti.",
+  "questions": [
+    {
+      "id": "Q1",
+      "type": "single_choice",
+      "scoring_role": "metadata_revenue",
+      "required": true,
+      "label": "¿Cuánto factura tu negocio al mes hoy?",
+      "hint": "Aproximado. Esto define qué programa de Flow Consulting tiene sentido para ti. Nadie te juzga acá adentro.",
+      "options": [
+        { "value": "A", "label": "Menos de 2,000 USD al mes (validando)" },
+        { "value": "B", "label": "2,000 a 10,000 USD al mes" },
+        { "value": "C", "label": "10,000 a 25,000 USD al mes" },
+        { "value": "D", "label": "25,000 a 50,000 USD al mes" },
+        { "value": "E", "label": "Más de 50,000 USD al mes" },
+        { "value": "F", "label": "Lidero una empresa con equipo de 20+ personas" }
+      ],
+      "skip_allowed": false
+    },
+    {
+      "id": "Q2",
+      "type": "multi_choice",
+      "required": true,
+      "min_selected": 1,
+      "label": "¿Qué es lo que más te está frenando hoy?",
+      "hint": "Lo que sientes que está bloqueando el siguiente nivel de tu negocio. Marca las que apliquen. No estás obligado a elegir solo una.",
+      "options": [
+        { "value": "claridad", "label": "Mi oferta y mi mensaje no convierten lo que deberían" },
+        { "value": "lead_flow", "label": "No tengo un sistema constante de leads calificados" },
+        { "value": "ventas", "label": "Las llamadas de venta se sienten difíciles o no cierran" },
+        { "value": "entrega", "label": "Estoy quemado con la entrega o con el equipo" },
+        { "value": "vision", "label": "Crezco pero no sé hacia dónde voy ni a qué decirle que no" },
+        { "value": "no_se", "label": "Honestamente, no termino de identificarlo" }
+      ],
+      "skip_allowed": false
+    },
+    {
+      "id": "Q3",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 80,
+      "max_chars": 600,
+      "label": "Si trabajáramos juntos los próximos 90 días, ¿qué resultado concreto querrías ver?",
+      "hint": "Lo más específico que puedas. Un número, una pieza terminada, un cambio en tu día a día. Sirven cosas como pasar de cierta facturación a otra, tener un sistema que no dependa de ti, o dejar de sentir que el negocio te está usando a ti. Si te suena demasiado pretencioso, mejor.",
+      "placeholder": "Ejemplo: 'Quiero pasar de 12K a 30K al mes con 70% de margen, sin tener que crear contenido todos los días, y que mi pareja deje de preguntarme si estoy bien cada vez que cierro la laptop a las 11 de la noche.'",
+      "skip_allowed": false
+    },
+    {
+      "id": "Q4",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 80,
+      "max_chars": 700,
+      "label": "¿Qué probaste ya que no terminó de funcionar?",
+      "hint": "Mentorías, programas, agencias, cursos, frameworks que aplicaste. No es para hablar mal de nadie. Es para que tu diagnóstico te explique por qué esto va a ser distinto sin sonar a promesa vacía. Si no probaste nada todavía, dilo así de directo.",
+      "placeholder": "Ejemplo: 'Dos lanzamientos con la fórmula clásica, una mentoría grupal de 8 semanas, y ahora un curso de copy. Resultado: facturé pero terminé fundido y endeudado. Siento que nadie miró mi caso real.'",
+      "skip_allowed": false
+    },
+    {
+      "id": "Q5",
+      "type": "single_choice",
+      "scoring_role": "metadata_industry",
+      "required": true,
+      "label": "¿En qué industria o nicho trabajas?",
+      "hint": "Esto nos sirve para mostrarte el caso de un cliente que pasó por algo parecido a lo tuyo, no a otro avatar. Si haces varias cosas, marca la principal: la que te genera más facturación.",
+      "options": [
+        { "value": "coaching", "label": "Coaching / Consultoría / Mentoría" },
+        { "value": "marketing", "label": "Marketing / Agencia / Copywriting" },
+        { "value": "salud", "label": "Salud / Médico / Terapia / Odontología" },
+        { "value": "psicologia", "label": "Psicología / Bienestar emocional" },
+        { "value": "educacion", "label": "Educación / Cursos / Academia / Arte" },
+        { "value": "branding", "label": "Diseño / Branding / Creativo" },
+        { "value": "espiritualidad", "label": "Espiritualidad / Desarrollo personal" },
+        { "value": "tech", "label": "Tecnología / SaaS / Producto digital" },
+        { "value": "b2b_corporate", "label": "Empresa B2B / Corporate / Multinacional" },
+        { "value": "otro", "label": "Otro" }
+      ],
+      "skip_allowed": false
+    },
+    {
+      "id": "Q6",
+      "type": "single_choice",
+      "scoring_role": "metadata_tenure",
+      "required": true,
+      "label": "¿Cuánto tiempo llevas en este negocio?",
+      "hint": "Calibra el tono del diagnóstico. Si llevas 5 años no te vamos a hablar como si fuera tu primer día. Si recién arrancaste, tampoco te vamos a tirar jerga que no necesitas.",
+      "options": [
+        { "value": "A", "label": "Menos de 6 meses" },
+        { "value": "B", "label": "6 meses a 2 años" },
+        { "value": "C", "label": "2 a 5 años" },
+        { "value": "D", "label": "Más de 5 años" }
+      ],
+      "skip_allowed": false
+    }
+  ]
+}
