@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Documento de Oferta · scanner.js
+   Flow Compass · scanner.js
    - SPA vanilla, sin dependencias
    - Soporta textarea, single_choice, multi_choice, skip por pregunta
    - Loader garantiza 90s mínimo de animación
@@ -10,11 +10,11 @@
 
   /* --------- Config --------- */
   const CFG = {
-    WEBHOOK: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/doc-de-oferta',
-    URL_DISCOVERY: 'https://calendly.com/contacto-flowconsulting/llamada-de-exploracion-flow-consulting?utm_source=doc-de-oferta&utm_id=lm-doc-de-oferta',
+    WEBHOOK: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/flow-compass',
+    URL_DISCOVERY: 'https://calendly.com/contacto-flowconsulting/llamada-de-exploracion-flow-consulting?utm_source=flow-compass&utm_id=lm-flow-compass',
     URL_MASTERCLASS: 'https://www.youtube.com/@rodrigolohr',
     QUESTIONS_PATH: './assets/questions.json',
-    STORAGE_KEY: 'fc_doc_de_oferta_state_v1',
+    STORAGE_KEY: 'fc_flow_compass_state_v1',
     REQUEST_TIMEOUT_MS: 120000,
     LOADER_MIN_MS: 90000  // 90 seconds minimum loader animation
   };
@@ -343,7 +343,7 @@
     state.lead = { name, email, business_context };
     saveState();
     $('#btnSubmit').disabled = true;
-    $('#btnSubmit').textContent = 'Armando tu ruta personalizada';
+    $('#btnSubmit').textContent = 'Armando tu Flow Compass';
     await submitScan(buildPayload());
   }
 
@@ -393,25 +393,25 @@
 
     try {
       const data = await runCinematicLoader(payload, apiPromise);
-      try { localStorage.setItem('fc_doc_de_oferta_last_result', JSON.stringify(data)); } catch (_) {}
+      try { localStorage.setItem('fc_flow_compass_last_result', JSON.stringify(data)); } catch (_) {}
       track('submit_success', {});
       renderResult(data);
       show('result');
       clearState();
     } catch (e) {
       console.error(e);
-      try { localStorage.setItem('fc_doc_de_oferta_failed_payload', JSON.stringify(payload)); } catch (_) {}
+      try { localStorage.setItem('fc_flow_compass_failed_payload', JSON.stringify(payload)); } catch (_) {}
       track('submit_error', { msg: String(e && e.message) });
-      $('#errorMsg').textContent = 'No pudimos armar tu diagnóstico. Reintentá en un momento.';
+      $('#errorMsg').textContent = 'No pudimos armar tu Flow Compass. Reintenta en un momento.';
       show('error');
       $('#btnSubmit').disabled = false;
-      $('#btnSubmit').textContent = 'Ver mi ruta personalizada';
+      $('#btnSubmit').textContent = 'Ver mi Flow Compass';
     }
   }
 
   async function retrySubmit() {
     if (!lastPayload) {
-      try { lastPayload = JSON.parse(localStorage.getItem('fc_doc_de_oferta_failed_payload') || 'null'); } catch (_) {}
+      try { lastPayload = JSON.parse(localStorage.getItem('fc_flow_compass_failed_payload') || 'null'); } catch (_) {}
     }
     if (!lastPayload) { show('landing'); return; }
     await submitScan(lastPayload);
@@ -515,7 +515,7 @@
     if (opts.removeCursor) cursor.remove();
   }
 
-  // Compute routing signals based on Q1-Q4 of the doc-de-oferta questionnaire
+  // Compute routing signals based on Q1-Q4 of the flow-compass questionnaire
   function computeScannerPatterns(payload) {
     const a = (payload && payload.answers) || {};
     const Q1 = a.Q1 || ''; // bracket
@@ -765,7 +765,7 @@
     if (!docBody) return;
     const fragments = [
       `${firstName}, leyendo tu situación con calma para entender qué pasa…`,
-      `Calibrando el diagnóstico a tu etapa y a tu cuello específico…`,
+      `Calibrando tu Flow Compass a tu etapa y a tu cuello específico…`,
       `Cruzando tu objetivo de 90 días con la ruta que tiene sentido…`,
       `Pesando lo que ya probaste contra cómo lo hacemos distinto acá…`,
       `Asegurando que la ruta se sienta hecha para ti, ${firstName}, no un template…`,
@@ -789,8 +789,8 @@
     const list = $('#checklist');
     if (!list) return null;
     const items = [
-      'Diagnóstico personalizado a tu situación real',
-      'Tono calibrado a tu etapa de negocio',
+      'Flow Compass personalizado a tu situación real',
+      'Tono calibrado a tu etapa y a tu nicho',
       '4 rutas posibles evaluadas contra tu caso',
       'Ruta correcta seleccionada y justificada',
       'Acompañamiento traducido a tu dolor específico',
@@ -930,7 +930,7 @@
     return r;
   }
 
-  /* --------- Result rendering (Documento de Oferta) --------- */
+  /* --------- Result rendering (Flow Compass) --------- */
 
   // Map slug → human-readable program name + tone class for hero
   const PROGRAM_LABELS = {
