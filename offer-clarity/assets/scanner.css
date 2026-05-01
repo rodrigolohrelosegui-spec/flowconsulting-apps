@@ -103,7 +103,7 @@
   display: inline-block;
   margin-left: 8px;
   padding: 3px 10px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-soft);
   background: var(--bg-elev-2);
@@ -150,7 +150,7 @@
 }
 .question__counter {
   margin-top: 8px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-muted);
   text-align: right;
 }
@@ -163,7 +163,7 @@
   background: rgba(255, 94, 94, 0.1);
   border-left: 3px solid var(--red);
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   color: #ffb3b3;
 }
@@ -285,7 +285,7 @@
   border-radius: 12px;
 }
 .pillar__name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-soft);
   text-transform: uppercase;
@@ -332,7 +332,7 @@
   border-radius: 8px;
 }
 .coherence__name {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--accent);
   text-transform: uppercase;
@@ -394,7 +394,7 @@
   margin-left: 4px;
 }
 .phrase-break__campo {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -417,7 +417,7 @@
 }
 .phrase-break__reescritura strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--green);
@@ -445,7 +445,7 @@
   border-radius: 10px;
 }
 .ts-bucket__title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -467,7 +467,7 @@
   color: var(--text);
 }
 .ts-item__razon {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-soft);
   line-height: 1.55;
 }
@@ -488,7 +488,7 @@
 }
 .metodo__diferencia strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--accent);
@@ -525,7 +525,7 @@
 }
 .big-domino__visualizacion strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--text-muted);
@@ -609,7 +609,7 @@
 }
 .case-study__video::before {
   content: '▶';
-  font-size: 12px;
+  font-size: 13px;
 }
 .case-study__video:hover { background: rgba(255, 0, 0, 0.18); color: #ffaaaa; }
 
@@ -648,7 +648,7 @@
   border-color: rgba(76, 175, 80, 0.22);
 }
 .proj-card__title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -726,7 +726,7 @@
 }
 .cta-block__que-pasa strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--accent);
