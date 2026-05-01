@@ -30,6 +30,28 @@
     $$('.view').forEach(v => v.classList.toggle('is-active', v.dataset.view === name));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  // Render a multi-paragraph string (separated by \n\n) as a stack of <p> tags.
+  // Use for any field where the model returns broken-up prose with blank-line separators.
+  const renderParagraphs = (el, text, opts = {}) => {
+    if (!el) return;
+    const { applyBold = false, classBase = '' } = opts;
+    const raw = String(text || '').trim();
+    if (!raw) { el.innerHTML = ''; return; }
+    const paragraphs = raw.split(/\n{2,}/).map(p => p.trim()).filter(Boolean);
+    el.innerHTML = paragraphs.map((p, i) => {
+      let safe = String(p)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      // Markdown emphasis (always supported — bold first to avoid conflict with italic)
+      safe = safe.replace(/\*\*([^*]+?)\*\*/g,'<strong>$1</strong>');
+      safe = safe.replace(/(^|[^*])\*([^*\n]+?)\*(?!\*)/g,'$1<em>$2</em>');
+      // Single newline inside a paragraph → <br>
+      safe = safe.replace(/\n/g, '<br>');
+      const cls = classBase ? ` class="${classBase}${i === 0 ? ' is-first' : ''}"` : '';
+      return `<p${cls}>${safe}</p>`;
+    }).join('');
+  };
+
   const escapeHtml = (s) => String(s||'')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const fmtBold = (s) => escapeHtml(String(s||'')).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
@@ -972,7 +994,7 @@
 
     $('#rArchetype').textContent = arq.nombre || 'Tu diagnóstico';
     $('#rPhase').textContent = `${fase.nombre_paso ? `Paso ${fase.paso_actual} · ${fase.nombre_paso}` : ''}`;
-    $('#rLectura').textContent = result.diagnostico_ejecutivo || '';
+    renderParagraphs($('#rLectura'), result.diagnostico_ejecutivo || '', { classBase: 'result__lectura-p' });
 
     // Report meta
     const today = new Date();
@@ -1019,7 +1041,7 @@
 
     // Phase viz
     markPhaseBar(fase.paso_actual);
-    $('#rPhaseExplainer').textContent = fase.por_que_aqui || '';
+    renderParagraphs($('#rPhaseExplainer'), fase.por_que_aqui || '');
 
     // Patrones (numbered editorial list)
     const pp = $('#rPatrones');
@@ -1032,10 +1054,11 @@
         <div class="pattern__index">${num}</div>
         <div>
           <div class="pattern__name">${escapeHtml((p.nombre || '').replace(/_/g,' '))}</div>
-          <p class="pattern__diag">${fmtBold(p.diagnostico || '')}</p>
+          <div class="pattern__diag" data-multi></div>
         </div>
       `;
       pp.appendChild(div);
+      renderParagraphs(div.querySelector('.pattern__diag'), p.diagnostico || '', { applyBold: true });
     });
     $('#rPatronesBlock').style.display = (result.patrones_activos && result.patrones_activos.length) ? '' : 'none';
 
@@ -1059,13 +1082,13 @@
       if (blockEl) blockEl.style.display = (result.puntos_ciegos && result.puntos_ciegos.length) ? '' : 'none';
     }
 
-    // Big domino
+    // El cambio #1
     const bd = result.big_domino || {};
     $('#rBigDominoLever').textContent = bd.palanca || '';
-    $('#rBigDominoWhy').textContent = bd.por_que || '';
+    renderParagraphs($('#rBigDominoWhy'), bd.por_que || '');
 
     // Forbidden truth
-    $('#rForbidden').textContent = result.forbidden_truth || '';
+    renderParagraphs($('#rForbidden'), result.forbidden_truth || '');
 
     // Plan 30/60/90
     const plan = result.plan_30_60_90 || {};
@@ -1088,14 +1111,14 @@
     if ($('#rVentana') && ci.ventana_critica_meses) {
       $('#rVentana').innerHTML = `Tienes <strong>${ci.ventana_critica_meses} meses</strong> antes de que el costo de no moverte se vuelva irreversible.`;
     }
-    $('#rCosto').textContent = ci.narrativa || '';
+    renderParagraphs($('#rCosto'), ci.narrativa || '');
 
     // Cita Rodrigo (sin comillas dobles, ya las maneja el CSS via :before)
     $('#rQuote').textContent = result.cita_final_rodrigo || '';
 
     // CTA final
     const cta = result.cta_personalizado || {};
-    if (cta.copy_sugerido) $('#ctaFinalText').textContent = cta.copy_sugerido;
+    if (cta.copy_sugerido) renderParagraphs($('#ctaFinalText'), cta.copy_sugerido);
     $('#ctaFinalBtn').href = CFG.URL_BOOKING;
 
     track('result_viewed', { arquetipo: arq.id, fase: fase.paso_actual });

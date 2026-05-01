@@ -2097,3 +2097,59 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   text-transform: uppercase;
   margin-right: 6px;
 }
+
+/* ============================================================
+   Multi-paragraph rendering (post-feedback Rodrigo / Isra Bravo)
+   Cuando el modelo devuelve texto con \n\n, lo renderizamos
+   como párrafos separados visibles. Mejor respiración + ritmo.
+   ============================================================ */
+.result__lectura > p,
+#rPhaseExplainer > p,
+#rBigDominoWhy > p,
+#rForbidden > p,
+#rCosto > p,
+.cta-final p,
+.pattern__diag > p {
+  margin: 0 0 14px 0;
+}
+.result__lectura > p:last-child,
+#rPhaseExplainer > p:last-child,
+#rBigDominoWhy > p:last-child,
+#rForbidden > p:last-child,
+#rCosto > p:last-child,
+.cta-final > p:last-child,
+.pattern__diag > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Drop cap solo en el primer párrafo del diagnóstico ejecutivo */
+.result__lectura.has-drop-cap > p:first-child::first-letter,
+.result__lectura > p.is-first::first-letter {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 4.2em;
+  font-style: italic;
+  float: left;
+  line-height: 0.92;
+  margin: 4px 12px 0 0;
+  color: var(--cyan);
+}
+
+/* Pattern__diag ahora es un container — quitar margen vertical doble */
+.pattern__diag { margin: 0; }
+.pattern__diag p {
+  font-family: 'Open Sans', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--on-dark-soft);
+}
+
+/* CTA-final paragraphs: mismo tratamiento */
+.cta-final p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--on-dark-soft);
+}
+.cta-final p:first-of-type {
+  font-size: 17px;
+  color: var(--on-dark);
+}
