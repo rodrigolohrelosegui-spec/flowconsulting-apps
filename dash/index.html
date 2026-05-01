@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · Flow Consulting Apps</title>
+  <meta name="description" content="Catálogo interno de las aplicaciones web de Flow Consulting publicadas en apps.flowconsulting.co" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0E14;
+      --bg-row: #121821;
+      --bg-row-hover: #1A2230;
+      --border: #243042;
+      --text: #F1F5F9;
+      --text-soft: #CBD5E1;
+      --cyan: #2DD4BF;
+      --cyan-soft: #5EEAD4;
+      --amber: #FBBF24;
+      --pink: #F472B6;
+      --green: #34D399;
+      --orange: #FB923C;
+      --slate: #94A3B8;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'Montserrat', system-ui, sans-serif;
+      --body: 'Open Sans', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 24px 32px; }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .title-block .eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    h1 em { font-style: italic; color: var(--cyan); }
+    .meta {
+      display: flex;
+      gap: 18px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-soft);
+      align-items: center;
+    }
+    .meta strong { color: var(--cyan); font-weight: 600; }
+    .stat { display: flex; align-items: center; gap: 6px; }
+    .stat-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-live { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .dot-progress { background: var(--orange); }
+    .dot-paused { background: var(--slate); }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+    .toolbar input {
+      flex: 1;
+      background: var(--bg-row);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-family: var(--body);
+      font-size: 13px;
+      outline: none;
+    }
+    .toolbar input:focus { border-color: var(--cyan); }
+    .toolbar input::placeholder { color: #6B7E96; }
+    .btn {
+      background: var(--bg-row);
+      border: 1px solid var(--border);
+      color: var(--text-soft);
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--bg);
+      border-color: var(--cyan);
+    }
+    .btn-primary:hover { background: var(--cyan-soft); color: var(--bg); }
+    .btn-save {
+      background: var(--bg-row);
+      border-color: var(--border);
+      color: var(--text-soft);
+      position: relative;
+    }
+    .btn-save.dirty {
+      background: var(--amber);
+      color: var(--bg);
+      border-color: var(--amber);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    .btn-save.dirty:hover { background: #FCD34D; }
+    .btn-save.saving { background: var(--slate); color: var(--bg); border-color: var(--slate); cursor: wait; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.5); }
+      50% { box-shadow: 0 0 0 6px rgba(251, 191, 36, 0); }
+    }
+    .save-status {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-left: 4px;
+    }
+    .save-status.dirty { color: var(--amber); font-weight: 600; }
+    .save-status.ok { color: var(--green); }
+    .save-status.err { color: #F87171; }
+
+    .category {
+      margin-bottom: 22px;
+    }
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .category-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .category-name svg { width: 16px; height: 16px; }
+    .cat-leadmagnet .category-name { color: var(--cyan); }
+    .cat-funnel .category-name { color: var(--amber); }
+    .cat-internal .category-name { color: var(--pink); }
+    .cat-progress .category-name { color: var(--orange); }
+    .cat-paused .category-name { color: var(--slate); }
+    .category-count {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+
+    .app-list { display: flex; flex-direction: column; gap: 4px; }
+
+    .empty-state {
+      padding: 14px;
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-soft);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      font-style: italic;
+    }
+
+    .app-row {
+      display: grid;
+      grid-template-columns: 32px minmax(170px, 1.3fr) minmax(200px, 2fr) 110px 130px 60px;
+      gap: 14px;
+      align-items: center;
+      padding: 9px 14px;
+      background: var(--bg-row);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .app-row:hover {
+      background: var(--bg-row-hover);
+      border-color: var(--cyan);
+    }
+    .app-icon {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--bg);
+    }
+    .app-icon svg { width: 18px; height: 18px; }
+    .icon-leadmagnet { background: var(--cyan); }
+    .icon-funnel { background: var(--amber); }
+    .icon-internal { background: var(--pink); }
+
+    .app-name {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .app-name:hover { color: var(--cyan); }
+    .app-desc {
+      font-size: 13px;
+      color: var(--text-soft);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .app-path {
+      font-family: 'SF Mono', Menlo, monospace;
+      font-size: 12px;
+      color: var(--cyan-soft);
+      text-decoration: none;
+    }
+    .app-path:hover { text-decoration: underline; }
+
+    .status-select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      width: 100%;
+    }
+    .status-select:focus { border-color: var(--cyan); }
+    .status-live { color: var(--green); border-color: rgba(52,211,153,0.4); }
+    .status-in-progress { color: var(--orange); border-color: rgba(251,146,60,0.4); }
+    .status-paused { color: var(--slate); border-color: rgba(148,163,184,0.4); }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .icon-btn {
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .icon-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .icon-btn svg { width: 13px; height: 13px; }
+
+    .notes-row {
+      grid-column: 1 / -1;
+      padding: 8px 12px 0 46px;
+      display: none;
+    }
+    .notes-row.open { display: block; }
+    .notes-row textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      padding: 8px 10px;
+      font-family: var(--body);
+      font-size: 12px;
+      resize: vertical;
+      min-height: 50px;
+      outline: none;
+    }
+    .notes-row textarea:focus { border-color: var(--cyan); }
+    .notes-meta {
+      font-family: var(--sans);
+      font-size: 10px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .row-wrapper { display: flex; flex-direction: column; gap: 0; }
+
+    .assets-bar {
+      margin-top: 20px;
+      padding: 12px 16px;
+      background: var(--bg-row);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .assets-bar .label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-soft);
+    }
+    .assets-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .assets-links a {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--cyan-soft);
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .assets-links a:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+
+    /* Modal para nuevo registro */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-bg.open { display: flex; }
+    .modal {
+      background: var(--bg-row);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      width: 90%;
+      max-width: 480px;
+    }
+    .modal h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .modal label {
+      display: block;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+      margin-top: 12px;
+    }
+    .modal input, .modal select, .modal textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: var(--body);
+      font-size: 13px;
+      outline: none;
+    }
+    .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--cyan); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+    @media (max-width: 900px) {
+      .app-row { grid-template-columns: 28px 1fr 110px 60px; }
+      .app-desc, .app-path { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Password gate -->
+  <div id="authGate" style="position:fixed;inset:0;background:#0A0E14;z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;font-family:'Open Sans',sans-serif;">
+    <div style="text-align:center;max-width:360px;padding:40px 24px;">
+      <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:#2DD4BF;margin-bottom:8px;">Acceso interno</div>
+      <h1 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:36px;color:#F1F5F9;margin-bottom:8px;line-height:1;">Flow Consulting <em style="color:#2DD4BF;">Apps</em></h1>
+      <p style="color:#CBD5E1;font-size:13px;margin-bottom:24px;">Ingresa la contraseña para continuar</p>
+      <input id="authInput" type="password" autofocus placeholder="Contraseña" style="width:100%;background:#121821;border:1px solid #243042;color:#F1F5F9;padding:12px 16px;border-radius:8px;font-family:inherit;font-size:14px;outline:none;text-align:center;letter-spacing:0.1em;" />
+      <div id="authError" style="color:#F87171;font-size:12px;margin-top:8px;height:14px;font-family:'Montserrat',sans-serif;"></div>
+      <button id="authBtn" style="margin-top:16px;width:100%;background:#2DD4BF;color:#0A0E14;border:none;padding:12px;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Entrar</button>
+    </div>
+  </div>
+
+  <div class="container" id="dashRoot" style="display:none;">
+    <header>
+      <div class="title-block">
+        <div class="eyebrow">Dashboard interno</div>
+        <h1>Flow Consulting <em>Apps</em></h1>
+      </div>
+      <div class="meta">
+        <span class="stat"><span class="stat-dot dot-live"></span><strong id="countLive">0</strong> live</span>
+        <span class="stat"><span class="stat-dot dot-progress"></span><strong id="countProgress">0</strong> en progreso</span>
+        <span class="stat"><span class="stat-dot dot-paused"></span><strong id="countPaused">0</strong> pausado</span>
+        <span>repo: <strong>flowconsulting-apps</strong></span>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <input type="text" id="search" placeholder="Buscar por nombre, descripción, categoría o estado…" />
+      <button class="btn btn-primary" id="addBtn">+ Nuevo registro</button>
+      <button class="btn btn-save" id="saveBtn" title="Guardar al repo de GitHub (sincroniza entre dispositivos)">Guardar cambios</button>
+      <span class="save-status" id="saveStatus">Sincronizado</span>
+      <button class="btn" id="exportBtn" title="Descargar backup JSON">Backup</button>
+      <button class="btn" id="importBtn" title="Restaurar desde JSON">Restore</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none" />
+    </div>
+
+    <div id="categories"></div>
+
+    <div class="assets-bar">
+      <span class="label">Bibliotecas de assets</span>
+      <div class="assets-links">
+        <a href="https://github.com/rodrigolohrelosegui-spec/flowconsulting-apps/tree/main/refs_rodrigo" target="_blank">refs_rodrigo · 8</a>
+        <a href="https://github.com/rodrigolohrelosegui-spec/flowconsulting-apps/tree/main/stock" target="_blank">stock · 10</a>
+        <a href="https://github.com/rodrigolohrelosegui-spec/flowconsulting-apps/tree/main/stock_rodrigo" target="_blank">stock_rodrigo · 12</a>
+      </div>
+    </div>
+
+    <footer>
+      Flow Consulting · <a href="https://github.com/rodrigolohrelosegui-spec/flowconsulting-apps" target="_blank">repo en GitHub</a> · estado guardado localmente en este navegador
+    </footer>
+  </div>
+
+  <!-- Modal nuevo registro -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <h2 id="modalTitle">Nuevo registro</h2>
+      <label>Nombre</label>
+      <input type="text" id="fName" placeholder="Ej. Webinar Black Friday" />
+      <label>Descripción corta</label>
+      <input type="text" id="fDesc" placeholder="Una línea — qué es y para qué sirve" />
+      <label>Path / URL</label>
+      <input type="text" id="fPath" placeholder="/webinar-bf  o  https://…" />
+      <label>Categoría</label>
+      <select id="fType">
+        <option value="lead-magnet">Lead magnet</option>
+        <option value="funnel">Funnel · Post-booking</option>
+        <option value="internal">Interno · Tools</option>
+      </select>
+      <label>Estado</label>
+      <select id="fStatus">
+        <option value="in-progress">En progreso</option>
+        <option value="live">Live</option>
+        <option value="paused">Pausado</option>
+      </select>
+      <div class="modal-actions">
+        <button class="btn" id="modalCancel">Cancelar</button>
+        <button class="btn btn-primary" id="modalSave">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== AUTH GATE ====================
+    const PWD_HASH = 'c972460b109cdc8c646b565cb2f054cb61ffc9a4e3a8c0eb001aae4e8533e03c';
+    const AUTH_KEY = 'flowApps_auth';
+
+    async function sha256(s) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    function unlock() {
+      document.getElementById('authGate').style.display = 'none';
+      document.getElementById('dashRoot').style.display = '';
+    }
+
+    async function tryAuth() {
+      const input = document.getElementById('authInput');
+      const err = document.getElementById('authError');
+      const h = await sha256(input.value);
+      if (h === PWD_HASH) {
+        sessionStorage.setItem(AUTH_KEY, '1');
+        unlock();
+        initDashboard();
+      } else {
+        err.textContent = 'Contraseña incorrecta';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    document.getElementById('authBtn').addEventListener('click', tryAuth);
+    document.getElementById('authInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') tryAuth();
+    });
+
+    if (sessionStorage.getItem(AUTH_KEY) === '1') {
+      unlock();
+    }
+
+    // Solo arranca el dashboard tras unlock
+    function initDashboard() {
+      render();
+      updateSaveUI();
+      (async () => {
+        const status = document.getElementById('saveStatus');
+        if (status) {
+          status.textContent = 'Sincronizando con GitHub…';
+          await syncFromRemote();
+          updateSaveUI();
+        }
+      })();
+    }
+
+    // ==================== ICONOS SVG ====================
+    const ICONS = {
+      'lead-magnet': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v8a6 6 0 0 0 12 0V4"/><path d="M6 4h4M14 4h4M6 12h4M14 12h4"/></svg>',
+      'funnel': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 9v7l-4-2v-5z"/></svg>',
+      'internal': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+      'progress': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+      'paused': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>',
+      'open': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+      'note': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+      'edit': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+      'delete': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>'
+    };
+
+    // ==================== ESTRUCTURA ====================
+    const TYPE_CATEGORIES = [
+      { id: 'lead-magnet', name: 'Lead magnets', icon: ICONS['lead-magnet'], cls: 'cat-leadmagnet', iconCls: 'icon-leadmagnet' },
+      { id: 'funnel',      name: 'Funnel · Post-booking', icon: ICONS['funnel'], cls: 'cat-funnel', iconCls: 'icon-funnel' },
+      { id: 'internal',    name: 'Interno · Tools', icon: ICONS['internal'], cls: 'cat-internal', iconCls: 'icon-internal' }
+    ];
+    const STATUS_CATEGORIES = [
+      { id: 'in-progress', name: 'En progreso', icon: ICONS['progress'], cls: 'cat-progress' },
+      { id: 'paused',      name: 'Pausado',     icon: ICONS['paused'],   cls: 'cat-paused' }
+    ];
+    const TYPE_LOOKUP = Object.fromEntries(TYPE_CATEGORIES.map(c => [c.id, c]));
+
+    // ==================== ESTADO PERSISTENTE ====================
+    const STORE_KEY = 'flowApps_v1';
+    const SEED = [
+      { id: 'diagnostico', name: 'Diagnóstico Infinite Flow', desc: 'Quiz de 4 min · identifica fase del negocio, Big Domino y palanca a mover', path: '/diagnostico/', type: 'lead-magnet', status: 'live', notes: '', updated: Date.now() },
+      { id: 'lifestyle',   name: 'One-Woman Business Roadmap', desc: 'Caso Mary Carmen · de endeudada a $15K/sem con 80-90% rentabilidad', path: '/lifestyle/', type: 'lead-magnet', status: 'live', notes: '', updated: Date.now() },
+      { id: 'testprecall', name: 'Pre-Llamada', desc: 'Pantalla de bienvenida post-agendamiento · prepara contexto antes del call', path: '/testprecall/', type: 'funnel', status: 'live', notes: '', updated: Date.now() }
+    ];
+
+    let apps = load();
+    let dirty = false;
+    let remoteSha = null;
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(STORE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed;
+          if (parsed && Array.isArray(parsed.apps)) {
+            remoteSha = parsed.sha || null;
+            return parsed.apps;
+          }
+        }
+      } catch(e) {}
+      return [...SEED];
+    }
+    function save(markDirty = true) {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ apps, sha: remoteSha }));
+      if (markDirty) {
+        dirty = true;
+        updateSaveUI();
+      }
+      render();
+    }
+
+    function updateSaveUI() {
+      const btn = document.getElementById('saveBtn');
+      const status = document.getElementById('saveStatus');
+      btn.classList.toggle('dirty', dirty);
+      btn.textContent = dirty ? 'Guardar cambios' : 'Guardado';
+      status.className = 'save-status ' + (dirty ? 'dirty' : 'ok');
+      status.textContent = dirty ? '● Cambios sin guardar' : '✓ Sincronizado';
+    }
+
+    // ==================== GITHUB SYNC ====================
+    const REPO_OWNER = 'rodrigolohrelosegui-spec';
+    const REPO_NAME  = 'flowconsulting-apps';
+    const DATA_PATH  = 'dash/data.json';
+    const RAW_URL    = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_PATH}`;
+    const API_URL    = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_PATH}`;
+    const TOKEN_KEY  = 'flowApps_ghToken';
+
+    async function fetchRemote() {
+      try {
+        // Add cache buster to avoid stale CDN
+        const r = await fetch(RAW_URL + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!r.ok) return null;
+        return await r.json();
+      } catch(e) { return null; }
+    }
+
+    async function fetchRemoteMeta(token) {
+      const r = await fetch(API_URL + '?t=' + Date.now(), {
+        headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (r.status === 404) return { sha: null };
+      if (!r.ok) throw new Error('No se pudo leer el archivo en GitHub');
+      const j = await r.json();
+      return { sha: j.sha };
+    }
+
+    function getToken() {
+      let t = localStorage.getItem(TOKEN_KEY);
+      if (!t) {
+        t = prompt('Pega tu GitHub Personal Access Token (con permiso `contents:write` sobre el repo flowconsulting-apps).\n\nSe guarda solo en este navegador. No se sube a ningún servidor.');
+        if (t) {
+          t = t.trim();
+          localStorage.setItem(TOKEN_KEY, t);
+        }
+      }
+      return t;
+    }
+
+    async function pushToGitHub() {
+      const token = getToken();
+      if (!token) return;
+      const btn = document.getElementById('saveBtn');
+      const status = document.getElementById('saveStatus');
+      btn.classList.remove('dirty');
+      btn.classList.add('saving');
+      btn.textContent = 'Guardando…';
+      status.className = 'save-status';
+      status.textContent = 'Subiendo a GitHub…';
+
+      try {
+        // Always re-fetch sha (otherwise GitHub rejects with 409 if file changed)
+        const meta = await fetchRemoteMeta(token);
+        const body = {
+          message: `dash: actualizar registros (${apps.length} apps)`,
+          content: btoa(unescape(encodeURIComponent(JSON.stringify(apps, null, 2)))),
+          branch: 'main'
+        };
+        if (meta.sha) body.sha = meta.sha;
+
+        const r = await fetch(API_URL, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!r.ok) {
+          const err = await r.json().catch(() => ({}));
+          throw new Error(err.message || ('HTTP ' + r.status));
+        }
+        const j = await r.json();
+        remoteSha = j.content && j.content.sha;
+        dirty = false;
+        save(false);
+        status.className = 'save-status ok';
+        status.textContent = '✓ Guardado en GitHub';
+        btn.classList.remove('saving');
+        btn.textContent = 'Guardado';
+      } catch (err) {
+        btn.classList.remove('saving');
+        btn.classList.add('dirty');
+        btn.textContent = 'Reintentar';
+        status.className = 'save-status err';
+        status.textContent = '✗ Error: ' + err.message;
+        if (/401|403|Bad credentials/i.test(err.message)) {
+          if (confirm('Token inválido o sin permisos. ¿Borrar el token guardado y pedir uno nuevo?')) {
+            localStorage.removeItem(TOKEN_KEY);
+          }
+        }
+        console.error(err);
+      }
+    }
+
+    async function syncFromRemote() {
+      const remote = await fetchRemote();
+      if (Array.isArray(remote) && remote.length) {
+        apps = remote;
+        save(false);
+      }
+    }
+
+    // ==================== RENDER ====================
+    function render() {
+      const q = (document.getElementById('search').value || '').toLowerCase().trim();
+      const root = document.getElementById('categories');
+      root.innerHTML = '';
+
+      // Filtrar por búsqueda
+      const filtered = apps.filter(a => {
+        if (!q) return true;
+        const hay = (a.name + ' ' + a.desc + ' ' + a.path + ' ' + a.type + ' ' + a.status + ' ' + (a.notes||'')).toLowerCase();
+        return hay.includes(q);
+      });
+
+      // 1. Categorías por TIPO (solo items LIVE)
+      TYPE_CATEGORIES.forEach(cat => {
+        const items = filtered.filter(a => a.type === cat.id && a.status === 'live');
+        root.appendChild(renderCategory(cat, items, false));
+      });
+
+      // 2. En progreso (todos los tipos)
+      STATUS_CATEGORIES.forEach(cat => {
+        const items = filtered.filter(a => a.status === cat.id);
+        root.appendChild(renderCategory(cat, items, true));
+      });
+
+      // Stats
+      document.getElementById('countLive').textContent     = apps.filter(a => a.status === 'live').length;
+      document.getElementById('countProgress').textContent = apps.filter(a => a.status === 'in-progress').length;
+      document.getElementById('countPaused').textContent   = apps.filter(a => a.status === 'paused').length;
+
+      attachRowEvents();
+    }
+
+    function renderCategory(cat, items, allowEmpty) {
+      const wrap = document.createElement('div');
+      wrap.className = 'category ' + cat.cls;
+      wrap.innerHTML = `
+        <div class="category-header">
+          <span class="category-name">${cat.icon} ${cat.name}</span>
+          <span class="category-count">${items.length} ${items.length === 1 ? 'app' : 'apps'}</span>
+        </div>
+        <div class="app-list"></div>
+      `;
+      const list = wrap.querySelector('.app-list');
+      if (items.length === 0) {
+        list.innerHTML = `<div class="empty-state">Sin registros</div>`;
+      } else {
+        items.forEach(app => list.appendChild(renderRow(app)));
+      }
+      return wrap;
+    }
+
+    function renderRow(app) {
+      const type = TYPE_LOOKUP[app.type] || TYPE_LOOKUP['lead-magnet'];
+      const wrap = document.createElement('div');
+      wrap.className = 'row-wrapper';
+      const isFullUrl = /^https?:\/\//.test(app.path);
+      const linkPath = isFullUrl ? app.path : app.path;
+      wrap.innerHTML = `
+        <div class="app-row" data-id="${app.id}">
+          <div class="app-icon ${type.iconCls}">${type.icon}</div>
+          <a class="app-name" href="${linkPath}" target="_blank">${escape(app.name)}</a>
+          <div class="app-desc" title="${escape(app.desc)}">${escape(app.desc)}</div>
+          <a class="app-path" href="${linkPath}" target="_blank">${escape(app.path)}</a>
+          <select class="status-select status-${app.status}" data-action="status">
+            <option value="live"        ${app.status==='live'?'selected':''}>● Live</option>
+            <option value="in-progress" ${app.status==='in-progress'?'selected':''}>● En progreso</option>
+            <option value="paused"      ${app.status==='paused'?'selected':''}>● Pausado</option>
+          </select>
+          <div class="row-actions">
+            <button class="icon-btn" data-action="notes" title="Notas">${ICONS['note']}</button>
+            <button class="icon-btn" data-action="edit"  title="Editar">${ICONS['edit']}</button>
+            <button class="icon-btn" data-action="delete" title="Eliminar">${ICONS['delete']}</button>
+          </div>
+        </div>
+        <div class="notes-row" data-notes-for="${app.id}">
+          <textarea placeholder="Notas internas — recordatorios, métricas, próximos pasos…">${escape(app.notes||'')}</textarea>
+          <div class="notes-meta">Actualizado ${formatDate(app.updated)}</div>
+        </div>
+      `;
+      return wrap;
+    }
+
+    function escape(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function formatDate(ts) {
+      if (!ts) return '—';
+      const d = new Date(ts);
+      return d.toLocaleString('es-MX', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    }
+
+    // ==================== EVENTOS POR FILA ====================
+    function attachRowEvents() {
+      document.querySelectorAll('.app-row').forEach(row => {
+        const id = row.dataset.id;
+
+        row.querySelector('[data-action="status"]').addEventListener('change', e => {
+          const app = apps.find(a => a.id === id);
+          app.status = e.target.value;
+          app.updated = Date.now();
+          save();
+        });
+
+        row.querySelector('[data-action="notes"]').addEventListener('click', () => {
+          const notesRow = document.querySelector(`[data-notes-for="${id}"]`);
+          notesRow.classList.toggle('open');
+        });
+
+        row.querySelector('[data-action="edit"]').addEventListener('click', () => {
+          openModal(apps.find(a => a.id === id));
+        });
+
+        row.querySelector('[data-action="delete"]').addEventListener('click', () => {
+          const app = apps.find(a => a.id === id);
+          if (confirm(`¿Eliminar "${app.name}"?`)) {
+            apps = apps.filter(a => a.id !== id);
+            save();
+          }
+        });
+      });
+
+      document.querySelectorAll('.notes-row textarea').forEach(ta => {
+        const id = ta.parentElement.dataset.notesFor;
+        ta.addEventListener('blur', () => {
+          const app = apps.find(a => a.id === id);
+          if (app && app.notes !== ta.value) {
+            app.notes = ta.value;
+            app.updated = Date.now();
+            save();
+          }
+        });
+      });
+    }
+
+    // ==================== TOOLBAR ====================
+    document.getElementById('search').addEventListener('input', render);
+
+    document.getElementById('addBtn').addEventListener('click', () => openModal(null));
+
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(apps, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `flowapps-backup-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('importBtn').addEventListener('click', () => {
+      document.getElementById('importFile').click();
+    });
+    document.getElementById('importFile').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (Array.isArray(data) && confirm(`Reemplazar ${apps.length} registros con ${data.length} del archivo?`)) {
+            apps = data;
+            save();
+          }
+        } catch(err) { alert('JSON inválido'); }
+      };
+      reader.readAsText(file);
+    });
+
+    // ==================== MODAL ====================
+    let editingId = null;
+    function openModal(app) {
+      editingId = app ? app.id : null;
+      document.getElementById('modalTitle').textContent = app ? 'Editar registro' : 'Nuevo registro';
+      document.getElementById('fName').value   = app ? app.name : '';
+      document.getElementById('fDesc').value   = app ? app.desc : '';
+      document.getElementById('fPath').value   = app ? app.path : '/';
+      document.getElementById('fType').value   = app ? app.type : 'lead-magnet';
+      document.getElementById('fStatus').value = app ? app.status : 'in-progress';
+      document.getElementById('modalBg').classList.add('open');
+      document.getElementById('fName').focus();
+    }
+    function closeModal() {
+      document.getElementById('modalBg').classList.remove('open');
+      editingId = null;
+    }
+    document.getElementById('modalCancel').addEventListener('click', closeModal);
+    document.getElementById('modalBg').addEventListener('click', e => {
+      if (e.target.id === 'modalBg') closeModal();
+    });
+    document.getElementById('modalSave').addEventListener('click', () => {
+      const name = document.getElementById('fName').value.trim();
+      if (!name) { alert('Nombre requerido'); return; }
+      const data = {
+        name,
+        desc:   document.getElementById('fDesc').value.trim(),
+        path:   document.getElementById('fPath').value.trim() || '/',
+        type:   document.getElementById('fType').value,
+        status: document.getElementById('fStatus').value,
+        updated: Date.now()
+      };
+      if (editingId) {
+        const app = apps.find(a => a.id === editingId);
+        Object.assign(app, data);
+      } else {
+        data.id = 'app-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
+        data.notes = '';
+        apps.push(data);
+      }
+      save();
+      closeModal();
+    });
+
+    // ==================== GUARDAR + AVISO ====================
+    document.getElementById('saveBtn').addEventListener('click', pushToGitHub);
+
+    // Atajo: Cmd/Ctrl + S
+    document.addEventListener('keydown', e => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        if (dirty) pushToGitHub();
+      }
+    });
+
+    // Aviso si hay cambios sin guardar al cerrar/recargar
+    window.addEventListener('beforeunload', e => {
+      if (dirty) {
+        e.preventDefault();
+        e.returnValue = 'Tienes cambios sin guardar. ¿Seguro que quieres salir?';
+        return e.returnValue;
+      }
+    });
+
+    // Si ya estaba autenticado al cargar la página, arranca el dashboard
+    if (sessionStorage.getItem(AUTH_KEY) === '1') {
+      initDashboard();
+    }
+  </script>
+</body>
+</html>
