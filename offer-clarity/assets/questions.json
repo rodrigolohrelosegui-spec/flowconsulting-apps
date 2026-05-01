@@ -1,9 +1,9 @@
 {
-  "diagnostic_id": "offer_clarity_scanner_v1",
-  "version": "1.0",
-  "last_updated": "2026-04-30",
+  "diagnostic_id": "offer_clarity_scanner_v2",
+  "version": "2.0",
+  "last_updated": "2026-05-01",
   "name": "Offer Clarity Scanner · Flow Consulting",
-  "description": "Pega tu copy real. La IA scorea 4 pilares narrativos y te dice qué frase está saboteando tu conversión.",
+  "description": "Pega tu copy real. La IA te dice qué frase está saboteando tu conversión.",
   "questions": [
     {
       "id": "Q1",
@@ -12,8 +12,9 @@
       "min_chars": 30,
       "max_chars": 500,
       "label": "Tu bio de Instagram (o LinkedIn)",
-      "hint": "Pegá la bio EXACTA, tal como está hoy. No la edites.",
-      "placeholder": "Pegá la bio sin pulirla. Ejemplo: 'Ayudo a coaches a vender high ticket sin webinars | DM para aplicar'. Si tiene typos o suena rara, pegala así."
+      "hint": "Pegá la bio tal como está hoy. Sin pulirla.",
+      "placeholder": "Ejemplo: Ayudo a coaches a vender high ticket sin webinars. DM para aplicar",
+      "skip_allowed": false
     },
     {
       "id": "Q2",
@@ -21,19 +22,61 @@
       "required": false,
       "min_chars": 0,
       "max_chars": 1500,
-      "label": "Titular de tu landing principal + 3 bullets clave",
-      "hint": "Si tenés landing, pegá el headline + los 3 bullets/promesas más fuertes. Si no tenés landing, dejalo vacío.",
-      "placeholder": "Headline: La forma más rápida de duplicar tu agencia sin contratar más gente.\n\n• Sistema probado con 47 agencias\n• Sin ads pagados\n• Resultados en 60 días"
+      "label": "Titular de tu landing + 3 bullets clave",
+      "hint": "Si tenés landing publicada. Si no, saltá esta pregunta.",
+      "placeholder": "Headline + 3 bullets exactos como están en tu página.",
+      "skip_allowed": true,
+      "skip_label": "No tengo landing todavía"
     },
     {
-      "id": "Q3",
+      "id": "Q3a",
       "type": "textarea",
       "required": true,
-      "min_chars": 50,
-      "max_chars": 1000,
-      "label": "Tu oferta principal — qué vendés, a quién, cuánto cuesta, qué transformación prometés",
-      "hint": "En palabras propias. No copies tu landing — describime tu oferta como se la describirías a un amigo.",
-      "placeholder": "En palabras propias, sin landing copy. Ejemplo: 'Programa para coaches facturando $5-15K que quieren saltar a $30K. 12 semanas, $4K. Salen con la oferta clara y los primeros clientes high-ticket'."
+      "min_chars": 20,
+      "max_chars": 400,
+      "label": "¿Qué vendés?",
+      "hint": "El producto o servicio principal. En una frase.",
+      "placeholder": "Ejemplo: Programa de 12 semanas de coaching grupal para coaches.",
+      "skip_allowed": false
+    },
+    {
+      "id": "Q3b",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 15,
+      "max_chars": 300,
+      "label": "¿A quién se lo vendés?",
+      "hint": "Tu cliente ideal. Cuanto más específico, mejor.",
+      "placeholder": "Ejemplo: Coaches facturando 5K a 15K al mes que quieren saltar a 30K.",
+      "skip_allowed": false
+    },
+    {
+      "id": "Q3c",
+      "type": "textarea",
+      "required": true,
+      "min_chars": 20,
+      "max_chars": 400,
+      "label": "¿Qué transformación prometés?",
+      "hint": "El resultado concreto. Lo que tu cliente obtiene cuando termina contigo.",
+      "placeholder": "Ejemplo: Salen con su funnel de Instagram montado y los primeros 5 clientes high-ticket cerrados en 90 días.",
+      "skip_allowed": true,
+      "skip_label": "No la tengo definida todavía"
+    },
+    {
+      "id": "Q3d",
+      "type": "single_choice",
+      "required": true,
+      "label": "¿Cuánto cuesta tu oferta principal?",
+      "hint": "El precio actual de tu programa o servicio insignia.",
+      "options": [
+        { "value": "A", "label": "Menos de 500 USD" },
+        { "value": "B", "label": "500 a 2,000 USD" },
+        { "value": "C", "label": "2,000 a 5,000 USD" },
+        { "value": "D", "label": "5,000 a 15,000 USD" },
+        { "value": "E", "label": "Más de 15,000 USD" },
+        { "value": "F", "label": "Aún no tengo precio definido" }
+      ],
+      "skip_allowed": false
     },
     {
       "id": "Q4",
@@ -41,9 +84,11 @@
       "required": true,
       "min_chars": 5,
       "max_chars": 500,
-      "label": "Tu mecanismo único — ¿tenés UN nombre / UN sistema propio que diferencia? ¿Cuál?",
-      "hint": "Ejemplo: 'Sistema A³', 'Infinite Flow', 'Funnel Minimalista'. Si no tenés todavía, escribí: 'no tengo todavía'.",
-      "placeholder": "El Funnel Minimalista — 3 piezas conectadas: contenido orgánico, DM script, y una llamada. Sin ads, sin webinar, sin VSL."
+      "label": "Tu mecanismo único",
+      "hint": "El nombre o sistema propio que tu cliente recuerda. Tipo Sistema A3, Infinite Flow, Funnel Minimalista.",
+      "placeholder": "Ejemplo: El Funnel Minimalista. 3 piezas: contenido, DM, llamada.",
+      "skip_allowed": true,
+      "skip_label": "No tengo uno definido todavía"
     },
     {
       "id": "Q5",
@@ -51,38 +96,60 @@
       "required": true,
       "min_chars": 5,
       "max_chars": 1000,
-      "label": "Tu prueba — ¿qué casos / números / nombres específicos podés citar?",
-      "hint": "Cuanto más específico, mejor. Si no tenés todavía, escribí: 'ninguna aún' (eso ya es un dato).",
-      "placeholder": "Tengo 3 casos: Maria duplicó de $8K a $16K en 90 días. Carlos cerró 4 clientes high-ticket en 30 días. Ana lanzó su primer programa y vendió 12 plazas a $1,500."
+      "label": "Tu prueba",
+      "hint": "Casos, números o nombres específicos que podés citar.",
+      "placeholder": "Ejemplo: Maria duplicó de 8K a 16K en 90 días. Carlos cerró 4 clientes high-ticket en 30 días.",
+      "skip_allowed": true,
+      "skip_label": "No tengo casos documentados aún"
     },
     {
       "id": "Q6",
-      "type": "single_choice_metadata",
-      "scoring_role": "metadata_revenue",
+      "type": "multi_choice",
       "required": true,
-      "label": "¿Cuánto factura tu negocio al mes (aproximado)?",
-      "hint": "Sé honesto. Esto calibra el análisis. Nadie va a juzgarte por la cifra.",
+      "min_selected": 1,
+      "label": "¿Por qué un cliente te elegiría a vos en vez de a tu competencia?",
+      "hint": "Marcá las que aplican. Múltiples permitidas.",
       "options": [
-        { "value": "A", "label": "Menos de $2.5K USD / mes (validando)" },
-        { "value": "B", "label": "$2.5K - $15K / mes" },
-        { "value": "C", "label": "$15K - $50K / mes" },
-        { "value": "D", "label": "$50K - $200K / mes" },
-        { "value": "E", "label": "Más de $200K / mes" }
-      ]
+        { "value": "metodo", "label": "Tengo un método propio que nadie más tiene" },
+        { "value": "experiencia", "label": "Mi experiencia personal me da una mirada distinta" },
+        { "value": "resultados", "label": "Mis resultados con clientes son medibles y concretos" },
+        { "value": "nicho", "label": "Trabajo solo con un nicho muy específico" },
+        { "value": "filosofia", "label": "Tengo una filosofía de trabajo que se nota en cada interacción" },
+        { "value": "speed", "label": "Entrego más rápido o con menos esfuerzo del cliente" },
+        { "value": "honesto", "label": "Honestamente, no estoy seguro de qué me diferencia" }
+      ],
+      "skip_allowed": false
     },
     {
       "id": "Q7",
-      "type": "single_choice_metadata",
+      "type": "single_choice",
+      "scoring_role": "metadata_revenue",
+      "required": true,
+      "label": "¿Cuánto factura tu negocio al mes?",
+      "hint": "Aproximado. Calibra el análisis. Nadie te juzga.",
+      "options": [
+        { "value": "A", "label": "Menos de 2,500 USD al mes (validando)" },
+        { "value": "B", "label": "2,500 a 15,000 USD al mes" },
+        { "value": "C", "label": "15,000 a 50,000 USD al mes" },
+        { "value": "D", "label": "50,000 a 200,000 USD al mes" },
+        { "value": "E", "label": "Más de 200,000 USD al mes" }
+      ],
+      "skip_allowed": false
+    },
+    {
+      "id": "Q8",
+      "type": "single_choice",
       "scoring_role": "metadata_tenure",
       "required": true,
       "label": "¿Hace cuánto trabajás en este negocio?",
-      "hint": "Calibra urgencia y el caso análogo más cercano a tu momento.",
+      "hint": "Calibra urgencia y caso análogo.",
       "options": [
         { "value": "A", "label": "Menos de 6 meses" },
         { "value": "B", "label": "6 meses a 2 años" },
         { "value": "C", "label": "2 a 5 años" },
         { "value": "D", "label": "Más de 5 años" }
-      ]
+      ],
+      "skip_allowed": false
     }
   ]
 }
