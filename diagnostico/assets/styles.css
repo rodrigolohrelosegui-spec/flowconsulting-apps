@@ -1955,3 +1955,206 @@ em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 40
   text-align: left;
   color: var(--cyan);
 }
+
+/* ============================================================
+   Case Studies block (post-result, below CTA-final)
+   Visual style ported from /precall — vthumb cards with custom
+   thumbnails, click-to-load YouTube iframe, no external links.
+   ============================================================ */
+.cases-section {
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--on-dark-line);
+}
+.cases-section__head { margin-bottom: 32px; max-width: 720px; }
+.cases-section__kicker {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.cases-section__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(24px, 3.6vw, 34px);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  color: var(--on-dark);
+  margin: 0 0 14px;
+}
+.cases-section__title em {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--cyan);
+}
+.cases-section__body {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--on-dark-soft);
+  max-width: 60ch;
+}
+
+.cs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 20px;
+}
+@media (max-width: 640px) {
+  .cs-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+.cs-item { display: flex; flex-direction: column; gap: 14px; }
+
+.cs-card {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--dark-2);
+  cursor: pointer;
+  box-shadow: 0 4px 20px -10px rgba(0,0,0,0.50), 0 0 0 1px var(--on-dark-line);
+  transition: transform .35s ease, box-shadow .35s;
+}
+.cs-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55), 0 0 0 1px var(--border-cyan);
+}
+.cs-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+.vthumb {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 22px;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(95,232,215,0.20) 0%, rgba(95,232,215,0.04) 40%, transparent 70%),
+    linear-gradient(180deg, var(--dark-3) 0%, var(--dark) 100%);
+}
+.vthumb::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right,  rgba(95,232,215,0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(95,232,215,0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 75%);
+  pointer-events: none;
+}
+.vthumb__top {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.vthumb__kicker {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--cyan);
+  padding: 5px 10px;
+  background: rgba(95,232,215,0.08);
+  border: 1px solid rgba(95,232,215,0.22);
+  border-radius: 100px;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.vthumb__kicker::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%; background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+}
+.vthumb__center {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex: 1; gap: 12px; padding: 8px 0;
+}
+.vthumb__icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(95,232,215,0.18), rgba(95,232,215,0.05));
+  border: 1px solid rgba(95,232,215,0.30);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cyan);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), 0 8px 24px -8px rgba(95,232,215,0.30);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+}
+.vthumb__title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(14px, 2.3vw, 19px);
+  font-weight: 800;
+  letter-spacing: -.015em;
+  color: var(--on-dark);
+  line-height: 1.18;
+  text-align: center;
+  max-width: 22ch;
+}
+.vthumb__sub {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px; font-weight: 500;
+  color: var(--on-dark-muted);
+  letter-spacing: .02em;
+  text-align: center;
+  max-width: 32ch;
+}
+.vthumb__bottom {
+  position: relative; z-index: 2;
+  display: flex; justify-content: flex-end; align-items: center;
+}
+.vthumb__play {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(95,232,215,0.40);
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.40), 0 8px 20px rgba(0,0,0,0.50);
+  transition: transform .25s ease, box-shadow .25s, border-color .25s;
+  position: relative;
+}
+.cs-card:hover .vthumb__play {
+  transform: scale(1.1);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 4px rgba(95,232,215,0.15), 0 12px 28px rgba(95,232,215,0.30);
+}
+.vthumb__play::after {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(95,232,215,0.50);
+  opacity: 0;
+  animation: cs-ping 2.4s ease-out infinite;
+}
+@keyframes cs-ping {
+  0%   { opacity: 1; transform: scale(0.95); }
+  80%  { opacity: 0; transform: scale(1.30); }
+  100% { opacity: 0; transform: scale(1.30); }
+}
+.vthumb__play-tri {
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 13px;
+  border-color: transparent transparent transparent var(--cyan);
+  margin-left: 3px;
+}
+
+.cs-summary {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  color: var(--on-dark-muted);
+  line-height: 1.6;
+  padding: 0 4px;
+  margin: 0;
+}
+.cs-summary strong { color: var(--on-dark-soft); font-weight: 700; }
+.cs-summary__name {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-right: 6px;
+}

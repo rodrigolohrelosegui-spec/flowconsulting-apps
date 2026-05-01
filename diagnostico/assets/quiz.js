@@ -616,16 +616,16 @@
     if (!grid) return;
     grid.innerHTML = '';
 
-    // 17 real cases (from system prompt's archetypes + canonical case studies)
+    // 17 abstract niche buckets (anonymized — no client names exposed in loader)
     const cases = [
-      { i:'M', sub:'Mary' }, { i:'J', sub:'Julio' }, { i:'O', sub:'Omar' },
-      { i:'D', sub:'Daniel' }, { i:'M', sub:'Maryell' }, { i:'A', sub:'Andrés' },
-      { i:'E', sub:'Erika' }, { i:'J', sub:'Joao' }, { i:'I', sub:'Inés' },
-      { i:'L', sub:'Lupita' }, { i:'M', sub:'Mónica' }, { i:'E', sub:'Erick' },
-      { i:'R', sub:'Regina' }, { i:'C', sub:'Carlos' }, { i:'P', sub:'Paula' },
-      { i:'R', sub:'Rocío' }, { i:'F', sub:'Fernanda' }
+      { i:'C', sub:'Coach' },         { i:'C', sub:'Consultor' },     { i:'A', sub:'Agencia' },
+      { i:'E', sub:'Experto' },       { i:'M', sub:'Mentor' },        { i:'F', sub:'Formador' },
+      { i:'P', sub:'Profesional' },   { i:'E', sub:'Estratega' },     { i:'F', sub:'Founder' },
+      { i:'C', sub:'Creador' },       { i:'A', sub:'Asesor' },        { i:'E', sub:'Educador' },
+      { i:'C', sub:'Consultor' },     { i:'A', sub:'Agencia' },       { i:'C', sub:'Coach' },
+      { i:'E', sub:'Experto' },       { i:'F', sub:'Founder' }
     ];
-    const winnerIdx = Math.floor(cases.length * 0.30); // about case 5 (Maryell-ish)
+    const winnerIdx = Math.floor(cases.length * 0.30); // ~30% mark
 
     // Add scan line
     const scan = document.createElement('div');
@@ -643,22 +643,22 @@
     await sleep(110 * cases.length + 400);
 
     // Run scan twice for visual richness in stretched timeline
-    caption.textContent = 'Cruzando con casos en cartera…';
+    caption.textContent = 'Cruzando tus respuestas con sesiones de consultoría previas…';
     scan.classList.add('is-running');
     await sleep(1700);
     scan.classList.remove('is-running');
     await sleep(300);
-    caption.textContent = 'Comparando arquetipo y patrón energético…';
+    caption.textContent = 'Identificando patrones recurrentes en negocios similares…';
     scan.classList.add('is-running');
     await sleep(1700);
     scan.classList.remove('is-running');
 
     // Highlight winner
-    caption.textContent = 'Buscando el caso más parecido al tuyo…';
+    caption.textContent = 'Aislando el patrón dominante en tu perfil…';
     await sleep(1100);
     const winnerCard = grid.querySelectorAll('.case-card')[winnerIdx];
     if (winnerCard) winnerCard.classList.add('is-winner');
-    caption.textContent = `Mayor coincidencia con tu caso: ${cases[winnerIdx].sub}`;
+    caption.textContent = `Patrón identificado en tu perfil`;
 
     // Animate score counter 0 → 89 (slower for stretched timeline)
     const to = 89;
@@ -802,7 +802,7 @@
     const fragments = [
       `${firstName}, basado en tus 12 respuestas, lo primero que veo es un patrón claro…`,
       `Calibrando el tono al perfil específico de tu negocio…`,
-      `Cruzando tu caso con el patrón energético de fundadores similares…`,
+      `Cruzando tus respuestas con la base interna de sesiones previas…`,
       `Verificando que cada recomendación sea aplicable a tu caso real…`,
       `Pesando el costo de no actuar contra el costo de actuar…`,
       `Asegurando que cada palabra te sirva, ${firstName}.`
@@ -876,7 +876,7 @@
         'Verificando coherencia interna',
         'Calibrando el tono final',
         'Casos complejos como el tuyo toman un poco más',
-        'Cruzando con la base de casos reales',
+        'Cruzando con la base interna de sesiones',
         'Asegurando que cada palabra te sirva',
         'Procesando',
         'Esto suele tomar entre 1 y 2 minutos',
