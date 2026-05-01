@@ -2,5 +2,6 @@
   {"id":"diagnostico","name":"Diagnóstico Infinite Flow","desc":"Quiz de 4 min · identifica fase del negocio, Big Domino y palanca a mover","path":"/diagnostico/","type":"lead-magnet","status":"live","notes":"","updated":1746057600000},
   {"id":"lifestyle","name":"One-Woman Business Roadmap","desc":"Caso Mary Carmen · de endeudada a $15K/sem con 80-90% rentabilidad","path":"/lifestyle/","type":"lead-magnet","status":"live","notes":"","updated":1746057600000},
   {"id":"offer-clarity","name":"Offer Clarity Scanner","desc":"Analiza bio, landing y oferta · en 90 seg identifica el pilar narrativo roto y la frase que sabotea conversión","path":"/offer-clarity/","type":"lead-magnet","status":"live","notes":"","updated":1746057600000},
+  {"id":"flow-compass","name":"Flow Compass","desc":"6 preguntas · agente IA devuelve diagnóstico personalizado y ruta correcta antes de hablar con el equipo","path":"/flow-compass/","type":"lead-magnet","status":"live","notes":"","updated":1746100800000},
   {"id":"testprecall","name":"Pre-Llamada","desc":"Pantalla de bienvenida post-agendamiento · prepara contexto antes del call","path":"/testprecall/","type":"funnel","status":"live","notes":"","updated":1746057600000}
 ]
