@@ -2315,14 +2315,16 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
 /* Animation timeline (18s loop): 0-1.5 OFF, 1.5-2.5 cursor + click, 2.5-3.5 turns ON, 3.5-16 HOLD ON (~12.5s), 16-18 reset */
 /* Toggle now at translate(408,150) — knob center at (424, 166). Cursor target ~ (440, 168) */
+/* Cursor fades out ~1s after click so it doesn't look frozen */
 @keyframes hd-cursor-path {
   0%, 4%       { opacity: 0; transform: translate(560px, 220px); }
   6%           { opacity: 1; transform: translate(560px, 220px); }
   13%          { opacity: 1; transform: translate(440px, 168px); }
   15%          { opacity: 1; transform: translate(440px, 168px) scale(0.82); }
   17%          { opacity: 1; transform: translate(440px, 168px) scale(1); }
-  90%          { opacity: 1; transform: translate(440px, 168px); }
-  94%, 100%    { opacity: 0; transform: translate(560px, 220px); }
+  22%          { opacity: 1; transform: translate(440px, 168px); }
+  26%          { opacity: 0; transform: translate(440px, 168px); }
+  100%         { opacity: 0; transform: translate(440px, 168px); }
 }
 .hd-cursor {
   animation: hd-cursor-path 18s ease-in-out infinite;
@@ -2501,6 +2503,9 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
               <animateMotion dur="3.8s" repeatCount="indefinite" begin="-0.2s"><mpath href="#hdInfPath"/></animateMotion>
             </circle>
           </g>
+
+          <!-- Subtle separator line between infinity and label -->
+          <line class="hd-divider" x1="312" y1="118" x2="312" y2="158" stroke="rgba(95,232,215,0.20)" stroke-width="1" stroke-linecap="round"/>
 
           <!-- RIGHT side: product name on top, toggle below — vertical stack -->
           <text class="hd-text-product" x="440" y="128"
