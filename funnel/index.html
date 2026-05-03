@@ -1544,40 +1544,65 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   z-index: 0;
 }
 
-/* Mycelium / neural network background — slow, hypnotic, organic */
+/* Mycelium / neural network background — wide view, parallax 3D, flowing lines */
 .tech-bg {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: -10% -10% -10% -10%;
+  width: 120%;
+  height: 120%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.85;
-  mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 90%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 90%);
+  opacity: 1;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 65%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 65%, transparent 100%);
+}
+.tech-bg__layer { transform-origin: 50% 50%; }
+.tech-bg__layer--bg {
+  animation: parallax-bg 38s ease-in-out infinite;
+  opacity: 0.65;
+}
+.tech-bg__layer--fg {
+  animation: parallax-fg 26s ease-in-out infinite;
+  opacity: 1;
+}
+@keyframes parallax-bg {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.96); }
+  50%      { transform: translate3d(-1.5%, 1%, 0) scale(0.98); }
+}
+@keyframes parallax-fg {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33%      { transform: translate3d(1.2%, -0.8%, 0) scale(1.015); }
+  66%      { transform: translate3d(-0.8%, 1.2%, 0) scale(1.005); }
 }
 .tech-bg__paths path {
-  animation: mycelium-shimmer 11s ease-in-out infinite;
+  animation: line-flow 9s linear infinite, line-shimmer 11s ease-in-out infinite;
 }
-.tech-bg__paths path:nth-child(3n) { animation-delay: -3s; }
-.tech-bg__paths path:nth-child(3n+1) { animation-delay: -6s; }
-.tech-bg__paths path:nth-child(3n+2) { animation-delay: -9s; }
-@keyframes mycelium-shimmer {
-  0%, 100% { stroke: rgba(95,232,215,0.06); }
-  50%      { stroke: rgba(95,232,215,0.20); }
+.tech-bg__paths path:nth-child(3n)    { animation-duration: 11s, 13s; animation-delay: -3s, -2s; }
+.tech-bg__paths path:nth-child(3n+1)  { animation-duration: 13s, 15s; animation-delay: -6s, -5s; }
+.tech-bg__paths path:nth-child(3n+2)  { animation-duration: 8s, 9s;  animation-delay: -9s, -7s; }
+@keyframes line-flow {
+  to { stroke-dashoffset: -60; }
 }
+@keyframes line-shimmer {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+.tech-bg__layer--fg .tech-bg__paths path { stroke-width: 1.1; }
 .tech-bg__nodes circle {
-  filter: drop-shadow(0 0 5px rgba(95,232,215,0.6));
-  animation: mycelium-node 8s ease-in-out infinite;
+  filter: drop-shadow(0 0 5px rgba(95,232,215,0.55));
+  animation: node-breathe 10s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
 }
-.tech-bg__nodes circle:nth-child(odd) { animation-duration: 9s; animation-delay: -2s; }
-.tech-bg__nodes circle:nth-child(3n) { animation-duration: 10s; animation-delay: -4s; }
-@keyframes mycelium-node {
-  0%, 100% { opacity: 0.35; }
-  50%      { opacity: 0.95; }
+.tech-bg__nodes circle:nth-child(odd)   { animation-duration: 11s; animation-delay: -2s; }
+.tech-bg__nodes circle:nth-child(3n)    { animation-duration: 13s; animation-delay: -4s; }
+.tech-bg__nodes circle:nth-child(5n+1)  { animation-duration: 9s;  animation-delay: -6s; }
+@keyframes node-breathe {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50%      { opacity: 1;   transform: scale(1.2); }
 }
 .tech-bg__particles circle {
-  filter: drop-shadow(0 0 4px rgba(95,232,215,0.85));
+  filter: drop-shadow(0 0 5px rgba(95,232,215,0.85));
 }
 
 /* IG screenshot below video — non-clickable, social-proof image */
@@ -2594,132 +2619,265 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 <div class="interface interface--tech">
 
   <!-- Neural network background overlay -->
-  <svg class="tech-bg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <svg class="tech-bg" viewBox="0 0 2000 1400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
       <radialGradient id="nbgGlow" cx="50%" cy="50%" r="50%">
         <stop offset="0%" stop-color="#5FE8D7" stop-opacity="0.85"/>
         <stop offset="100%" stop-color="#5FE8D7" stop-opacity="0"/>
       </radialGradient>
     </defs>
+  <g class="tech-bg__layer tech-bg__layer--bg">
     <g class="tech-bg__paths">
-            <path id="nbgPath0" d="M 140 120 Q 237 129 320 80" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath1" d="M 320 80 Q 427 101 520 160" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath2" d="M 520 160 Q 636 159 740 110" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath3" d="M 740 110 Q 845 131 940 180" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath4" d="M 940 180 Q 1026 174 1100 130" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath5" d="M 140 120 Q 158 211 220 280" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath6" d="M 320 80 Q 404 142 440 240" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath7" d="M 520 160 Q 466 186 440 240" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath8" d="M 740 110 Q 713 226 640 320" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath9" d="M 940 180 Q 877 211 860 280" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath10" d="M 1100 130 Q 1089 240 1040 340" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath11" d="M 220 280 Q 333 275 440 240" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath12" d="M 440 240 Q 549 257 640 320" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath13" d="M 640 320 Q 754 320 860 280" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath14" d="M 860 280 Q 955 296 1040 340" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath15" d="M 220 280 Q 171 363 180 460" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath16" d="M 440 240 Q 434 347 380 440" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath17" d="M 640 320 Q 591 393 580 480" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath18" d="M 860 280 Q 847 382 780 460" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath19" d="M 1040 340 Q 986 433 980 540" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath20" d="M 180 460 Q 278 430 380 440" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath21" d="M 380 440 Q 475 485 580 480" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath22" d="M 580 480 Q 679 455 780 460" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath23" d="M 780 460 Q 869 528 980 540" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath24" d="M 180 460 Q 198 551 260 620" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath25" d="M 380 440 Q 345 547 260 620" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath26" d="M 580 480 Q 531 564 520 660" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath27" d="M 780 460 Q 795 553 760 640" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath28" d="M 980 540 Q 971 627 1020 700" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath29" d="M 260 620 Q 387 660 520 660" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath30" d="M 520 660 Q 638 625 760 640" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath31" d="M 760 640 Q 883 699 1020 700" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath32" d="M 260 620 Q 215 703 140 760" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath33" d="M 520 660 Q 436 684 380 750" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
-      <path id="nbgPath34" d="M 760 640 Q 562 666 380 750" fill="none" stroke="rgba(95,232,215,0.10)" stroke-width="0.8" stroke-linecap="round"/>
+      <path id="bgp0" d="M 40 40 Q 171 106 287 195" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp1" d="M 40 40 Q 78 235 40 431" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp2" d="M 451 40 Q 345 92 287 195" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp3" d="M 451 40 Q 502 194 632 290" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp4" d="M 806 40 Q 722 167 632 290" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp5" d="M 806 40 Q 628 42 451 40" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp6" d="M 1320 59 Q 1423 87 1476 180" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp7" d="M 1320 59 Q 1253 165 1136 210" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp8" d="M 1801 81 Q 1892 154 1960 249" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp9" d="M 1801 81 Q 1645 153 1476 180" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp10" d="M 632 290 Q 495 360 398 480" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp11" d="M 1136 210 Q 1058 343 930 428" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp12" d="M 1960 249 Q 1860 408 1695 497" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp13" d="M 40 431 Q 194 346 287 195" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp14" d="M 40 431 Q 146 576 257 717" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp15" d="M 398 480 Q 358 617 257 717" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp16" d="M 930 428 Q 977 584 1032 736" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp17" d="M 1319 513 Q 1487 545 1614 661" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp18" d="M 1319 513 Q 1230 360 1136 210" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp19" d="M 1695 497 Q 1611 558 1614 661" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp20" d="M 1695 497 Q 1780 622 1914 693" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp21" d="M 257 717 Q 302 814 378 888" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp22" d="M 257 717 Q 162 810 40 864" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp23" d="M 728 780 Q 782 845 813 924" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp24" d="M 728 780 Q 875 725 1032 736" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp25" d="M 1032 736 Q 905 810 813 924" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp26" d="M 1614 661 Q 1763 680 1914 693" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp27" d="M 40 864 Q 82 1026 174 1164" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp28" d="M 378 888 Q 491 1010 577 1152" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp29" d="M 1391 999 Q 1500 1017 1587 1086" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp30" d="M 1391 999 Q 1269 1078 1193 1201" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp31" d="M 1752 1002 Q 1648 1001 1587 1086" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp32" d="M 1752 1002 Q 1831 1136 1960 1220" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp33" d="M 174 1164 Q 82 1245 40 1360" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp34" d="M 174 1164 Q 250 1268 366 1322" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp35" d="M 577 1152 Q 457 1218 366 1322" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp36" d="M 577 1152 Q 676 1018 813 924" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp37" d="M 1193 1201 Q 1226 1281 1262 1360" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp38" d="M 1960 1220 Q 1888 1290 1798 1337" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp39" d="M 40 1360 Q 197 1294 366 1322" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp40" d="M 860 1319 Q 695 1276 577 1152" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp41" d="M 860 1319 Q 1019 1239 1193 1201" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp42" d="M 1262 1360 Q 1304 1171 1391 999" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="bgp43" d="M 1798 1337 Q 1708 1199 1587 1086" fill="none" stroke="rgba(95,232,215,0.06)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
     </g>
     <g class="tech-bg__nodes">
-            <circle cx="140" cy="120" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="320" cy="80" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="520" cy="160" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="740" cy="110" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="940" cy="180" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="1100" cy="130" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="220" cy="280" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="440" cy="240" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="640" cy="320" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="860" cy="280" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="1040" cy="340" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="180" cy="460" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="380" cy="440" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="580" cy="480" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="780" cy="460" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="980" cy="540" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="260" cy="620" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="520" cy="660" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="760" cy="640" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="1020" cy="700" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="140" cy="760" r="2" fill="rgba(95,232,215,0.55)"/>
-      <circle cx="380" cy="750" r="2" fill="rgba(95,232,215,0.55)"/>
-    </g>
-    <g class="tech-bg__pulses">
-            <circle cx="320" cy="80" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="0.0s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="0.0s"/></circle>
-      <circle cx="440" cy="240" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="1.8s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="1.8s"/></circle>
-      <circle cx="580" cy="480" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="3.6s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="3.6s"/></circle>
-      <circle cx="520" cy="660" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="5.4s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="5.4s"/></circle>
-      <circle cx="940" cy="180" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="7.2s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="7.2s"/></circle>
-      <circle cx="860" cy="280" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="9.0s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="9.0s"/></circle>
-      <circle cx="780" cy="460" r="3" fill="url(#nbgGlow)"><animate attributeName="r" values="2;10;2" dur="6s" repeatCount="indefinite" begin="10.8s"/><animate attributeName="opacity" values="0;0.5;0" dur="6s" repeatCount="indefinite" begin="10.8s"/></circle>
+      <circle cx="40" cy="40" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="451" cy="40" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="806" cy="40" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1320" cy="59" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1801" cy="81" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="287" cy="195" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="632" cy="290" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1136" cy="210" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1476" cy="180" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1960" cy="249" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="40" cy="431" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="398" cy="480" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="930" cy="428" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1319" cy="513" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1695" cy="497" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="257" cy="717" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="728" cy="780" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1032" cy="736" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1614" cy="661" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1914" cy="693" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="40" cy="864" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="378" cy="888" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="813" cy="924" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1391" cy="999" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1752" cy="1002" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="174" cy="1164" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="577" cy="1152" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1193" cy="1201" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1587" cy="1086" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1960" cy="1220" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="40" cy="1360" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="366" cy="1322" r="2.0" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="860" cy="1319" r="1.6" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1262" cy="1360" r="2.4" fill="rgba(95,232,215,0.32)"/>
+      <circle cx="1798" cy="1337" r="2.0" fill="rgba(95,232,215,0.32)"/>
     </g>
     <g class="tech-bg__particles">
-            <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-0.4s"><mpath href="#nbgPath0"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-0.4s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="18s" repeatCount="indefinite" begin="-7.4s"><mpath href="#nbgPath0"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="18s" repeatCount="indefinite" begin="-7.4s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-4.4s"><mpath href="#nbgPath1"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-4.4s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="16s" repeatCount="indefinite" begin="-11.8s"><mpath href="#nbgPath2"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16s" repeatCount="indefinite" begin="-11.8s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="22s" repeatCount="indefinite" begin="-1.9s"><mpath href="#nbgPath3"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22s" repeatCount="indefinite" begin="-1.9s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="26s" repeatCount="indefinite" begin="-12.9s"><mpath href="#nbgPath3"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="26s" repeatCount="indefinite" begin="-12.9s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="20s" repeatCount="indefinite" begin="-0.6s"><mpath href="#nbgPath4"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20s" repeatCount="indefinite" begin="-0.6s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-3.1s"><mpath href="#nbgPath5"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-3.1s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="22s" repeatCount="indefinite" begin="-13.2s"><mpath href="#nbgPath6"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22s" repeatCount="indefinite" begin="-13.2s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="26s" repeatCount="indefinite" begin="-24.2s"><mpath href="#nbgPath6"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="26s" repeatCount="indefinite" begin="-24.2s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="22s" repeatCount="indefinite" begin="-4.4s"><mpath href="#nbgPath7"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22s" repeatCount="indefinite" begin="-4.4s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="22s" repeatCount="indefinite" begin="-9.2s"><mpath href="#nbgPath8"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22s" repeatCount="indefinite" begin="-9.2s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="20s" repeatCount="indefinite" begin="-11.8s"><mpath href="#nbgPath9"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20s" repeatCount="indefinite" begin="-11.8s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="24s" repeatCount="indefinite" begin="-21.8s"><mpath href="#nbgPath9"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="24s" repeatCount="indefinite" begin="-21.8s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-10.6s"><mpath href="#nbgPath10"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-10.6s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="16s" repeatCount="indefinite" begin="-11.2s"><mpath href="#nbgPath11"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16s" repeatCount="indefinite" begin="-11.2s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-5.0s"><mpath href="#nbgPath12"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-5.0s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="22s" repeatCount="indefinite" begin="-14.0s"><mpath href="#nbgPath12"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="22s" repeatCount="indefinite" begin="-14.0s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="16s" repeatCount="indefinite" begin="-15.3s"><mpath href="#nbgPath13"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16s" repeatCount="indefinite" begin="-15.3s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-1.8s"><mpath href="#nbgPath14"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-1.8s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="20s" repeatCount="indefinite" begin="-1.9s"><mpath href="#nbgPath15"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20s" repeatCount="indefinite" begin="-1.9s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="24s" repeatCount="indefinite" begin="-11.9s"><mpath href="#nbgPath15"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="24s" repeatCount="indefinite" begin="-11.9s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-10.9s"><mpath href="#nbgPath16"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-10.9s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-10.2s"><mpath href="#nbgPath17"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-10.2s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="22s" repeatCount="indefinite" begin="-2.7s"><mpath href="#nbgPath18"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22s" repeatCount="indefinite" begin="-2.7s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="26s" repeatCount="indefinite" begin="-13.7s"><mpath href="#nbgPath18"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="26s" repeatCount="indefinite" begin="-13.7s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="20s" repeatCount="indefinite" begin="-1.6s"><mpath href="#nbgPath19"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20s" repeatCount="indefinite" begin="-1.6s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-14.9s"><mpath href="#nbgPath20"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-14.9s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="22s" repeatCount="indefinite" begin="-19.5s"><mpath href="#nbgPath21"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22s" repeatCount="indefinite" begin="-19.5s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="26s" repeatCount="indefinite" begin="-4.5s"><mpath href="#nbgPath21"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="26s" repeatCount="indefinite" begin="-4.5s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-10.4s"><mpath href="#nbgPath22"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-10.4s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-0.6s"><mpath href="#nbgPath23"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-0.6s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="16s" repeatCount="indefinite" begin="-12.4s"><mpath href="#nbgPath24"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16s" repeatCount="indefinite" begin="-12.4s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="20s" repeatCount="indefinite" begin="-0.4s"><mpath href="#nbgPath24"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="20s" repeatCount="indefinite" begin="-0.4s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-12.0s"><mpath href="#nbgPath25"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-12.0s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-5.3s"><mpath href="#nbgPath26"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-5.3s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="20s" repeatCount="indefinite" begin="-12.7s"><mpath href="#nbgPath27"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20s" repeatCount="indefinite" begin="-12.7s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="24s" repeatCount="indefinite" begin="-22.7s"><mpath href="#nbgPath27"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="24s" repeatCount="indefinite" begin="-22.7s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-2.9s"><mpath href="#nbgPath28"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-2.9s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-3.8s"><mpath href="#nbgPath29"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-3.8s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="18s" repeatCount="indefinite" begin="-12.6s"><mpath href="#nbgPath30"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18s" repeatCount="indefinite" begin="-12.6s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="22s" repeatCount="indefinite" begin="-21.6s"><mpath href="#nbgPath30"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="22s" repeatCount="indefinite" begin="-21.6s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="14s" repeatCount="indefinite" begin="-8.5s"><mpath href="#nbgPath31"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14s" repeatCount="indefinite" begin="-8.5s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="16s" repeatCount="indefinite" begin="-8.5s"><mpath href="#nbgPath32"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16s" repeatCount="indefinite" begin="-8.5s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="16s" repeatCount="indefinite" begin="-2.6s"><mpath href="#nbgPath33"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16s" repeatCount="indefinite" begin="-2.6s"/></circle>
-      <circle r="1.2" fill="#7FF4E5" opacity="0.5"><animateMotion dur="20s" repeatCount="indefinite" begin="-10.6s"><mpath href="#nbgPath33"/></animateMotion><animate attributeName="opacity" values="0;0.6;0.6;0" keyTimes="0;0.2;0.8;1" dur="20s" repeatCount="indefinite" begin="-10.6s"/></circle>
-      <circle r="1.6" fill="#5FE8D7" opacity="0.65"><animateMotion dur="20s" repeatCount="indefinite" begin="-5.4s"><mpath href="#nbgPath34"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20s" repeatCount="indefinite" begin="-5.4s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="25.9s" repeatCount="indefinite" begin="-2.2s"><mpath href="#bgp0"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="25.9s" repeatCount="indefinite" begin="-2.2s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="21.0s" repeatCount="indefinite" begin="-3.2s"><mpath href="#bgp1"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="21.0s" repeatCount="indefinite" begin="-3.2s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="26.6s" repeatCount="indefinite" begin="-26.1s"><mpath href="#bgp3"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="26.6s" repeatCount="indefinite" begin="-26.1s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="24.4s" repeatCount="indefinite" begin="-0.5s"><mpath href="#bgp5"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.4s" repeatCount="indefinite" begin="-0.5s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="27.5s" repeatCount="indefinite" begin="-11.9s"><mpath href="#bgp7"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="27.5s" repeatCount="indefinite" begin="-11.9s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="22.0s" repeatCount="indefinite" begin="-6.4s"><mpath href="#bgp9"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22.0s" repeatCount="indefinite" begin="-6.4s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="24.4s" repeatCount="indefinite" begin="-20.3s"><mpath href="#bgp11"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.4s" repeatCount="indefinite" begin="-20.3s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="23.7s" repeatCount="indefinite" begin="-13.8s"><mpath href="#bgp13"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="23.7s" repeatCount="indefinite" begin="-13.8s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="27.3s" repeatCount="indefinite" begin="-13.7s"><mpath href="#bgp14"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="27.3s" repeatCount="indefinite" begin="-13.7s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="24.1s" repeatCount="indefinite" begin="-21.0s"><mpath href="#bgp15"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.1s" repeatCount="indefinite" begin="-21.0s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="21.1s" repeatCount="indefinite" begin="-13.1s"><mpath href="#bgp18"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="21.1s" repeatCount="indefinite" begin="-13.1s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="24.1s" repeatCount="indefinite" begin="-13.4s"><mpath href="#bgp20"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.1s" repeatCount="indefinite" begin="-13.4s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="21.5s" repeatCount="indefinite" begin="-0.9s"><mpath href="#bgp22"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="21.5s" repeatCount="indefinite" begin="-0.9s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="24.5s" repeatCount="indefinite" begin="-18.6s"><mpath href="#bgp23"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.5s" repeatCount="indefinite" begin="-18.6s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="24.9s" repeatCount="indefinite" begin="-12.6s"><mpath href="#bgp24"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.9s" repeatCount="indefinite" begin="-12.6s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="22.2s" repeatCount="indefinite" begin="-11.3s"><mpath href="#bgp25"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22.2s" repeatCount="indefinite" begin="-11.3s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="22.0s" repeatCount="indefinite" begin="-11.5s"><mpath href="#bgp26"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22.0s" repeatCount="indefinite" begin="-11.5s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="23.6s" repeatCount="indefinite" begin="-9.8s"><mpath href="#bgp29"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="23.6s" repeatCount="indefinite" begin="-9.8s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="20.6s" repeatCount="indefinite" begin="-5.0s"><mpath href="#bgp30"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20.6s" repeatCount="indefinite" begin="-5.0s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="22.4s" repeatCount="indefinite" begin="-2.7s"><mpath href="#bgp31"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22.4s" repeatCount="indefinite" begin="-2.7s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="22.0s" repeatCount="indefinite" begin="-3.0s"><mpath href="#bgp34"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22.0s" repeatCount="indefinite" begin="-3.0s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="27.6s" repeatCount="indefinite" begin="-11.0s"><mpath href="#bgp35"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="27.6s" repeatCount="indefinite" begin="-11.0s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="25.3s" repeatCount="indefinite" begin="-5.7s"><mpath href="#bgp36"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="25.3s" repeatCount="indefinite" begin="-5.7s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="24.1s" repeatCount="indefinite" begin="-8.2s"><mpath href="#bgp37"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="24.1s" repeatCount="indefinite" begin="-8.2s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="20.7s" repeatCount="indefinite" begin="-7.6s"><mpath href="#bgp38"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20.7s" repeatCount="indefinite" begin="-7.6s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="20.1s" repeatCount="indefinite" begin="-6.7s"><mpath href="#bgp40"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="20.1s" repeatCount="indefinite" begin="-6.7s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="27.7s" repeatCount="indefinite" begin="-3.1s"><mpath href="#bgp41"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="27.7s" repeatCount="indefinite" begin="-3.1s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="22.1s" repeatCount="indefinite" begin="-0.9s"><mpath href="#bgp43"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="22.1s" repeatCount="indefinite" begin="-0.9s"/></circle>
     </g>
+  </g>
+  <g class="tech-bg__layer tech-bg__layer--fg">
+    <g class="tech-bg__paths">
+      <path id="fgp0" d="M 249 40 Q 331 86 380 165" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp1" d="M 249 40 Q 188 126 86 152" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp2" d="M 249 40 Q 418 32 587 40" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp3" d="M 587 40 Q 463 67 380 165" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp4" d="M 587 40 Q 689 168 831 248" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp5" d="M 1034 40 Q 950 161 831 248" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp6" d="M 1034 40 Q 1200 64 1342 155" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp7" d="M 1034 40 Q 1078 236 1198 398" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp8" d="M 1488 40 Q 1411 92 1342 155" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp9" d="M 1488 40 Q 1639 148 1810 220" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp10" d="M 1488 40 Q 1531 252 1493 465" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp11" d="M 1960 40 Q 1919 158 1810 220" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp12" d="M 1960 40 Q 1941 260 1960 480" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp13" d="M 1960 40 Q 1724 47 1488 40" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp14" d="M 86 152 Q 235 115 380 165" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp15" d="M 86 152 Q 142 348 275 502" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp16" d="M 831 248 Q 740 385 671 534" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp17" d="M 1342 155 Q 1244 261 1198 398" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp18" d="M 1810 220 Q 1921 329 1960 480" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp19" d="M 275 502 Q 341 622 459 692" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp20" d="M 275 502 Q 198 618 68 666" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp21" d="M 275 502 Q 362 344 380 165" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp22" d="M 671 534 Q 568 617 459 692" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp23" d="M 671 534 Q 789 620 884 730" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp24" d="M 1198 398 Q 1344 436 1493 465" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp25" d="M 1493 465 Q 1456 291 1342 155" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp26" d="M 1493 465 Q 1448 636 1360 789" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp27" d="M 1960 480 Q 1887 628 1757 730" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp28" d="M 1960 480 Q 1957 675 1960 870" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp29" d="M 68 666 Q 131 818 143 982" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp30" d="M 68 666 Q 266 640 459 692" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp31" d="M 459 692 Q 582 829 647 1000" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp32" d="M 884 730 Q 799 895 647 1000" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp33" d="M 884 730 Q 1025 846 1120 1002" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp34" d="M 1360 789 Q 1450 839 1516 918" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp35" d="M 1360 789 Q 1253 910 1120 1002" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp36" d="M 1757 730 Q 1844 822 1960 870" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp37" d="M 1757 730 Q 1649 841 1516 918" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp38" d="M 143 982 Q 91 1050 40 1118" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp39" d="M 143 982 Q 315 1023 460 1124" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp40" d="M 647 1000 Q 562 1075 460 1124" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp41" d="M 647 1000 Q 787 1052 865 1179" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp42" d="M 647 1000 Q 655 1172 614 1339" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp43" d="M 1120 1002 Q 1260 1058 1336 1188" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp44" d="M 1120 1002 Q 979 1071 865 1179" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp45" d="M 1516 918 Q 1422 1050 1336 1188" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp46" d="M 1960 870 Q 1934 1053 1850 1217" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp47" d="M 40 1118 Q 98 1238 151 1360" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp48" d="M 40 1118 Q 250 1165 460 1124" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp49" d="M 460 1124 Q 569 1209 614 1339" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp50" d="M 865 1179 Q 921 1280 1021 1337" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp51" d="M 865 1179 Q 743 1265 614 1339" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp52" d="M 1336 1188 Q 1404 1274 1470 1360" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp53" d="M 1850 1217 Q 1876 1308 1955 1360" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp54" d="M 1850 1217 Q 1664 1299 1470 1360" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp55" d="M 151 1360 Q 148 1171 143 982" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp56" d="M 151 1360 Q 317 1257 460 1124" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp57" d="M 1021 1337 Q 1199 1306 1336 1188" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp58" d="M 1021 1337 Q 1055 1165 1120 1002" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp59" d="M 1470 1360 Q 1526 1142 1516 918" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp60" d="M 1955 1360 Q 1713 1339 1470 1360" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+      <path id="fgp61" d="M 1955 1360 Q 1971 1115 1960 870" fill="none" stroke="rgba(95,232,215,0.12)" stroke-width="0.9" stroke-linecap="round" stroke-dasharray="3 6" />
+    </g>
+    <g class="tech-bg__nodes">
+      <circle cx="249" cy="40" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="587" cy="40" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1034" cy="40" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1488" cy="40" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1960" cy="40" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="86" cy="152" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="380" cy="165" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="831" cy="248" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1342" cy="155" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1810" cy="220" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="275" cy="502" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="671" cy="534" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1198" cy="398" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1493" cy="465" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1960" cy="480" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="68" cy="666" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="459" cy="692" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="884" cy="730" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1360" cy="789" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1757" cy="730" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="143" cy="982" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="647" cy="1000" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1120" cy="1002" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1516" cy="918" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1960" cy="870" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="40" cy="1118" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="460" cy="1124" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="865" cy="1179" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1336" cy="1188" r="1.6" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1850" cy="1217" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="151" cy="1360" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="614" cy="1339" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1021" cy="1337" r="2.4" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1470" cy="1360" r="2.0" fill="rgba(95,232,215,0.55)"/>
+      <circle cx="1955" cy="1360" r="1.6" fill="rgba(95,232,215,0.55)"/>
+    </g>
+    <g class="tech-bg__particles">
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="19.3s" repeatCount="indefinite" begin="-4.2s"><mpath href="#fgp0"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.3s" repeatCount="indefinite" begin="-4.2s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="16.3s" repeatCount="indefinite" begin="-7.7s"><mpath href="#fgp1"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.3s" repeatCount="indefinite" begin="-7.7s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="18.7s" repeatCount="indefinite" begin="-1.7s"><mpath href="#fgp3"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18.7s" repeatCount="indefinite" begin="-1.7s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="17.5s" repeatCount="indefinite" begin="-6.9s"><mpath href="#fgp4"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="17.5s" repeatCount="indefinite" begin="-6.9s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="15.4s" repeatCount="indefinite" begin="-9.0s"><mpath href="#fgp5"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="15.4s" repeatCount="indefinite" begin="-9.0s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="19.4s" repeatCount="indefinite" begin="-15.2s"><mpath href="#fgp7"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.4s" repeatCount="indefinite" begin="-15.2s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="16.0s" repeatCount="indefinite" begin="-15.7s"><mpath href="#fgp8"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.0s" repeatCount="indefinite" begin="-15.7s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="17.7s" repeatCount="indefinite" begin="-2.6s"><mpath href="#fgp9"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="17.7s" repeatCount="indefinite" begin="-2.6s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="17.1s" repeatCount="indefinite" begin="-8.6s"><mpath href="#fgp14"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="17.1s" repeatCount="indefinite" begin="-8.6s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="14.2s" repeatCount="indefinite" begin="-1.9s"><mpath href="#fgp20"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.2s" repeatCount="indefinite" begin="-1.9s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="16.7s" repeatCount="indefinite" begin="-0.8s"><mpath href="#fgp22"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.7s" repeatCount="indefinite" begin="-0.8s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="14.0s" repeatCount="indefinite" begin="-11.2s"><mpath href="#fgp25"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.0s" repeatCount="indefinite" begin="-11.2s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="17.2s" repeatCount="indefinite" begin="-12.8s"><mpath href="#fgp28"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="17.2s" repeatCount="indefinite" begin="-12.8s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="14.4s" repeatCount="indefinite" begin="-3.8s"><mpath href="#fgp29"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.4s" repeatCount="indefinite" begin="-3.8s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="17.9s" repeatCount="indefinite" begin="-8.2s"><mpath href="#fgp31"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="17.9s" repeatCount="indefinite" begin="-8.2s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="19.5s" repeatCount="indefinite" begin="-5.6s"><mpath href="#fgp32"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.5s" repeatCount="indefinite" begin="-5.6s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="14.9s" repeatCount="indefinite" begin="-3.8s"><mpath href="#fgp35"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.9s" repeatCount="indefinite" begin="-3.8s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="16.9s" repeatCount="indefinite" begin="-8.2s"><mpath href="#fgp38"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.9s" repeatCount="indefinite" begin="-8.2s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="15.3s" repeatCount="indefinite" begin="-7.5s"><mpath href="#fgp39"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="15.3s" repeatCount="indefinite" begin="-7.5s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="16.8s" repeatCount="indefinite" begin="-7.8s"><mpath href="#fgp40"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.8s" repeatCount="indefinite" begin="-7.8s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="15.9s" repeatCount="indefinite" begin="-1.4s"><mpath href="#fgp42"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="15.9s" repeatCount="indefinite" begin="-1.4s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="16.8s" repeatCount="indefinite" begin="-13.7s"><mpath href="#fgp43"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.8s" repeatCount="indefinite" begin="-13.7s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="19.5s" repeatCount="indefinite" begin="-18.1s"><mpath href="#fgp45"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.5s" repeatCount="indefinite" begin="-18.1s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="17.1s" repeatCount="indefinite" begin="-16.3s"><mpath href="#fgp47"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="17.1s" repeatCount="indefinite" begin="-16.3s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="14.7s" repeatCount="indefinite" begin="-5.4s"><mpath href="#fgp50"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.7s" repeatCount="indefinite" begin="-5.4s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="14.1s" repeatCount="indefinite" begin="-0.1s"><mpath href="#fgp52"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.1s" repeatCount="indefinite" begin="-0.1s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="18.4s" repeatCount="indefinite" begin="-7.6s"><mpath href="#fgp54"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="18.4s" repeatCount="indefinite" begin="-7.6s"/></circle>
+      <circle r="1.3" fill="#5FE8D7"><animateMotion dur="19.0s" repeatCount="indefinite" begin="-0.0s"><mpath href="#fgp55"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.0s" repeatCount="indefinite" begin="-0.0s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="19.6s" repeatCount="indefinite" begin="-13.9s"><mpath href="#fgp57"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.6s" repeatCount="indefinite" begin="-13.9s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="16.2s" repeatCount="indefinite" begin="-6.4s"><mpath href="#fgp58"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="16.2s" repeatCount="indefinite" begin="-6.4s"/></circle>
+      <circle r="1.0" fill="#5FE8D7"><animateMotion dur="19.6s" repeatCount="indefinite" begin="-14.8s"><mpath href="#fgp59"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="19.6s" repeatCount="indefinite" begin="-14.8s"/></circle>
+      <circle r="1.6" fill="#5FE8D7"><animateMotion dur="14.3s" repeatCount="indefinite" begin="-9.5s"><mpath href="#fgp60"/></animateMotion><animate attributeName="opacity" values="0;0.85;0.85;0" keyTimes="0;0.15;0.85;1" dur="14.3s" repeatCount="indefinite" begin="-9.5s"/></circle>
+    </g>
+  </g>
   </svg>
 
   <!-- ── PARTE 4 · MI FUNNEL ── -->
