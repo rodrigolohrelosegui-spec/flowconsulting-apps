@@ -2483,16 +2483,16 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
         <g class="hd-card">
           <rect x="40" y="76" width="560" height="124" rx="20" fill="rgba(11,26,34,0.85)" stroke="rgba(95,232,215,0.18)" stroke-width="1"/>
 
-          <!-- LEFT side: bigger, more elongated infinity (ratio ~2.4:1) -->
-          <g transform="translate(160, 138)">
+          <!-- LEFT side: refined lemniscate — 8 bezier segments for variable curvature (rounder middle, tapered tips) -->
+          <g transform="translate(190, 138)">
             <!-- Off state ring -->
             <path class="hd-inf-off"
-                  d="M -90 0 C -90 -38, -10 -38, 0 0 C 10 38, 90 38, 90 0 C 90 -38, 10 -38, 0 0 C -10 38, -90 38, -90 0 Z"
-                  fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="2.8" stroke-linecap="round"/>
+                  d="M -88 0 C -88 -22, -72 -38, -48 -36 C -28 -34, -10 -18, 0 0 C 10 18, 28 34, 48 36 C 72 38, 88 22, 88 0 C 88 -22, 72 -38, 48 -36 C 28 -34, 10 -18, 0 0 C -10 18, -28 34, -48 36 C -72 38, -88 22, -88 0 Z"
+                  fill="none" stroke="rgba(255,255,255,0.20)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
             <!-- On state ring -->
             <path id="hdInfPath" class="hd-inf-on"
-                  d="M -90 0 C -90 -38, -10 -38, 0 0 C 10 38, 90 38, 90 0 C 90 -38, 10 -38, 0 0 C -10 38, -90 38, -90 0 Z"
-                  fill="none" stroke="url(#hdInfOn)" stroke-width="3.2" stroke-linecap="round"/>
+                  d="M -88 0 C -88 -22, -72 -38, -48 -36 C -28 -34, -10 -18, 0 0 C 10 18, 28 34, 48 36 C 72 38, 88 22, 88 0 C 88 -22, 72 -38, 48 -36 C 28 -34, 10 -18, 0 0 C -10 18, -28 34, -48 36 C -72 38, -88 22, -88 0 Z"
+                  fill="none" stroke="url(#hdInfOn)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
             <!-- Flowing particle (1 main + 1 close trail — like v1) -->
             <circle class="hd-inf-particle" r="4" fill="#5FE8D7">
               <animateMotion dur="3.8s" repeatCount="indefinite"><mpath href="#hdInfPath"/></animateMotion>
