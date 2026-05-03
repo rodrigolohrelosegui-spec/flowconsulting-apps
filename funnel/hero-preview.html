@@ -2320,7 +2320,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 /* Animated dashboard visual */
 .hero-dashboard {
   margin: 44px auto 0;
-  max-width: 640px;
+  max-width: 720px;
   position: relative;
 }
 .hero-dashboard__svg {
@@ -2331,81 +2331,90 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           drop-shadow(0 0 60px -20px rgba(95,232,215,0.40));
 }
 
-/* Animation timeline (24s loop): 0-3 OFF, 3-6 cursor moves, 6-6.4 click, 6.4-7 turns ON, 7-22 HOLD ON (~15s), 22-24 reset */
-/* Toggle position: translate(528, 28) — knob center at (544, 44). Cursor target: (540, 50) */
+/* Animation timeline (18s loop): 0-1 OFF, 1-2 cursor + click (FAST), 2-2.5 turns ON, 2.5-16 HOLD ON (~13.5s), 16-18 reset */
+/* Toggle position: translate(540, 22) — knob center at (554, 36). Cursor target: (552, 42) */
 @keyframes hd-cursor-path {
-  0%, 8%       { opacity: 0; transform: translate(620px, 380px); }
-  10%          { opacity: 1; transform: translate(620px, 380px); }
-  24%          { opacity: 1; transform: translate(540px, 56px); }
-  26%          { opacity: 1; transform: translate(540px, 56px) scale(0.80); }
-  29%          { opacity: 1; transform: translate(540px, 56px) scale(1); }
-  92%          { opacity: 1; transform: translate(540px, 56px); }
-  96%, 100%    { opacity: 0; transform: translate(620px, 380px); }
+  0%, 4%       { opacity: 0; transform: translate(620px, 200px); }
+  6%           { opacity: 1; transform: translate(620px, 200px); }
+  11%          { opacity: 1; transform: translate(552px, 42px); }
+  12%          { opacity: 1; transform: translate(552px, 42px) scale(0.78); }
+  14%          { opacity: 1; transform: translate(552px, 42px) scale(1); }
+  90%          { opacity: 1; transform: translate(552px, 42px); }
+  94%, 100%    { opacity: 0; transform: translate(620px, 200px); }
 }
 .hd-cursor {
-  animation: hd-cursor-path 24s ease-in-out infinite;
+  animation: hd-cursor-path 18s ease-in-out infinite;
   transform-origin: 6px 12px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.45));
 }
 
 @keyframes hd-toggle-knob {
-  0%, 26%   { cx: 16; }
-  29%, 92%  { cx: 48; }
-  100%      { cx: 16; }
+  0%, 12%   { cx: 14; }
+  14%, 90%  { cx: 42; }
+  100%      { cx: 14; }
 }
 .hd-toggle-knob {
-  animation: hd-toggle-knob 24s ease-in-out infinite;
+  animation: hd-toggle-knob 18s ease-in-out infinite;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
 }
 
 @keyframes hd-on {
-  0%, 26%   { opacity: 0; }
-  31%, 92%  { opacity: 1; }
+  0%, 12%   { opacity: 0; }
+  16%, 90%  { opacity: 1; }
   100%      { opacity: 0; }
 }
-.hd-toggle-on, .hd-toggle-glow { animation: hd-on 24s ease-in-out infinite; }
-.hd-inf-on { animation: hd-on 24s ease-in-out infinite; }
+.hd-toggle-on, .hd-toggle-glow { animation: hd-on 18s ease-in-out infinite; }
+.hd-inf-on { animation: hd-on 18s ease-in-out infinite; }
 .hd-inf-particle {
-  animation: hd-on 24s ease-in-out infinite;
+  animation: hd-on 18s ease-in-out infinite;
   filter: drop-shadow(0 0 8px rgba(95,232,215,0.95));
 }
 
 @keyframes hd-aura {
-  0%, 26%      { opacity: 0; transform: scale(0.9); }
-  31%          { opacity: 0.85; transform: scale(1); }
+  0%, 12%      { opacity: 0; transform: scale(0.9); }
+  16%          { opacity: 0.85; transform: scale(1); }
   50%          { opacity: 0.55; transform: scale(1.05); }
-  75%          { opacity: 0.80; transform: scale(1.02); }
-  92%, 100%    { opacity: 0; transform: scale(0.9); }
+  85%          { opacity: 0.80; transform: scale(1.02); }
+  90%, 100%    { opacity: 0; transform: scale(0.9); }
 }
 .hd-inf-aura {
-  animation: hd-aura 24s ease-in-out infinite;
-  transform-origin: 320px 175px;
+  animation: hd-aura 18s ease-in-out infinite;
+  transform-origin: 320px 105px;
 }
 
-/* Notification toast — slides up from below (iPhone style) */
-@keyframes hd-notif {
-  0%, 30%       { opacity: 0; transform: translateY(30px); }
-  36%, 92%      { opacity: 1; transform: translateY(0); }
-  100%          { opacity: 0; transform: translateY(30px); }
+/* Status pill (bottom-right) — fades in when ON */
+@keyframes hd-status {
+  0%, 14%       { opacity: 0; transform: translateX(8px); }
+  20%, 90%      { opacity: 1; transform: translateX(0); }
+  100%          { opacity: 0; transform: translateX(8px); }
 }
-.hd-notif {
-  animation: hd-notif 24s ease-in-out infinite;
-  transform-origin: bottom center;
-  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.50)) drop-shadow(0 0 24px rgba(95,232,215,0.20));
+.hd-status {
+  animation: hd-status 18s ease-in-out infinite;
+  transform-origin: right center;
 }
 
-/* Status dot in title row: muted off → cyan glow on */
+/* Status dot (top-left) — muted off → cyan glow on */
 @keyframes hd-dot {
-  0%, 26%       { fill: rgba(255,255,255,0.30); }
-  31%, 92%      { fill: #5FE8D7; }
+  0%, 12%       { fill: rgba(255,255,255,0.30); }
+  16%, 90%      { fill: #5FE8D7; }
   100%          { fill: rgba(255,255,255,0.30); }
 }
 @keyframes hd-dot-pulse {
-  0%, 26%, 92%, 100% { filter: none; }
-  31%, 88%           { filter: drop-shadow(0 0 8px rgba(95,232,215,0.85)); }
+  0%, 12%, 90%, 100% { filter: none; }
+  16%, 88%           { filter: drop-shadow(0 0 8px rgba(95,232,215,0.85)); }
 }
 .hd-status-dot {
-  animation: hd-dot 24s ease-in-out infinite, hd-dot-pulse 24s ease-in-out infinite;
+  animation: hd-dot 18s ease-in-out infinite, hd-dot-pulse 18s ease-in-out infinite;
+}
+
+/* Lead Flow eyebrow — color transition synced with toggle */
+@keyframes hero-mark-active {
+  0%, 12%       { color: rgba(255,255,255,0.40); text-shadow: none; font-weight: 600; }
+  16%, 90%      { color: var(--cyan); text-shadow: 0 0 10px rgba(95,232,215,0.50); font-weight: 700; }
+  100%          { color: rgba(255,255,255,0.40); text-shadow: none; font-weight: 600; }
+}
+.hero-mark__active {
+  animation: hero-mark-active 18s ease-in-out infinite;
 }
 
 
@@ -2460,7 +2469,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
     <!-- Animated dashboard: app-style card with everything centered -->
     <div class="hero-dashboard" aria-hidden="true">
-            <svg viewBox="0 0 640 380" class="hero-dashboard__svg">
+                  <svg viewBox="0 0 640 200" class="hero-dashboard__svg">
         <defs>
           <linearGradient id="hdInfOn" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#7FF4E5"/>
@@ -2478,62 +2487,60 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           </radialGradient>
         </defs>
 
-        <!-- ▼ MAIN CARD (size unchanged: 600x280, no divider lines) -->
-        <rect x="20" y="20" width="600" height="280" rx="20"
+        <!-- ▼ MAIN CARD (640x180, elongated notification proportions) -->
+        <rect x="10" y="10" width="620" height="180" rx="22"
               fill="rgba(11,26,34,0.55)"
               stroke="rgba(95,232,215,0.18)" stroke-width="1"/>
 
-        <!-- HEADER ROW: title centered + toggle at right edge -->
-        <g transform="translate(212, 44)">
+        <!-- TOP-LEFT corner: title with status dot -->
+        <g transform="translate(32, 36)">
           <circle class="hd-status-dot" cx="0" cy="0" r="4" fill="rgba(255,255,255,0.30)"/>
           <text x="14" y="4" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="11" font-weight="800" letter-spacing="2.4">INFINITE FLOW FUNNEL</text>
         </g>
-        <g transform="translate(528, 28)">
-          <rect class="hd-toggle-bg" x="0" y="0" width="64" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
-          <rect class="hd-toggle-on" x="0" y="0" width="64" height="32" rx="16" fill="rgba(95,232,215,0.30)" stroke="#5FE8D7" stroke-width="1.4"/>
-          <circle class="hd-toggle-knob" cx="16" cy="16" r="11" fill="#FFFFFF"/>
-          <circle class="hd-toggle-glow" cx="48" cy="16" r="16" fill="url(#hdGlow)"/>
+
+        <!-- TOP-RIGHT corner: toggle -->
+        <g transform="translate(540, 22)">
+          <rect class="hd-toggle-bg" x="0" y="0" width="56" height="28" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+          <rect class="hd-toggle-on" x="0" y="0" width="56" height="28" rx="14" fill="rgba(95,232,215,0.30)" stroke="#5FE8D7" stroke-width="1.4"/>
+          <circle class="hd-toggle-knob" cx="14" cy="14" r="10" fill="#FFFFFF"/>
+          <circle class="hd-toggle-glow" cx="42" cy="14" r="14" fill="url(#hdGlow)"/>
         </g>
 
-        <!-- BODY: BIG infinity centered at (320, 175). Size scaled 1.55x — fills the card -->
-        <ellipse class="hd-inf-aura" cx="320" cy="175" rx="240" ry="115" fill="url(#hdAura)"/>
-        <g transform="translate(320, 175)">
+        <!-- BODY: aura + BIG ELONGATED infinity, ratio ~2.7:1 -->
+        <ellipse class="hd-inf-aura" cx="320" cy="105" rx="270" ry="80" fill="url(#hdAura)"/>
+        <g transform="translate(320, 105)">
           <!-- Off-state ring -->
           <path class="hd-inf-off"
-                d="M -140 0 C -140 -93, -15 -93, 0 0 C 15 93, 140 93, 140 0 C 140 -93, 15 -93, 0 0 C -15 93, -140 93, -140 0 Z"
+                d="M -150 0 C -150 -55, -15 -55, 0 0 C 15 55, 150 55, 150 0 C 150 -55, 15 -55, 0 0 C -15 55, -150 55, -150 0 Z"
                 fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="3.5" stroke-linecap="round"/>
           <!-- On-state ring -->
           <path id="hdInfPath" class="hd-inf-on"
-                d="M -140 0 C -140 -93, -15 -93, 0 0 C 15 93, 140 93, 140 0 C 140 -93, 15 -93, 0 0 C -15 93, -140 93, -140 0 Z"
+                d="M -150 0 C -150 -55, -15 -55, 0 0 C 15 55, 150 55, 150 0 C 150 -55, 15 -55, 0 0 C -15 55, -150 55, -150 0 Z"
                 fill="none" stroke="url(#hdInfOn)" stroke-width="4" stroke-linecap="round"/>
-          <!-- Just 2 leads (simpler) -->
-          <circle class="hd-inf-particle" r="6" fill="#7FF4E5">
-            <animateMotion dur="4s" repeatCount="indefinite"><mpath href="#hdInfPath"/></animateMotion>
+          <!-- 2 leads in sequence, same direction (offset by 2s = half of 4s loop) -->
+          <circle class="hd-inf-particle" r="5.5" fill="#7FF4E5">
+            <animateMotion dur="4.5s" repeatCount="indefinite"><mpath href="#hdInfPath"/></animateMotion>
           </circle>
-          <circle class="hd-inf-particle" r="5" fill="#5FE8D7" opacity="0.85">
-            <animateMotion dur="4s" repeatCount="indefinite" begin="-2s"><mpath href="#hdInfPath"/></animateMotion>
+          <circle class="hd-inf-particle" r="4.5" fill="#5FE8D7" opacity="0.85">
+            <animateMotion dur="4.5s" repeatCount="indefinite" begin="-2.25s"><mpath href="#hdInfPath"/></animateMotion>
           </circle>
         </g>
 
-        <!-- ▼ NOTIFICATION TOAST (floats OUTSIDE the card, below-right, iPhone style) -->
-        <g class="hd-notif" transform="translate(0, 0)">
-          <!-- Toast container -->
-          <rect x="170" y="324" width="380" height="48" rx="14"
-                fill="rgba(15,37,48,0.96)"
-                stroke="rgba(95,232,215,0.50)" stroke-width="1"/>
-          <!-- Unlocked padlock icon -->
-          <g transform="translate(192, 338)">
-            <rect x="0" y="9" width="18" height="14" rx="2.5" fill="rgba(95,232,215,0.18)" stroke="#5FE8D7" stroke-width="1.7"/>
-            <path d="M 4 9 L 4 5 A 6 6 0 0 1 16 1" fill="none" stroke="#5FE8D7" stroke-width="1.7" stroke-linecap="round"/>
-            <circle cx="16" cy="1" r="1.2" fill="#5FE8D7"/>
-            <circle cx="9" cy="16" r="1.6" fill="#5FE8D7"/>
+        <!-- BOTTOM-RIGHT corner: status pill (only visible when ON) -->
+        <g class="hd-status">
+          <!-- Unlocked padlock -->
+          <g transform="translate(380, 156)">
+            <rect x="0" y="9" width="16" height="13" rx="2.2" fill="rgba(95,232,215,0.18)" stroke="#5FE8D7" stroke-width="1.6"/>
+            <path d="M 3.5 9 L 3.5 5 A 5.5 5.5 0 0 1 14 1" fill="none" stroke="#5FE8D7" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="14" cy="1" r="1.1" fill="#5FE8D7"/>
+            <circle cx="8" cy="15" r="1.5" fill="#5FE8D7"/>
           </g>
-          <text x="226" y="355" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="14" font-weight="600">Flujo de leads infinito · </text>
-          <text x="396" y="355" fill="#5FE8D7" font-family="Montserrat, sans-serif" font-size="14" font-weight="700">desbloqueado</text>
+          <text x="406" y="172" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="12" font-weight="600">Flujo de leads · </text>
+          <text x="492" y="172" fill="#5FE8D7" font-family="Montserrat, sans-serif" font-size="12" font-weight="700">desbloqueado</text>
           <!-- Check -->
-          <g transform="translate(518, 346)">
-            <circle cx="0" cy="2" r="9" fill="rgba(95,232,215,0.20)" stroke="#5FE8D7" stroke-width="1.5"/>
-            <path d="M -4 2 L -1 5 L 4 -1" fill="none" stroke="#5FE8D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <g transform="translate(596, 165)">
+            <circle cx="0" cy="0" r="8" fill="rgba(95,232,215,0.20)" stroke="#5FE8D7" stroke-width="1.4"/>
+            <path d="M -3.5 0 L -1 2.5 L 3.5 -2.5" fill="none" stroke="#5FE8D7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </g>
         </g>
 
