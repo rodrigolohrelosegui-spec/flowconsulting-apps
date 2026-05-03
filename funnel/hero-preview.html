@@ -2256,37 +2256,39 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   text-align: center;
   padding: 64px 0 80px;
 }
-.hero-brand {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 18px;
+/* Compact eyebrow: brand + small pillars row, no pill */
+.hero-mark {
+  margin-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
-.hero-pillars {
+.hero-mark__brand {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--on-dark);
+}
+.hero-mark__pillars {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 auto 28px;
-  padding: 10px 22px;
-  background: rgba(95,232,215,0.04);
-  border: 1px solid rgba(95,232,215,0.18);
-  border-radius: 100px;
+  gap: 6px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
+  color: rgba(255,255,255,0.40);
 }
-.hero-pillars__item { color: rgba(255,255,255,0.55); transition: color .3s; }
-.hero-pillars__item--active {
+.hero-mark__sep { opacity: .5; font-weight: 400; }
+.hero-mark__active {
   color: var(--cyan);
-  text-shadow: 0 0 12px rgba(95,232,215,0.55);
-  position: relative;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(95,232,215,0.50);
 }
-.hero-pillars__sep { color: rgba(255,255,255,0.30); font-weight: 400; }
 
 .hero--funnel-v2 .hero__title { margin-top: 4px; }
 .hero--funnel-v2 .hero__sub {
@@ -2385,7 +2387,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   18%, 92%      { color: var(--cyan); text-shadow: 0 0 10px rgba(95,232,215,0.50); font-weight: 700; }
   100%          { color: rgba(255,255,255,0.40); text-shadow: none; font-weight: 600; }
 }
-.hero-pillars__item--active {
+.hero-mark__active {
   animation: hero-mark-active 18s ease-in-out infinite;
 }
 
@@ -2406,7 +2408,7 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 .hd-text-product { animation: hd-text-on 18s ease-in-out infinite, hd-text-glow 18s ease-in-out infinite; }
 
 @media (max-width: 600px) {
-  .hero-pillars { padding: 8px 14px; gap: 6px; font-size: 10px; letter-spacing: .10em; }
+  .hero-mark__pillars { gap: 4px; font-size: 9px; letter-spacing: .10em; }
   .hero-dashboard { margin-top: 32px; }
 }
 
@@ -2435,14 +2437,15 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
   <!-- Hero -->
   <header class="hero hero--a hero--funnel-v2">
-    <div class="hero-brand">Flow Consulting</div>
-
-    <div class="hero-pillars">
-      <span class="hero-pillars__item">Founder Flow</span>
-      <span class="hero-pillars__sep">·</span>
-      <span class="hero-pillars__item hero-pillars__item--active">Lead Flow</span>
-      <span class="hero-pillars__sep">·</span>
-      <span class="hero-pillars__item">Cash Flow</span>
+    <div class="hero-mark">
+      <div class="hero-mark__brand">Flow Consulting</div>
+      <div class="hero-mark__pillars">
+        <span>Founder Flow</span>
+        <span class="hero-mark__sep">·</span>
+        <span class="hero-mark__active">Lead Flow</span>
+        <span class="hero-mark__sep">·</span>
+        <span>Cash Flow</span>
+      </div>
     </div>
 
     <h1 class="hero__title">
