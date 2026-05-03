@@ -2250,43 +2250,44 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
 
 /* ════════════════════════════════════════════════════════
-   HERO V2 (preview) — Flow Consulting label, pillars, dashboard
+   HERO V2 (preview) — Flow Consulting brand mark, product label, dashboard
    ════════════════════════════════════════════════════════ */
 .hero--funnel-v2 {
   text-align: center;
-  padding: 64px 0 80px;
+  padding: 56px 0 80px;
 }
-.hero-brand {
+.hero-mark {
+  margin-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.hero-mark__brand {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .28em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 18px;
+  color: var(--on-dark);
 }
-.hero-pillars {
+.hero-mark__pillars {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 auto 28px;
-  padding: 10px 22px;
-  background: rgba(95,232,215,0.04);
-  border: 1px solid rgba(95,232,215,0.18);
-  border-radius: 100px;
+  gap: 6px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
+  color: rgba(255,255,255,0.40);
 }
-.hero-pillars__item { color: rgba(255,255,255,0.55); transition: color .3s; }
-.hero-pillars__item--active {
+.hero-mark__sep { opacity: .5; font-weight: 400; }
+.hero-mark__active {
   color: var(--cyan);
-  text-shadow: 0 0 12px rgba(95,232,215,0.55);
-  position: relative;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(95,232,215,0.50);
 }
-.hero-pillars__sep { color: rgba(255,255,255,0.30); font-weight: 400; }
 
 .hero--funnel-v2 .hero__title { margin-top: 4px; }
 .hero--funnel-v2 .hero__sub {
@@ -2297,6 +2298,23 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
   line-height: 1.6;
   color: rgba(255,255,255,0.75);
   letter-spacing: 0;
+}
+
+/* Product label between subtitle and dashboard */
+.hero-product {
+  margin: 36px auto 4px;
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: rgba(95,232,215,0.08);
+  border: 1px solid rgba(95,232,215,0.30);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  text-shadow: 0 0 12px rgba(95,232,215,0.40);
 }
 
 /* Animated dashboard visual */
@@ -2313,65 +2331,66 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           drop-shadow(0 0 60px -20px rgba(95,232,215,0.40));
 }
 
-/* Animation timeline (8s loop): 0-1.5 OFF, 1.5-2.8 cursor moves to toggle, 2.8-3 click, 3-3.5 ON, 3.5-7.5 hold, 7.5-8 reset */
-/* Toggle position: translate(288,296), knob center at (320,312), click target ~ (320, 312) */
+/* Animation timeline (12s loop): 0-1.5 OFF, 1.5-2.8 cursor moves, 2.8-3 click, 3-3.5 turns ON, 3.5-11 HOLD ON (~7.5s), 11-12 reset */
+/* Toggle position: translate(288,296) — knob center at (320,312) */
 @keyframes hd-cursor-path {
-  0%, 8%   { opacity: 0; transform: translate(420px, 360px); }
-  10%      { opacity: 1; transform: translate(420px, 360px); }
-  30%      { opacity: 1; transform: translate(316px, 308px); }
-  33%      { opacity: 1; transform: translate(316px, 308px) scale(0.82); }
-  37%      { opacity: 1; transform: translate(316px, 308px) scale(1); }
-  85%      { opacity: 1; transform: translate(316px, 308px); }
-  92%, 100%{ opacity: 0; transform: translate(420px, 360px); }
+  0%, 8%       { opacity: 0; transform: translate(420px, 360px); }
+  10%          { opacity: 1; transform: translate(420px, 360px); }
+  20%          { opacity: 1; transform: translate(316px, 308px); }
+  22%          { opacity: 1; transform: translate(316px, 308px) scale(0.80); }
+  25%          { opacity: 1; transform: translate(316px, 308px) scale(1); }
+  90%          { opacity: 1; transform: translate(316px, 308px); }
+  95%, 100%    { opacity: 0; transform: translate(420px, 360px); }
 }
 .hd-cursor {
-  animation: hd-cursor-path 8s ease-in-out infinite;
+  animation: hd-cursor-path 12s ease-in-out infinite;
   transform-origin: 6px 12px;
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.45));
 }
 
 @keyframes hd-toggle-knob {
-  0%, 30%   { cx: 16; }
-  37%, 92%  { cx: 48; }
+  0%, 22%   { cx: 16; }
+  25%, 92%  { cx: 48; }
   100%      { cx: 16; }
 }
 .hd-toggle-knob {
-  animation: hd-toggle-knob 8s ease-in-out infinite;
+  animation: hd-toggle-knob 12s ease-in-out infinite;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
 }
 
 @keyframes hd-on {
-  0%, 32%   { opacity: 0; }
-  40%, 92%  { opacity: 1; }
+  0%, 22%   { opacity: 0; }
+  28%, 92%  { opacity: 1; }
   100%      { opacity: 0; }
 }
-.hd-toggle-on, .hd-toggle-glow { animation: hd-on 8s ease-in-out infinite; }
-.hd-inf-on { animation: hd-on 8s ease-in-out infinite; }
+.hd-toggle-on, .hd-toggle-glow { animation: hd-on 12s ease-in-out infinite; }
+.hd-inf-on { animation: hd-on 12s ease-in-out infinite; }
 .hd-inf-particle, .hd-inf-particle--trail {
-  animation: hd-on 8s ease-in-out infinite;
+  animation: hd-on 12s ease-in-out infinite;
   filter: drop-shadow(0 0 8px rgba(95,232,215,0.95));
 }
+.hd-lead { color: #5FE8D7; }
 
 /* Aura: pulsing while ON */
 @keyframes hd-aura {
-  0%, 32%      { opacity: 0; transform: scale(0.9); }
-  40%          { opacity: 0.9; transform: scale(1); }
-  60%          { opacity: 0.7; transform: scale(1.04); }
-  85%          { opacity: 0.9; transform: scale(1.02); }
+  0%, 22%      { opacity: 0; transform: scale(0.9); }
+  28%          { opacity: 0.9; transform: scale(1); }
+  50%          { opacity: 0.65; transform: scale(1.04); }
+  70%          { opacity: 0.9; transform: scale(1.02); }
   92%, 100%    { opacity: 0; transform: scale(0.9); }
 }
 .hd-inf-aura {
-  animation: hd-aura 8s ease-in-out infinite;
+  animation: hd-aura 12s ease-in-out infinite;
   transform-origin: 320px 180px;
 }
 
 @keyframes hd-notif {
-  0%, 38%   { opacity: 0; transform: translateY(-26px); }
-  46%, 90%  { opacity: 1; transform: translateY(0); }
-  100%      { opacity: 0; transform: translateY(-26px); }
+  0%, 26%       { opacity: 0; transform: translateY(-26px); }
+  32%, 90%      { opacity: 1; transform: translateY(0); }
+  100%          { opacity: 0; transform: translateY(-26px); }
 }
 .hd-notif {
-  animation: hd-notif 8s ease-in-out infinite;
+  animation: hd-notif 12s ease-in-out infinite;
   transform-origin: top center;
   filter: drop-shadow(0 8px 20px rgba(0,0,0,0.40));
 }
@@ -2406,14 +2425,15 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
   <!-- Hero -->
   <header class="hero hero--a hero--funnel-v2">
-    <div class="hero-brand">Flow Consulting</div>
-
-    <div class="hero-pillars">
-      <span class="hero-pillars__item">Founder Flow</span>
-      <span class="hero-pillars__sep">·</span>
-      <span class="hero-pillars__item hero-pillars__item--active">Lead Flow</span>
-      <span class="hero-pillars__sep">·</span>
-      <span class="hero-pillars__item">Cash Flow</span>
+    <div class="hero-mark">
+      <div class="hero-mark__brand">Flow Consulting</div>
+      <div class="hero-mark__pillars">
+        <span>Founder Flow</span>
+        <span class="hero-mark__sep">·</span>
+        <span class="hero-mark__active">Lead Flow</span>
+        <span class="hero-mark__sep">·</span>
+        <span>Cash Flow</span>
+      </div>
     </div>
 
     <h1 class="hero__title">
@@ -2423,6 +2443,8 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
     <p class="hero__sub">
       El proceso interno que usamos en Flow Consulting para atraer un flujo constante y predecible de clientes high ticket — al menor costo posible.
     </p>
+
+    <div class="hero-product">Infinite Flow Funnel</div>
 
     <!-- Animated dashboard visual: BIG centered infinity + toggle below + notification on activation -->
     <div class="hero-dashboard" aria-hidden="true">
@@ -2446,16 +2468,22 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 
         <!-- Notification toast (slides in after click) -->
         <g class="hd-notif">
-          <rect x="120" y="8" width="400" height="48" rx="24" fill="rgba(15,37,48,0.95)" stroke="rgba(95,232,215,0.55)" stroke-width="1"/>
-          <!-- Lock unlocked icon -->
-          <g transform="translate(150, 22)">
-            <rect x="0" y="8" width="16" height="14" rx="2.5" fill="none" stroke="#5FE8D7" stroke-width="1.7"/>
-            <path d="M3.5 8 L 3.5 5 A 4.5 4.5 0 0 1 12 4" fill="none" stroke="#5FE8D7" stroke-width="1.7" stroke-linecap="round"/>
+          <rect x="100" y="8" width="440" height="48" rx="24" fill="rgba(15,37,48,0.95)" stroke="rgba(95,232,215,0.55)" stroke-width="1"/>
+          <!-- Unlocked padlock — shackle lifted clearly OPEN to the right -->
+          <g transform="translate(128, 20)">
+            <!-- Lock body -->
+            <rect x="0" y="9" width="18" height="14" rx="2.5" fill="rgba(95,232,215,0.18)" stroke="#5FE8D7" stroke-width="1.7"/>
+            <!-- Shackle in OPEN position: starts at left side of body, goes UP, curves right, ENDS HIGHER than the body opening on the right (clearly broken/unlocked) -->
+            <path d="M 4 9 L 4 5 A 6 6 0 0 1 16 1" fill="none" stroke="#5FE8D7" stroke-width="1.7" stroke-linecap="round"/>
+            <!-- Tiny dot at the disconnected shackle end to emphasize "open" -->
+            <circle cx="16" cy="1" r="1.2" fill="#5FE8D7"/>
+            <!-- Keyhole -->
+            <circle cx="9" cy="16" r="1.6" fill="#5FE8D7"/>
           </g>
-          <text x="184" y="38" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="15" font-weight="600">Flujo de leads infinito · </text>
-          <text x="365" y="38" fill="#5FE8D7" font-family="Montserrat, sans-serif" font-size="15" font-weight="700">activado</text>
+          <text x="160" y="38" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="15" font-weight="600">Flujo de leads infinito · </text>
+          <text x="345" y="38" fill="#5FE8D7" font-family="Montserrat, sans-serif" font-size="15" font-weight="700">desbloqueado</text>
           <!-- Check -->
-          <g transform="translate(478, 24)">
+          <g transform="translate(498, 24)">
             <circle cx="8" cy="8" r="11" fill="rgba(95,232,215,0.20)" stroke="#5FE8D7" stroke-width="1.5"/>
             <path d="M3 8 L 7 12 L 13 4" fill="none" stroke="#5FE8D7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </g>
@@ -2474,17 +2502,22 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           <path id="hdInfPath" class="hd-inf-on"
                 d="M -90 0 C -90 -65, -10 -65, 0 0 C 10 65, 90 65, 90 0 C 90 -65, 10 -65, 0 0 C -10 65, -90 65, -90 0 Z"
                 fill="none" stroke="url(#hdInfOn)" stroke-width="3.5" stroke-linecap="round"/>
-          <!-- Flowing particle (head) -->
-          <circle class="hd-inf-particle" r="5" fill="#7FF4E5">
-            <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto"><mpath href="#hdInfPath"/></animateMotion>
-          </circle>
-          <!-- Trail dots -->
-          <circle class="hd-inf-particle hd-inf-particle--trail" r="3.5" fill="#5FE8D7" opacity="0.7">
-            <animateMotion dur="3.6s" repeatCount="indefinite" begin="-0.18s" rotate="auto"><mpath href="#hdInfPath"/></animateMotion>
-          </circle>
-          <circle class="hd-inf-particle hd-inf-particle--trail" r="2" fill="#5FE8D7" opacity="0.45">
-            <animateMotion dur="3.6s" repeatCount="indefinite" begin="-0.36s" rotate="auto"><mpath href="#hdInfPath"/></animateMotion>
-          </circle>
+          <!-- Flowing leads (person silhouettes) -->
+          <g class="hd-inf-particle hd-lead">
+            <circle cx="0" cy="-4" r="2.6" fill="#7FF4E5"/>
+            <path d="M -4.2 1 Q -4.2 -2 -1 -2 L 1 -2 Q 4.2 -2 4.2 1 L 4.2 4 L -4.2 4 Z" fill="#7FF4E5"/>
+            <animateMotion dur="4s" repeatCount="indefinite"><mpath href="#hdInfPath"/></animateMotion>
+          </g>
+          <g class="hd-inf-particle hd-lead">
+            <circle cx="0" cy="-4" r="2.4" fill="#5FE8D7"/>
+            <path d="M -3.9 1 Q -3.9 -2 -1 -2 L 1 -2 Q 3.9 -2 3.9 1 L 3.9 4 L -3.9 4 Z" fill="#5FE8D7"/>
+            <animateMotion dur="4s" repeatCount="indefinite" begin="-1.3s"><mpath href="#hdInfPath"/></animateMotion>
+          </g>
+          <g class="hd-inf-particle hd-lead">
+            <circle cx="0" cy="-4" r="2.4" fill="#5FE8D7"/>
+            <path d="M -3.9 1 Q -3.9 -2 -1 -2 L 1 -2 Q 3.9 -2 3.9 1 L 3.9 4 L -3.9 4 Z" fill="#5FE8D7"/>
+            <animateMotion dur="4s" repeatCount="indefinite" begin="-2.6s"><mpath href="#hdInfPath"/></animateMotion>
+          </g>
         </g>
 
         <!-- Toggle below infinity, centered -->
