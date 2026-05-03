@@ -2331,16 +2331,16 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           drop-shadow(0 0 60px -20px rgba(95,232,215,0.40));
 }
 
-/* Animation timeline (12s loop): 0-1.5 OFF, 1.5-2.8 cursor moves, 2.8-3 click, 3-3.5 turns ON, 3.5-11 HOLD ON (~7.5s), 11-12 reset */
-/* Toggle position: translate(288,296) — knob center at (320,312) */
+/* Animation timeline (12s loop): 0-1.5 OFF, 1.5-3 cursor moves, 3-3.4 click, 3.4-11 HOLD ON (~7.5s), 11-12 reset */
+/* New toggle position: translate(528,28) — knob center at (544,44). Cursor target: (544, 44) */
 @keyframes hd-cursor-path {
-  0%, 8%       { opacity: 0; transform: translate(420px, 360px); }
-  10%          { opacity: 1; transform: translate(420px, 360px); }
-  20%          { opacity: 1; transform: translate(316px, 308px); }
-  22%          { opacity: 1; transform: translate(316px, 308px) scale(0.80); }
-  25%          { opacity: 1; transform: translate(316px, 308px) scale(1); }
-  90%          { opacity: 1; transform: translate(316px, 308px); }
-  95%, 100%    { opacity: 0; transform: translate(420px, 360px); }
+  0%, 8%       { opacity: 0; transform: translate(620px, 320px); }
+  10%          { opacity: 1; transform: translate(620px, 320px); }
+  22%          { opacity: 1; transform: translate(540px, 50px); }
+  25%          { opacity: 1; transform: translate(540px, 50px) scale(0.80); }
+  28%          { opacity: 1; transform: translate(540px, 50px) scale(1); }
+  90%          { opacity: 1; transform: translate(540px, 50px); }
+  95%, 100%    { opacity: 0; transform: translate(620px, 320px); }
 }
 .hd-cursor {
   animation: hd-cursor-path 12s ease-in-out infinite;
@@ -2349,8 +2349,8 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 }
 
 @keyframes hd-toggle-knob {
-  0%, 22%   { cx: 16; }
-  25%, 92%  { cx: 48; }
+  0%, 25%   { cx: 16; }
+  28%, 92%  { cx: 48; }
   100%      { cx: 16; }
 }
 .hd-toggle-knob {
@@ -2359,8 +2359,8 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 }
 
 @keyframes hd-on {
-  0%, 22%   { opacity: 0; }
-  28%, 92%  { opacity: 1; }
+  0%, 25%   { opacity: 0; }
+  30%, 92%  { opacity: 1; }
   100%      { opacity: 0; }
 }
 .hd-toggle-on, .hd-toggle-glow { animation: hd-on 12s ease-in-out infinite; }
@@ -2371,28 +2371,42 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
 }
 .hd-lead { color: #5FE8D7; }
 
-/* Aura: pulsing while ON */
+/* Aura behind infinity: pulsing slightly while ON */
 @keyframes hd-aura {
-  0%, 22%      { opacity: 0; transform: scale(0.9); }
-  28%          { opacity: 0.9; transform: scale(1); }
-  50%          { opacity: 0.65; transform: scale(1.04); }
-  70%          { opacity: 0.9; transform: scale(1.02); }
+  0%, 25%      { opacity: 0; transform: scale(0.9); }
+  30%          { opacity: 0.9; transform: scale(1); }
+  50%          { opacity: 0.6; transform: scale(1.05); }
+  70%          { opacity: 0.85; transform: scale(1.02); }
   92%, 100%    { opacity: 0; transform: scale(0.9); }
 }
 .hd-inf-aura {
   animation: hd-aura 12s ease-in-out infinite;
-  transform-origin: 320px 180px;
+  transform-origin: 320px 170px;
 }
 
-@keyframes hd-notif {
-  0%, 26%       { opacity: 0; transform: translateY(-26px); }
-  32%, 90%      { opacity: 1; transform: translateY(0); }
-  100%          { opacity: 0; transform: translateY(-26px); }
+/* Footer status row — slides up from bottom when ON */
+@keyframes hd-footer {
+  0%, 28%       { opacity: 0; transform: translateY(16px); }
+  34%, 90%      { opacity: 1; transform: translateY(0); }
+  100%          { opacity: 0; transform: translateY(16px); }
 }
-.hd-notif {
-  animation: hd-notif 12s ease-in-out infinite;
-  transform-origin: top center;
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.40));
+.hd-footer-status {
+  animation: hd-footer 12s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Status dot (top-left): muted off, cyan pulsing on */
+@keyframes hd-dot {
+  0%, 25%       { fill: rgba(255,255,255,0.30); }
+  30%, 92%      { fill: #5FE8D7; }
+  100%          { fill: rgba(255,255,255,0.30); }
+}
+@keyframes hd-dot-pulse {
+  0%, 25%, 92%, 100% { filter: none; }
+  30%, 88%           { filter: drop-shadow(0 0 8px rgba(95,232,215,0.85)); }
+}
+.hd-status-dot {
+  animation: hd-dot 12s ease-in-out infinite, hd-dot-pulse 12s ease-in-out infinite;
 }
 
 @media (max-width: 600px) {
@@ -2444,11 +2458,9 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
       El proceso interno que usamos en Flow Consulting para atraer un flujo constante y predecible de clientes high ticket — al menor costo posible.
     </p>
 
-    <div class="hero-product">Infinite Flow Funnel</div>
-
-    <!-- Animated dashboard visual: BIG centered infinity + toggle below + notification on activation -->
+    <!-- Animated dashboard: app-style card grouping all elements -->
     <div class="hero-dashboard" aria-hidden="true">
-      <svg viewBox="0 0 640 360" class="hero-dashboard__svg">
+      <svg viewBox="0 0 640 320" class="hero-dashboard__svg">
         <defs>
           <linearGradient id="hdInfOn" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#7FF4E5"/>
@@ -2466,43 +2478,40 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           </radialGradient>
         </defs>
 
-        <!-- Notification toast (slides in after click) -->
-        <g class="hd-notif">
-          <rect x="100" y="8" width="440" height="48" rx="24" fill="rgba(15,37,48,0.95)" stroke="rgba(95,232,215,0.55)" stroke-width="1"/>
-          <!-- Unlocked padlock — shackle lifted clearly OPEN to the right -->
-          <g transform="translate(128, 20)">
-            <!-- Lock body -->
-            <rect x="0" y="9" width="18" height="14" rx="2.5" fill="rgba(95,232,215,0.18)" stroke="#5FE8D7" stroke-width="1.7"/>
-            <!-- Shackle in OPEN position: starts at left side of body, goes UP, curves right, ENDS HIGHER than the body opening on the right (clearly broken/unlocked) -->
-            <path d="M 4 9 L 4 5 A 6 6 0 0 1 16 1" fill="none" stroke="#5FE8D7" stroke-width="1.7" stroke-linecap="round"/>
-            <!-- Tiny dot at the disconnected shackle end to emphasize "open" -->
-            <circle cx="16" cy="1" r="1.2" fill="#5FE8D7"/>
-            <!-- Keyhole -->
-            <circle cx="9" cy="16" r="1.6" fill="#5FE8D7"/>
-          </g>
-          <text x="160" y="38" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="15" font-weight="600">Flujo de leads infinito · </text>
-          <text x="345" y="38" fill="#5FE8D7" font-family="Montserrat, sans-serif" font-size="15" font-weight="700">desbloqueado</text>
-          <!-- Check -->
-          <g transform="translate(498, 24)">
-            <circle cx="8" cy="8" r="11" fill="rgba(95,232,215,0.20)" stroke="#5FE8D7" stroke-width="1.5"/>
-            <path d="M3 8 L 7 12 L 13 4" fill="none" stroke="#5FE8D7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
+        <!-- ▼ MAIN CARD — single grouped container (like a SaaS dashboard) -->
+        <rect x="20" y="20" width="600" height="280" rx="20"
+              fill="rgba(11,26,34,0.55)"
+              stroke="rgba(95,232,215,0.18)" stroke-width="1"/>
+
+        <!-- Header divider line -->
+        <line x1="20" y1="68" x2="620" y2="68" stroke="rgba(95,232,215,0.10)" stroke-width="1"/>
+
+        <!-- HEADER LEFT: product label with status dot -->
+        <g transform="translate(40, 44)">
+          <circle class="hd-status-dot" cx="0" cy="0" r="4" fill="#5FE8D7"/>
+          <text x="14" y="4" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="11" font-weight="800" letter-spacing="2.2">INFINITE FLOW FUNNEL</text>
         </g>
 
-        <!-- Aura behind the infinity (only when ON) -->
-        <ellipse class="hd-inf-aura" cx="320" cy="180" rx="220" ry="120" fill="url(#hdAura)"/>
+        <!-- HEADER RIGHT: toggle switch -->
+        <g transform="translate(528, 28)">
+          <rect class="hd-toggle-bg" x="0" y="0" width="64" height="32" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+          <rect class="hd-toggle-on" x="0" y="0" width="64" height="32" rx="16" fill="rgba(95,232,215,0.30)" stroke="#5FE8D7" stroke-width="1.4"/>
+          <circle class="hd-toggle-knob" cx="16" cy="16" r="11" fill="#FFFFFF"/>
+          <circle class="hd-toggle-glow" cx="48" cy="16" r="16" fill="url(#hdGlow)"/>
+        </g>
 
-        <!-- BIG centered infinity -->
-        <g transform="translate(320, 180)">
+        <!-- BODY: aura + BIG centered infinity -->
+        <ellipse class="hd-inf-aura" cx="320" cy="170" rx="200" ry="100" fill="url(#hdAura)"/>
+        <g transform="translate(320, 170)">
           <!-- Off-state ring -->
           <path class="hd-inf-off"
-                d="M -90 0 C -90 -65, -10 -65, 0 0 C 10 65, 90 65, 90 0 C 90 -65, 10 -65, 0 0 C -10 65, -90 65, -90 0 Z"
+                d="M -90 0 C -90 -60, -10 -60, 0 0 C 10 60, 90 60, 90 0 C 90 -60, 10 -60, 0 0 C -10 60, -90 60, -90 0 Z"
                 fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="3" stroke-linecap="round"/>
-          <!-- On-state ring (overlay) -->
+          <!-- On-state ring -->
           <path id="hdInfPath" class="hd-inf-on"
-                d="M -90 0 C -90 -65, -10 -65, 0 0 C 10 65, 90 65, 90 0 C 90 -65, 10 -65, 0 0 C -10 65, -90 65, -90 0 Z"
+                d="M -90 0 C -90 -60, -10 -60, 0 0 C 10 60, 90 60, 90 0 C 90 -60, 10 -60, 0 0 C -10 60, -90 60, -90 0 Z"
                 fill="none" stroke="url(#hdInfOn)" stroke-width="3.5" stroke-linecap="round"/>
-          <!-- Flowing leads (person silhouettes) -->
+          <!-- Leads flowing -->
           <g class="hd-inf-particle hd-lead">
             <circle cx="0" cy="-4" r="2.6" fill="#7FF4E5"/>
             <path d="M -4.2 1 Q -4.2 -2 -1 -2 L 1 -2 Q 4.2 -2 4.2 1 L 4.2 4 L -4.2 4 Z" fill="#7FF4E5"/>
@@ -2520,15 +2529,26 @@ p.pull strong { color: var(--cyan-ink); font-weight: 700; }
           </g>
         </g>
 
-        <!-- Toggle below infinity, centered -->
-        <g transform="translate(288, 296)">
-          <rect class="hd-toggle-bg" x="0" y="0" width="64" height="32" rx="16" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-          <rect class="hd-toggle-on" x="0" y="0" width="64" height="32" rx="16" fill="rgba(95,232,215,0.30)" stroke="#5FE8D7" stroke-width="1.4"/>
-          <circle class="hd-toggle-knob" cx="16" cy="16" r="11" fill="#FFFFFF"/>
-          <circle class="hd-toggle-glow" cx="48" cy="16" r="16" fill="url(#hdGlow)"/>
+        <!-- FOOTER: status row at the bottom (appears only when ON) -->
+        <g class="hd-footer-status">
+          <line x1="20" y1="260" x2="620" y2="260" stroke="rgba(95,232,215,0.10)" stroke-width="1"/>
+          <!-- Unlocked padlock -->
+          <g transform="translate(40, 274)">
+            <rect x="0" y="9" width="18" height="14" rx="2.5" fill="rgba(95,232,215,0.18)" stroke="#5FE8D7" stroke-width="1.7"/>
+            <path d="M 4 9 L 4 5 A 6 6 0 0 1 16 1" fill="none" stroke="#5FE8D7" stroke-width="1.7" stroke-linecap="round"/>
+            <circle cx="16" cy="1" r="1.2" fill="#5FE8D7"/>
+            <circle cx="9" cy="16" r="1.6" fill="#5FE8D7"/>
+          </g>
+          <text x="72" y="290" fill="#FFFFFF" font-family="Montserrat, sans-serif" font-size="13" font-weight="600">Flujo de leads infinito · </text>
+          <text x="226" y="290" fill="#5FE8D7" font-family="Montserrat, sans-serif" font-size="13" font-weight="700">desbloqueado</text>
+          <!-- Check -->
+          <g transform="translate(580, 280)">
+            <circle cx="0" cy="0" r="9" fill="rgba(95,232,215,0.20)" stroke="#5FE8D7" stroke-width="1.4"/>
+            <path d="M -4 0 L -1 3 L 4 -3" fill="none" stroke="#5FE8D7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
         </g>
 
-        <!-- Animated cursor -->
+        <!-- Animated cursor (clicks toggle in top-right) -->
         <g class="hd-cursor">
           <path d="M 0 0 L 0 18 L 5 13 L 9 22 L 12 21 L 8 12 L 14 12 Z" fill="#FFFFFF" stroke="#000" stroke-width="0.6"/>
         </g>
