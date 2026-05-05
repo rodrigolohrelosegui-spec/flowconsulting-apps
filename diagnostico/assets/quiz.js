@@ -8,7 +8,7 @@
   const CFG = {
     WEBHOOK_URL: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/diagnostico-flow',
     USE_LOCAL_FALLBACK: false,
-    URL_BOOKING: 'https://www.flowconsulting.co',
+    URL_BOOKING: 'https://flow-consulting.co/agenda-igdm',
     QUESTIONS_PATH: './assets/questions.json',
     STORAGE_KEY: 'fc_diag_state_v1',
     REQUEST_TIMEOUT_MS: 120000
@@ -284,7 +284,7 @@
       if (!result || !result.diagnostico_ejecutivo) throw new Error('Respuesta inesperada del servidor.');
 
       try { localStorage.setItem('fc_last_result', JSON.stringify({ result, at: Date.now() })); } catch (_) {}
-      track('submit_success', { arquetipo: result.arquetipo?.id, fase: result.fase_infinite_flow?.paso_actual });
+      track('submit_success', { arquetipo: result.arquetipo?.id });
 
       // Wait for user to click the "Ver mi reporte" button (resolved by the loader).
       // renderResult is triggered by the button handler set by the loader.
@@ -989,11 +989,9 @@
   /* ============== RENDER RESULT ============== */
   function renderResult(result) {
     const arq = result.arquetipo || {};
-    const fase = result.fase_infinite_flow || {};
     const scores = result.scores || {};
 
     $('#rArchetype').textContent = arq.nombre || 'Tu diagnóstico';
-    $('#rPhase').textContent = `${fase.nombre_paso ? `Paso ${fase.paso_actual} · ${fase.nombre_paso}` : ''}`;
     renderParagraphs($('#rLectura'), result.diagnostico_ejecutivo || '', { classBase: 'result__lectura-p' });
 
     // Report meta
@@ -1039,49 +1037,6 @@
       });
     });
 
-    // Phase viz
-    markPhaseBar(fase.paso_actual);
-    renderParagraphs($('#rPhaseExplainer'), fase.por_que_aqui || '');
-
-    // Patrones (numbered editorial list)
-    const pp = $('#rPatrones');
-    pp.innerHTML = '';
-    (result.patrones_activos || []).forEach((p, i) => {
-      const div = document.createElement('div');
-      div.className = 'pattern';
-      const num = String(i + 1).padStart(2, '0');
-      div.innerHTML = `
-        <div class="pattern__index">${num}</div>
-        <div>
-          <div class="pattern__name">${escapeHtml((p.nombre || '').replace(/_/g,' '))}</div>
-          <div class="pattern__diag" data-multi></div>
-        </div>
-      `;
-      pp.appendChild(div);
-      renderParagraphs(div.querySelector('.pattern__diag'), p.diagnostico || '', { applyBold: true });
-    });
-    $('#rPatronesBlock').style.display = (result.patrones_activos && result.patrones_activos.length) ? '' : 'none';
-
-    // Puntos ciegos
-    const bs = $('#rBlindSpots');
-    if (bs) {
-      bs.innerHTML = '';
-      (result.puntos_ciegos || []).forEach((b, i) => {
-        const div = document.createElement('div');
-        div.className = 'blind-spot';
-        div.innerHTML = `
-          <div class="blind-spot__num">${String(i+1).padStart(2,'0')}</div>
-          <div>
-            <div class="blind-spot__punto">${escapeHtml(b.punto || '')}</div>
-            <div class="blind-spot__cons">${escapeHtml(b.consecuencia || '')}</div>
-          </div>
-        `;
-        bs.appendChild(div);
-      });
-      const blockEl = $('#rBlindSpotsBlock');
-      if (blockEl) blockEl.style.display = (result.puntos_ciegos && result.puntos_ciegos.length) ? '' : 'none';
-    }
-
     // El cambio #1
     const bd = result.big_domino || {};
     $('#rBigDominoLever').textContent = bd.palanca || '';
@@ -1089,22 +1044,6 @@
 
     // Forbidden truth
     renderParagraphs($('#rForbidden'), result.forbidden_truth || '');
-
-    // Plan 30/60/90
-    const plan = result.plan_30_60_90 || {};
-    const planEl = $('#rPlan');
-    planEl.innerHTML = '';
-    [['30','dias_30'],['60','dias_60'],['90','dias_90']].forEach(([n, k]) => {
-      const p = plan[k] || {};
-      const div = document.createElement('div');
-      div.className = 'plan__step';
-      div.innerHTML = `
-        <div class="plan__step-num">${n}</div>
-        <div class="plan__step-obj">${escapeHtml(p.objetivo || '')}</div>
-        <p class="plan__step-action">${escapeHtml(p.una_accion_quirurgica || '')}</p>
-      `;
-      planEl.appendChild(div);
-    });
 
     // Costo
     const ci = result.costo_de_inaccion || {};
@@ -1121,22 +1060,9 @@
     if (cta.copy_sugerido) renderParagraphs($('#ctaFinalText'), cta.copy_sugerido);
     $('#ctaFinalBtn').href = CFG.URL_BOOKING;
 
-    track('result_viewed', { arquetipo: arq.id, fase: fase.paso_actual });
+    track('result_viewed', { arquetipo: arq.id });
 
     show('result');
-  }
-
-  function markPhaseBar(currentStep) {
-    if (!currentStep) currentStep = 1;
-    const phases = $$('.phase');
-    const lines  = $$('.phase__line');
-    phases.forEach((p, i) => {
-      const idx = i + 1;
-      p.classList.toggle('is-done', idx < currentStep);
-      p.classList.toggle('is-current', idx === currentStep);
-      p.classList.toggle('is-pending', idx > currentStep);
-    });
-    lines.forEach((l, i) => l.classList.toggle('is-done', i + 1 < currentStep));
   }
 
   /* ============== LOCAL FALLBACK ==============
