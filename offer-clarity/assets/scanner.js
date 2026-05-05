@@ -189,9 +189,9 @@
         ta.classList.add('is-invalid');
         const need = Math.max(minChars, 1);
         if (minChars > 0) {
-          errMsg.textContent = `Necesito al menos ${need} caracteres para que el análisis sea útil. Llevás ${v.length}.`;
+          errMsg.textContent = `Necesito al menos ${need} caracteres para que el análisis sea útil. Llevas ${v.length}.`;
         } else {
-          errMsg.textContent = `Esta respuesta es obligatoria. Si no la tenés, no podemos analizarla.`;
+          errMsg.textContent = `Esta respuesta es obligatoria. Si no la tienes, no podemos analizarla.`;
         }
         errMsg.hidden = false;
         setTimeout(() => ta.classList.remove('is-invalid'), 1500);
@@ -529,7 +529,7 @@
       { key:'prueba_sin_numeros',     label:'Prueba sin números',                 match: skipped.Q5 || !/\d/.test(a.Q5 || '') },
       { key:'voz_founder_no_cliente', label:'Voz del founder, no del cliente',    match: /^(ayudo|enseño|hago|trabajo)/i.test(a.Q1 || '') },
       { key:'avatar_borroso',         label:'Avatar borroso',                     match: Q3b > 0 && Q3b < 60 },
-      { key:'brecha_q6_vs_copy',      label:'Brecha entre lo que decís y lo que hacés', match: Q6.includes('honesto') || (Q6.includes('metodo') && (skipped.Q4 || Q4 < 30)) },
+      { key:'brecha_q6_vs_copy',      label:'Brecha entre lo que dices y lo que haces', match: Q6.includes('honesto') || (Q6.includes('metodo') && (skipped.Q4 || Q4 < 30)) },
       { key:'frase_saturada',         label:'Frase saturada del mercado',         match: /(escalar|crecer|libertad|impacto)/i.test(a.Q1 || '') },
       { key:'coherencia_baja',        label:'Coherencia narrativa baja',          match: Q1 > 0 && Q3a > 0 && Math.abs(Q1 - Q3a) > 200 }
     ];
@@ -761,7 +761,7 @@
       `Calibrando el análisis al bracket y madurez de tu negocio…`,
       `Cruzando tu narrativa con las 200 ofertas auditadas…`,
       `Verificando que cada cambio se pueda implementar esta semana…`,
-      `Pesando lo que perdés sin moverlo contra lo que ganás moviéndolo…`,
+      `Pesando lo que pierdes sin moverlo contra lo que ganas moviéndolo…`,
       `Asegurando que cada palabra te sirva, ${firstName}.`
     ];
     docBody.innerHTML = '';
@@ -981,7 +981,7 @@
       <div class="phrase-break__campo">${escapeHtml(f.campo_origen || '')}</div>
       <div class="phrase-break__porque">${textToParagraphs(f.por_que_rompe || '')}</div>
       <div class="phrase-break__reescritura">
-        <strong>Probá con esta versión</strong>
+        <strong>Prueba con esta versión</strong>
         <div>${escapeHtml(f.como_reescribirla || '')}</div>
       </div>
     `;
@@ -1013,7 +1013,7 @@
       $('#rMetodo').innerHTML = `
         <div class="metodo__vehiculo">${textToParagraphs(vm.vehiculo_roto_personalizado || '')}</div>
         <div class="metodo__diferencia">
-          <strong>Cómo lo hacemos diferente acá</strong>
+          <strong>Cómo lo hacemos diferente aquí</strong>
           <div>${textToParagraphs(vm.por_que_fc_es_diferente || '')}</div>
         </div>
       `;
@@ -1051,7 +1051,7 @@
         <div class="proj-card__text">${textToParagraphs(pj.escenario_base || '')}</div>
       </div>
       <div class="proj-card proj-card--alineado">
-        <div class="proj-card__title">Si arreglás el pilar</div>
+        <div class="proj-card__title">Si arreglas el pilar</div>
         <div class="proj-card__text">${textToParagraphs(pj.escenario_alineado || '')}</div>
       </div>
       <div class="proj-lift">${escapeHtml(pj.rango_lift || '')}</div>
@@ -1060,7 +1060,7 @@
     $('#rRodrigoQuote').textContent = data.cita_rodrigo ? `${data.cita_rodrigo}` : '';
 
     const cta = data.cta_personalizado || {};
-    $('#rCtaHeadline').textContent = cta.headline || 'Agendá tu llamada de diagnóstico';
+    $('#rCtaHeadline').textContent = cta.headline || 'Agenda tu llamada de diagnóstico';
     $('#rCtaRazon').innerHTML = textToParagraphs(cta.razon_para_actuar_ahora || 'Tu scan termina de ser relevante en los próximos 7 días. Lo que hagas esta semana determina si los próximos 30 son iguales o diferentes.');
     $('#rCtaQuePasa').innerHTML = `
       <strong>Qué pasa en la llamada</strong>

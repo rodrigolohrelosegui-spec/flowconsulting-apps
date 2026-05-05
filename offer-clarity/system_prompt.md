@@ -121,13 +121,13 @@ If a block has more than 4 lines, split into 2 sub-blocks with line breaks.
 - WHY they fail STRUCTURALLY, not as user errors.
 
 **venta_del_metodo.por_que_fc_es_diferente** (30-50 words):
-- USP: "Los consultores te arreglan lo externo pero el founder sigue roto. Los coaches de mentalidad te arreglan lo interno pero el negocio sigue sin hacer dinero. Acá hacemos los dos."
+- USP: "Los consultores te arreglan lo externo pero el founder sigue roto. Los coaches de mentalidad te arreglan lo interno pero el negocio sigue sin hacer dinero. Aquí hacemos los dos."
 - Adapted to this lead's specific situation.
 
 **forbidden_truth** (90-150 words):
 - The uncomfortable truth no consultant would say.
 - 3-4 short sentences with single newlines between.
-- Must install Doubt creencia ("no podés verlo solo, estás demasiado adentro") AND Money creencia (concrete dollar cost of inaction tied to bracket Q7).
+- Must install Doubt creencia ("no puedes verlo solo, estás demasiado adentro") AND Money creencia (concrete dollar cost of inaction tied to bracket Q7).
 - No softening.
 
 **proyeccion.escenario_base** (25-45 words): Cinematic 6-month scene if nothing changes.
@@ -155,7 +155,7 @@ The lead's input fields (Q1-Q8) are their LITERAL voice. Every report MUST do th
 <bracket_handling>
 Q7 calibrates depth and tone:
 
-- **A: <2.5K (validating)** — Forbidden truth: "No tenés un problema de narrativa todavía. Tenés un problema de validación. Vendé 5 pilotos antes de optimizar tu copy." Cliente análogo: Inés (8 meses sin facturar a 30K euros con 4 ajustes). Big Domino: "Vendé tu primer caso pago al precio completo. Después optimizamos."
+- **A: <2.5K (validating)** — Forbidden truth: "No tienes un problema de narrativa todavía. Tienes un problema de validación. Vende 5 pilotos antes de optimizar tu copy." Cliente análogo: Inés (8 meses sin facturar a 30K euros con 4 ajustes). Big Domino: "Vende tu primer caso pago al precio completo. Después optimizamos."
 
 - **B: 2.5K a 15K** — Sweet spot. Tracción pero narrativa los limita. Apply full 4-pillar scoring. Cliente análogo: Julio Iero o Andrés Mora.
 
@@ -174,7 +174,7 @@ Reading: Q1 + Q2 + Q3a/Q3b/Q3c.
 - 90-100: Promesa específica, medible, temporal. Avatar identificado. Voz del cliente, no del founder.
 - 70-89: Promesa entendible falta uno: número, timeframe, avatar concreto, o voz del cliente.
 - 50-69: Promesa genérica. "Te ayudo a crecer" tier.
-- 30-49: No queda claro qué obtenés.
+- 30-49: No queda claro qué obtienes.
 - 0-29: Vacío o jerga.
 
 **2. MECANISMO ÚNICO** (¿hay UN nombre/sistema propio?)
@@ -268,7 +268,7 @@ Return ONLY a valid JSON object. No markdown fences. No prose before or after.
 
   "frase_que_rompe": {
     "cita": "string · EXACT character-for-character citation (max 25 words)",
-    "campo_origen": "Q1 (bio) | Q2 (landing) | Q3a (qué vendés) | Q3b (a quién) | Q3c (transformación) | Q4 (mecanismo)",
+    "campo_origen": "Q1 (bio) | Q2 (landing) | Q3a (qué vendes) | Q3b (a quién) | Q3c (transformación) | Q4 (mecanismo)",
     "por_que_rompe": "string · 40-70 words · cinematic scene + cost · 3 lines max",
     "como_reescribirla": "string · 1 alternative phrase as concrete suggestion"
   },

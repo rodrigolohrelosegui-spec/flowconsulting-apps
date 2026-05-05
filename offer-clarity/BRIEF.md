@@ -1,7 +1,7 @@
 # LM #2 · Offer Clarity Scanner — Brief operativo
 
 ## Concepto en una frase
-Pegás tu bio + landing + oferta principal. En 90 segundos sabés en qué pilar narrativo estás roto, qué frase específica está saboteando tu conversión, y qué mover esta semana.
+Pegas tu bio + landing + oferta principal. En 90 segundos sabes en qué pilar narrativo estás roto, qué frase específica está saboteando tu conversión, y qué mover esta semana.
 
 ## Avatar
 Emprendedor digital con buen producto/servicio cuya narrativa no convierte como debería. Bracket revenue $5K-$50K USD/mes (sweet spot). Probó: Russell Brunson, Hormozi, agencias de funnels, mentorías de copy. Sospecha que el problema NO es el funnel ni el tráfico, pero no lo ve solo.
@@ -12,9 +12,9 @@ NO aplica para: pre-validación (<$2.5K) ni founders >$200K (esos ya tienen clar
 Capa 2 — Conversión (MOFU). Niveles 3-4 (Solution Aware → Product Aware). El LM hace la **venta del MÉTODO** (Trim & Stack + 4 pilares narrativos). La call hace la venta del producto.
 
 ## Belief Ladder a construir (5 de 7)
-1. **Pain** — score visible "estás al 50% alineado, por eso golpeás techo"
-2. **Doubt** — "no podés verlo solo, estás demasiado adentro"
-3. **Cost** — "cada mes con esa narrativa, ads más caros, conversión peor, te quemás más"
+1. **Pain** — score visible "estás al 50% alineado, por eso golpeas techo"
+2. **Doubt** — "no puedes verlo solo, estás demasiado adentro"
+3. **Cost** — "cada mes con esa narrativa, ads más caros, conversión peor, te quemas más"
 4. **Desire** — Omar Cabrera triplicó cambiando solo el guion. Mismo equipo. Mismo producto.
 5. **Trust** — los 4 pilares es el mecanismo único FC, no un framework genérico
 
@@ -33,13 +33,13 @@ Plus: **Trim & Stack Matrix** sobre los componentes de la oferta del usuario →
 
 **ANCHOR (lo que va en hero):**
 > El problema no es tu funnel.
-> Es que tu narrativa está al 50% alineada — por eso facturás y te quedás en el techo.
+> Es que tu narrativa está al 50% alineada — por eso facturas y te quedas en el techo.
 
 **Alternos (para ads / variations):**
 - "Si menos del 20% de prospectos te objetan el precio, estás cobrando barato. Tu narrativa lo está pidiendo a gritos."
-- "Omar Cabrera triplicó sin cambiar tráfico ni equipo. Solo cambió una cosa. Acá ves dónde estás vos."
+- "Omar Cabrera triplicó sin cambiar tráfico ni equipo. Solo cambió una cosa. Aquí ves dónde estás tú."
 - "Le diste tu copy a 5 expertos. Cada uno te dijo algo diferente. Esto te dice exactamente qué arreglar."
-- "Pegá tu bio + tu oferta + tu landing. En 90 segundos sabés en qué pilar narrativo estás roto."
+- "Pega tu bio + tu oferta + tu landing. En 90 segundos sabes en qué pilar narrativo estás roto."
 
 ## Casos de estudio (ground truth — usar SOLO estos)
 - **Omar Cabrera (Métrika Empresarial)** — $49K → $150K cambiando solo el guion del webinar. Cita: "Lo único que cambié fue el guion."

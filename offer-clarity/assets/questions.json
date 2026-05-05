@@ -11,8 +11,8 @@
       "required": true,
       "min_chars": 0,
       "max_chars": 500,
-      "label": "¿Cómo te describís hoy en una frase?",
-      "hint": "La frase corta que usás para presentarte. Puede ser tu bio de Instagram o LinkedIn, tu pitch en una reunión, o lo que respondés cuando te preguntan a qué te dedicás. Pegala tal cual la decís hoy.",
+      "label": "¿Cómo te describes hoy en una frase?",
+      "hint": "La frase corta que usas para presentarte. Puede ser tu bio de Instagram o LinkedIn, tu pitch en una reunión, o lo que respondes cuando te preguntan a qué te dedicas. Pégala tal cual la dices hoy.",
       "placeholder": "Ejemplo: 'Ayudo a empresas medianas a reducir su tiempo de operación un 30% con automatizaciones simples'",
       "skip_allowed": false
     },
@@ -23,8 +23,8 @@
       "min_chars": 0,
       "max_chars": 1500,
       "label": "Tu copy más visible (landing, web, perfil de servicios)",
-      "hint": "El titular y los 2 o 3 puntos más importantes que un cliente lee antes de decidir trabajar contigo. Si no tenés sitio web ni landing, saltá la pregunta.",
-      "placeholder": "Pegá el headline + bullets/promesas tal cual están publicados.",
+      "hint": "El titular y los 2 o 3 puntos más importantes que un cliente lee antes de decidir trabajar contigo. Si no tienes sitio web ni landing, salta la pregunta.",
+      "placeholder": "Pega el headline + bullets/promesas tal cual están publicados.",
       "skip_allowed": true,
       "skip_label": "No tengo landing ni sitio publicado"
     },
@@ -34,8 +34,8 @@
       "required": true,
       "min_chars": 0,
       "max_chars": 400,
-      "label": "¿Qué vendés?",
-      "hint": "Tu producto o servicio principal. No la promesa, no el resultado: lo que el cliente recibe a cambio del dinero. Si vendés varias cosas, contame solo la oferta principal — la que más facturás.",
+      "label": "¿Qué vendes?",
+      "hint": "Tu producto o servicio principal. No la promesa, no el resultado: lo que el cliente recibe a cambio del dinero. Si vendes varias cosas, cuéntame solo la oferta principal — la que más facturas.",
       "placeholder": "Ejemplo: Consultoría 1:1 / Programa grupal de 12 semanas / Curso digital con plantillas",
       "skip_allowed": false
     },
@@ -45,7 +45,7 @@
       "required": true,
       "min_chars": 15,
       "max_chars": 300,
-      "label": "¿A quién se lo vendés?",
+      "label": "¿A quién se lo vendes?",
       "hint": "Tu cliente ideal. Cuanto más específico, mejor.",
       "placeholder": "Ejemplo: Coaches facturando 5K a 15K al mes que quieren saltar a 30K.",
       "skip_allowed": false
@@ -56,7 +56,7 @@
       "required": true,
       "min_chars": 20,
       "max_chars": 400,
-      "label": "¿Qué transformación prometés?",
+      "label": "¿Qué transformación prometes?",
       "hint": "El resultado concreto. Lo que tu cliente obtiene cuando termina contigo.",
       "placeholder": "Ejemplo: Salen con su funnel de Instagram montado y los primeros 5 clientes high-ticket cerrados en 90 días.",
       "skip_allowed": true,
@@ -85,7 +85,7 @@
       "min_chars": 0,
       "max_chars": 500,
       "label": "Tu mecanismo único",
-      "hint": "El nombre y la lógica de tu método. Tres ejemplos que todos conocen: Apple lo llama 'Think Different' (filosofía + diseño + ecosistema). Whoop vende 'Recovery Score' (no 'pulsera de actividad'). Nike es 'Just Do It' (mentalidad antes que zapatilla). Si no tenés uno todavía, marcá la opción de abajo.",
+      "hint": "El nombre y la lógica de tu método. Tres ejemplos que todos conocen: Apple lo llama 'Think Different' (filosofía + diseño + ecosistema). Whoop vende 'Recovery Score' (no 'pulsera de actividad'). Nike es 'Just Do It' (mentalidad antes que zapatilla). Si no tienes uno todavía, marcá la opción de abajo.",
       "placeholder": "Ejemplo: 'El Sistema de los 3 puentes — investigación, oferta, autoridad — que arma todo en 12 semanas'",
       "skip_allowed": true,
       "skip_label": "No tengo uno definido todavía"
@@ -97,7 +97,7 @@
       "min_chars": 5,
       "max_chars": 1000,
       "label": "Tu prueba",
-      "hint": "Casos, números o nombres específicos que podés citar.",
+      "hint": "Casos, números o nombres específicos que puedes citar.",
       "placeholder": "Ejemplo: Maria duplicó de 8K a 16K en 90 días. Carlos cerró 4 clientes high-ticket en 30 días.",
       "skip_allowed": true,
       "skip_label": "No tengo casos documentados aún"
@@ -107,7 +107,7 @@
       "type": "multi_choice",
       "required": true,
       "min_selected": 1,
-      "label": "¿Por qué un cliente te elegiría a vos en vez de a tu competencia?",
+      "label": "¿Por qué un cliente te elegiría a ti en vez de a tu competencia?",
       "hint": "Marcá las que aplican. Múltiples permitidas.",
       "options": [
         { "value": "metodo", "label": "Tengo un método propio que nadie más tiene" },
@@ -141,7 +141,7 @@
       "type": "single_choice",
       "scoring_role": "metadata_tenure",
       "required": true,
-      "label": "¿Hace cuánto trabajás en este negocio?",
+      "label": "¿Hace cuánto trabajas en este negocio?",
       "hint": "Calibra urgencia y caso análogo.",
       "options": [
         { "value": "A", "label": "Menos de 6 meses" },

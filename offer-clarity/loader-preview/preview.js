@@ -161,7 +161,7 @@
       { key:'prueba_sin_numeros',       label:'Prueba sin números',                 match: true  },
       { key:'voz_founder_no_cliente',   label:'Voz del founder, no del cliente',    match: false },
       { key:'avatar_borroso',           label:'Avatar borroso',                     match: true  },
-      { key:'brecha_q6_vs_copy',        label:'Brecha entre lo que decís y lo que hacés', match: false },
+      { key:'brecha_q6_vs_copy',        label:'Brecha entre lo que dices y lo que haces', match: false },
       { key:'frase_saturada',           label:'Frase saturada del mercado',         match: true  },
       { key:'coherencia_baja',          label:'Coherencia narrativa baja',          match: false }
     ];
@@ -369,7 +369,7 @@
       `Calibrando el análisis al bracket y madurez de tu negocio…`,
       `Cruzando tu narrativa con las 200 ofertas auditadas…`,
       `Verificando que cada cambio se pueda implementar esta semana…`,
-      `Pesando lo que perdés sin moverlo contra lo que ganás moviéndolo…`,
+      `Pesando lo que pierdes sin moverlo contra lo que ganas moviéndolo…`,
       `Asegurando que cada palabra te sirva, ${firstName}.`
     ];
     docBody.innerHTML = '';
