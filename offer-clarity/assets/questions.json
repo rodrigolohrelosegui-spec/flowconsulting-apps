@@ -85,7 +85,7 @@
       "min_chars": 0,
       "max_chars": 500,
       "label": "Tu mecanismo único",
-      "hint": "El nombre y la lógica de tu método. Tres ejemplos que todos conocen: Apple lo llama 'Think Different' (filosofía + diseño + ecosistema). Whoop vende 'Recovery Score' (no 'pulsera de actividad'). Nike es 'Just Do It' (mentalidad antes que zapatilla). Si no tienes uno todavía, marcá la opción de abajo.",
+      "hint": "El nombre y la lógica de tu método. Tres ejemplos que todos conocen: Apple lo llama 'Think Different' (filosofía + diseño + ecosistema). Whoop vende 'Recovery Score' (no 'pulsera de actividad'). Nike es 'Just Do It' (mentalidad antes que zapatilla). Si no tienes uno todavía, marca la opción de abajo.",
       "placeholder": "Ejemplo: 'El Sistema de los 3 puentes — investigación, oferta, autoridad — que arma todo en 12 semanas'",
       "skip_allowed": true,
       "skip_label": "No tengo uno definido todavía"
@@ -108,7 +108,7 @@
       "required": true,
       "min_selected": 1,
       "label": "¿Por qué un cliente te elegiría a ti en vez de a tu competencia?",
-      "hint": "Marcá las que aplican. Múltiples permitidas.",
+      "hint": "Marca las que apliquen. Múltiples permitidas.",
       "options": [
         { "value": "metodo", "label": "Tengo un método propio que nadie más tiene" },
         { "value": "experiencia", "label": "Mi experiencia personal me da una mirada distinta" },
