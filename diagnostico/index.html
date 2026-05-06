@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@500;700;800;900&family=Open+Sans:wght@400;600;700&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" /></noscript>
 
-  <link rel="stylesheet" href="./assets/styles.css?v=3.1" />
+  <link rel="stylesheet" href="./assets/styles.css?v=3.2" />
 </head>
 
 <body class="theme-dark">
@@ -664,11 +664,10 @@
       pills[idx].classList.add('active');
     }, 1500);
 
-    var boxes      = document.querySelectorAll('.scene-box');
-    var labels     = document.querySelectorAll('.scene-label');
-    var cells      = document.querySelectorAll('.q-cell');
-    var checks     = document.querySelectorAll('.q-check');
-    var connectors = document.querySelectorAll('.scene-connector');
+    var boxes  = document.querySelectorAll('.scene-box');
+    var labels = document.querySelectorAll('.scene-label');
+    var cells  = document.querySelectorAll('.q-cell');
+    var checks = document.querySelectorAll('.q-check');
 
     function setActive(activeIdx) {
       boxes.forEach(function(b, i) { b.classList.toggle('is-active', i === activeIdx); });
@@ -679,7 +678,6 @@
       boxes.forEach(function(b) { b.classList.remove('is-active', 'is-drawing', 'is-done', 'is-exiting'); });
       cells.forEach(function(c) { c.classList.remove('lit', 'completed'); });
       checks.forEach(function(c) { c.classList.remove('shown', 'completed'); });
-      connectors.forEach(function(c) { c.classList.remove('is-drawing', 'is-done'); });
     }
 
     function runScene() {
@@ -688,12 +686,9 @@
       boxes[0].classList.add('is-drawing');
 
       setTimeout(function() {
-        connectors[0].classList.add('is-drawing');
         boxes[0].classList.remove('is-drawing');
         boxes[0].classList.add('is-done');
         setActive(1);
-
-        setTimeout(function() { connectors[0].classList.add('is-done'); }, 700);
 
         var cellInterval = 450;
         cells.forEach(function(cell, i) {
@@ -715,11 +710,9 @@
           cells[11].classList.add('completed');
           checks[11].classList.remove('shown');
           checks[11].classList.add('completed');
-          connectors[1].classList.add('is-drawing');
           boxes[1].classList.remove('is-exiting');
           boxes[1].classList.add('is-done');
           setActive(2);
-          setTimeout(function() { connectors[1].classList.add('is-done'); }, 700);
           setTimeout(runScene, 9150);
         }, 12 * cellInterval + 800);
       }, 1000);
