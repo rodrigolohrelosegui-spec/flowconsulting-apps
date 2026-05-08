@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Ciclo de Flow · Hero</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #1d1d1f;
+    --bg-soft: #2a2a2c;
+    --grid: rgba(64, 224, 208, 0.04);
+    --accent: #5eead4;
+    --accent-glow: rgba(94, 234, 212, 0.55);
+    --accent-glow-soft: rgba(94, 234, 212, 0.18);
+    --accent-faint: rgba(94, 234, 212, 0.12);
+    --teal-deep: #1a3a3f;
+    --text-primary: #ffffff;
+    --text-body: rgba(255, 255, 255, 0.78);
+    --text-secondary: rgba(255, 255, 255, 0.55);
+    --text-tertiary: rgba(255, 255, 255, 0.38);
+    --text-quaternary: rgba(255, 255, 255, 0.22);
+    --divider: rgba(255, 255, 255, 0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: var(--bg-deep);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 56px 0 80px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 75%);
+    z-index: -2;
+  }
+  .hero::after {
+    content: ""; position: absolute; top: 30%; left: 50%;
+    width: 1100px; height: 900px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, var(--accent-glow-soft) 0%, transparent 60%);
+    filter: blur(40px);
+    z-index: -1; opacity: 0.7;
+  }
+
+  .hero-inner { width: 100%; text-align: center; position: relative; z-index: 1; }
+
+  /* ===== BRAND ===== */
+  .brand {
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  /* ===== SLOGAN (under brand) ===== */
+  .tagline {
+    display: inline-flex; align-items: center;
+    gap: 0; flex-wrap: wrap; justify-content: center;
+    font-size: 8.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 56px;
+  }
+  .tagline-item {
+    color: rgba(255,255,255,0.4);
+    transition: color 0.6s ease, text-shadow 0.6s ease;
+  }
+  .tagline-item.active {
+    color: var(--accent);
+    text-shadow: 0 0 16px var(--accent-glow);
+  }
+  .tagline-sep {
+    width: 18px; height: 1px;
+    background: rgba(255,255,255,0.18);
+    margin: 0 14px;
+  }
+
+  /* Pull line — muted thesis (pre-title group with kicker) */
+  .pull-line {
+    font-size: clamp(13px, 1.3vw, 15px);
+    font-weight: 400; font-style: italic;
+    color: rgba(255,255,255,0.42);
+    margin-bottom: 14px;
+    letter-spacing: 0.005em;
+  }
+
+  /* Kicker */
+  .kicker {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 28px;
+    padding: 7px 18px; border: 1px solid var(--accent-faint);
+    border-radius: 999px;
+    background: rgba(94, 234, 212, 0.04);
+    white-space: nowrap;
+  }
+
+  /* H1 */
+  .hero-title {
+    font-size: clamp(34px, 5.4vw, 60px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+    text-shadow: 0 0 40px var(--accent-glow-soft);
+    margin-bottom: 22px;
+  }
+  .hero-deck {
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    max-width: 720px;
+    margin: 0 auto 28px;
+  }
+
+  /* Subhead */
+  .hero-sub {
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 660px;
+    margin: 0 auto 44px;
+  }
+
+  /* Bullets — 3 columnas laterales */
+  .bullets-stack {
+    max-width: 880px; margin: 0 auto 44px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--accent-faint);
+    border-bottom: 1px solid var(--accent-faint);
+  }
+  .bullet-block {
+    text-align: left;
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 22px 22px;
+    font-size: clamp(13px, 1.15vw, 15px);
+    line-height: 1.5;
+    color: rgba(255,255,255,0.82);
+    border-right: 1px solid var(--accent-faint);
+  }
+  .bullet-block:last-child { border-right: none; }
+  .bullet-arrow {
+    color: var(--accent);
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+    text-shadow: 0 0 10px var(--accent-glow-soft);
+  }
+  @media (max-width: 760px) {
+    .bullets-stack {
+      grid-template-columns: 1fr;
+      max-width: 580px;
+    }
+    .bullet-block {
+      border-right: none;
+      border-bottom: 1px solid var(--accent-faint);
+      padding: 16px 4px;
+    }
+    .bullet-block:last-child { border-bottom: none; }
+  }
+
+  /* ===== DIAGRAM (thin decorative strip) ===== */
+  .diagram {
+    width: 100%;
+    max-width: 720px;
+    margin: 28px auto 36px;
+    position: relative;
+  }
+  .diagram-phases {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .diagram-phase {
+    padding: 0 4px 8px;
+    text-align: center;
+  }
+  .diagram-phase .dp-num { display: none; }
+  .diagram-phase .dp-name {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+  }
+
+  .diagram-canvas {
+    width: 100%;
+    aspect-ratio: 720 / 170;
+    position: relative;
+    border-top: 1px solid var(--divider);
+    background: radial-gradient(ellipse at 50% 60%, rgba(94,234,212,0.05) 0%, transparent 70%);
+  }
+  .ghost-path {
+    fill: none;
+    stroke: rgba(255,255,255,0.07);
+    stroke-width: 0.8;
+    stroke-dasharray: 3 4;
+  }
+  @keyframes ghostFlow { to { stroke-dashoffset: -70; } }
+  .ghost-path.macro { animation: ghostFlow 18s linear infinite reverse; }
+  .ghost-path.burnout { animation: ghostFlow 18s linear infinite; }
+  .ghost-label {
+    font-size: 7px;
+    fill: rgba(255,255,255,0.13);
+    letter-spacing: 0.06em;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+  }
+  .ghost-label-italic {
+    font-size: 7px;
+    fill: rgba(255,255,255,0.11);
+    letter-spacing: 0.04em;
+    font-style: italic;
+    font-family: 'Inter', sans-serif;
+  }
+  .ghost-tick { stroke: rgba(255,255,255,0.1); stroke-width: 0.8; fill: none; }
+  .ghost-dot { fill: rgba(255,255,255,0.18); }
+  .diagram-canvas svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .col-divider {
+    position: absolute; top: 0; bottom: 0;
+    width: 1px; background: rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+  .col-divider.cd-1 { left: 25%; }
+  .col-divider.cd-2 { left: 50%; }
+  .col-divider.cd-3 { left: 75%; }
+
+  .wave-glow-outer { fill: none; stroke-linecap: round; filter: blur(8px); opacity: 0.55; }
+  .wave-glow-mid { fill: none; stroke-linecap: round; filter: blur(2.5px); opacity: 0.85; }
+  .wave-core { fill: none; stroke-linecap: round; }
+
+  @keyframes breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+  @keyframes glowPulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 0.78; } }
+  .breathing { transform-origin: 50% 60%; transform-box: fill-box; animation: breathe 7s ease-in-out infinite; }
+  .glow-pulse { animation: glowPulse 7s ease-in-out infinite; }
+
+  .dashed-path {
+    fill: none; stroke: rgba(255,255,255,0.22);
+    stroke-width: 1; stroke-dasharray: 4 5;
+  }
+  @keyframes dashFlow { to { stroke-dashoffset: -90; } }
+  .dashed-burnout { animation: dashFlow 14s linear infinite; }
+  .dashed-macro { animation: dashFlow 14s linear infinite reverse; }
+
+  .peak-dot {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 12px var(--accent)) drop-shadow(0 0 24px rgba(94,234,212,0.5));
+  }
+  @keyframes peakPulse { 0%, 100% { opacity: 1; r: 4; } 50% { opacity: 0.7; r: 6; } }
+  .peak-dot.pulse { animation: peakPulse 4s ease-in-out infinite; }
+
+  .endpoint-dot { fill: var(--accent); filter: drop-shadow(0 0 6px var(--accent)); }
+  @keyframes pulseDot { 0%, 100% { opacity: 1; r: 2.8; } 50% { opacity: 0.5; r: 3.8; } }
+  .endpoint-dot.pulse { animation: pulseDot 3s ease-in-out infinite; }
+
+  .svg-axis-label {
+    font-size: 9px; fill: rgba(255,255,255,0.32);
+    letter-spacing: 0.18em; font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+  }
+  .svg-label { font-size: 9px; fill: rgba(255,255,255,0.55); letter-spacing: 0.04em; font-family: 'Inter', sans-serif; }
+  .svg-label-aqua { fill: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; }
+  .svg-label-warning { fill: rgba(255,255,255,0.4); font-style: italic; font-size: 9px; }
+  .svg-label-emphasis { font-size: 9px; fill: rgba(255,255,255,0.55); font-weight: 500; font-style: italic; }
+  .svg-arrow-line { stroke: rgba(255,255,255,0.22); stroke-width: 1; fill: none; }
+
+  /* ===== STAMPS ===== */
+  .stamps {
+    display: flex; justify-content: center;
+    gap: 14px; flex-wrap: wrap;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--divider);
+    max-width: 700px;
+    margin-left: auto; margin-right: auto;
+  }
+  .stamp {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 20px;
+    background: rgba(94, 234, 212, 0.04);
+    border: 1px solid var(--accent-faint);
+    border-radius: 12px;
+    text-align: left;
+    min-width: 0;
+    flex: 1; min-width: 280px;
+  }
+  .stamp-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: rgba(94, 234, 212, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .stamp-icon svg {
+    width: 18px; height: 18px;
+    stroke: var(--accent); fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    filter: drop-shadow(0 0 4px var(--accent-glow-soft));
+  }
+  .stamp-text { min-width: 0; flex: 1; }
+  .stamp-label {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.16em; color: var(--accent);
+    opacity: 0.75; margin-bottom: 3px;
+  }
+  .stamp-value {
+    font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.35;
+  }
+
+  @media (max-width: 760px) {
+    .hero { padding: 40px 0 60px; }
+    .tagline { font-size: 9px; letter-spacing: 0.18em; }
+    .tagline-sep { width: 12px; margin: 0 8px; }
+    .pull-line { font-size: 13px; margin-bottom: 28px; }
+    .hero-title { font-size: 24px; }
+    .kicker { font-size: 9px; letter-spacing: 0.24em; }
+    .bullet-block { font-size: 13px; }
+    .diagram-phase .dp-name { font-size: 8px; letter-spacing: 0.08em; }
+    .diagram-phase .dp-num { font-size: 8px; }
+    .diagram-canvas { aspect-ratio: 720 / 320; }
+    .svg-label, .svg-label-warning, .svg-label-emphasis { font-size: 7px; }
+    .svg-label-aqua { font-size: 8px; }
+    .stamps { flex-direction: column; align-items: stretch; }
+    .stamp { width: 100%; min-width: 0; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <!-- BRAND -->
+      <div class="brand">Flow Consulting</div>
+
+      <!-- SLOGAN (cycles which is active) -->
+      <div class="tagline">
+        <span class="tagline-item" data-i="0">Negocios Conscientes</span>
+        <span class="tagline-sep"></span>
+        <span class="tagline-item" data-i="1">Sistemas Estúpidamente Simples</span>
+        <span class="tagline-sep"></span>
+        <span class="tagline-item" data-i="2">Fundadores sin Burnout</span>
+      </div>
+
+      <!-- Pull line -->
+      <p class="pull-line">Lo que no es sostenible, no es escalable.</p>
+
+      <!-- Kicker -->
+      <span class="kicker">Guía de Productividad Exponencial</span>
+
+      <!-- H1 -->
+      <h1 class="hero-title">El Ciclo de Flow</h1>
+
+      <!-- Deck -->
+      <p class="hero-deck">
+        Apalanca tu sistema nervioso para multiplicar tu energía y enfoque — escalando tu negocio sin romperte por&nbsp;dentro.
+      </p>
+
+      <!-- DIAGRAM (thin decorative strip with traveling particle) -->
+      <div class="diagram">
+        <div class="diagram-phases">
+          <div class="diagram-phase"><span class="dp-name">Batalla</span></div>
+          <div class="diagram-phase"><span class="dp-name">Soltar</span></div>
+          <div class="diagram-phase"><span class="dp-name">Flow</span></div>
+          <div class="diagram-phase"><span class="dp-name">Recuperación</span></div>
+        </div>
+        <div class="diagram-canvas">
+          <svg viewBox="0 0 720 170" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1A3A3F" stop-opacity="0.4"/>
+                <stop offset="20%" stop-color="#5eead4" stop-opacity="0.8"/>
+                <stop offset="50%" stop-color="#5eead4" stop-opacity="1"/>
+                <stop offset="80%" stop-color="#5eead4" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#1A3A3F" stop-opacity="0.4"/>
+              </linearGradient>
+              <marker id="ghostArrowMacro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.13)"/>
+              </marker>
+              <marker id="ghostArrowBurnout" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.13)"/>
+              </marker>
+            </defs>
+
+            <!-- Camino al macro-flow (super subtle dashed arc above peak) -->
+            <path class="ghost-path macro"
+                  d="M 540 32 C 480 5, 360 5, 280 22 C 230 35, 215 70, 235 105"
+                  marker-end="url(#ghostArrowMacro)"/>
+            <text class="ghost-label-italic" x="380" y="22" text-anchor="middle">camino al macro-flow</text>
+
+            <g class="breathing">
+              <path id="wavePath" class="wave-glow-outer glow-pulse" stroke="url(#waveGrad)" stroke-width="10"
+                    d="M 10 130 C 80 132, 130 128, 180 118 C 240 102, 300 70, 360 60 C 420 50, 480 78, 540 100 C 600 118, 660 128, 710 124"/>
+              <path class="wave-glow-mid" stroke="url(#waveGrad)" stroke-width="3.5"
+                    d="M 10 130 C 80 132, 130 128, 180 118 C 240 102, 300 70, 360 60 C 420 50, 480 78, 540 100 C 600 118, 660 128, 710 124"/>
+              <path class="wave-core" stroke="url(#waveGrad)" stroke-width="1.6"
+                    d="M 10 130 C 80 132, 130 128, 180 118 C 240 102, 300 70, 360 60 C 420 50, 480 78, 540 100 C 600 118, 660 128, 710 124"/>
+            </g>
+
+            <!-- Ghost labels around the wave (ultra subtle) -->
+            <circle class="ghost-dot" cx="60" cy="131" r="1.5"/>
+            <line class="ghost-tick" x1="60" y1="133" x2="60" y2="148"/>
+            <text class="ghost-label" x="60" y="158" text-anchor="middle">Resistencia</text>
+
+            <circle class="ghost-dot" cx="220" cy="111" r="1.5"/>
+            <line class="ghost-tick" x1="220" y1="113" x2="220" y2="125"/>
+            <text class="ghost-label" x="220" y="135" text-anchor="middle">Detonadores</text>
+
+            <circle class="ghost-dot" cx="320" cy="68" r="1.5"/>
+            <line class="ghost-tick" x1="320" y1="70" x2="320" y2="82"/>
+            <text class="ghost-label" x="320" y="93" text-anchor="middle">Alerta + Relajado</text>
+
+            <text class="ghost-label" x="380" y="48" text-anchor="middle" fill="rgba(94,234,212,0.35)" style="font-weight: 600; letter-spacing: 0.08em;">Energía + Atención</text>
+
+            <circle class="ghost-dot" cx="500" cy="86" r="1.5"/>
+            <line class="ghost-tick" x1="500" y1="84" x2="500" y2="72"/>
+            <text class="ghost-label" x="500" y="65" text-anchor="middle">Fin del Flow</text>
+
+            <circle class="ghost-dot" cx="640" cy="125" r="1.5"/>
+            <line class="ghost-tick" x1="640" y1="127" x2="640" y2="138"/>
+            <text class="ghost-label" x="640" y="148" text-anchor="middle">Desenfoque</text>
+
+            <!-- Camino al burnout (super subtle dashed arc below) -->
+            <path class="ghost-path burnout"
+                  d="M 690 145 C 720 165, 500 168, 280 168 C 120 168, 40 158, 25 138"
+                  marker-end="url(#ghostArrowBurnout)"/>
+            <text class="ghost-label-italic" x="360" y="162" text-anchor="middle">camino al burnout</text>
+
+            <!-- Traveling particle along the wave -->
+            <circle r="3.5" fill="#5eead4" filter="drop-shadow(0 0 6px #5eead4) drop-shadow(0 0 12px rgba(94,234,212,0.6))">
+              <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#wavePath"/>
+              </animateMotion>
+            </circle>
+            <circle r="2" fill="#7df5e0" opacity="0.55">
+              <animateMotion dur="6s" repeatCount="indefinite" begin="-0.25s">
+                <mpath href="#wavePath"/>
+              </animateMotion>
+            </circle>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Subtitle -->
+      <p class="hero-sub">
+        Tomaste mil cursos, te sobra información y ya sabes qué hacer. Pero la inconsistencia creando contenido, trabajar todo el día sin avanzar y sentir que tienes el cerebro fundido — no se solucionan con disciplina ni fuerza de voluntad.
+      </p>
+
+      <!-- Bullets -->
+      <div class="bullets-stack">
+      <div class="bullet-block">
+        <span class="bullet-arrow">→</span>
+        <span>Recupera la energía, pasión y enfoque que tenías cuando arrancaste tu negocio.</span>
+      </div>
+      <div class="bullet-block">
+        <span class="bullet-arrow">→</span>
+        <span>Sostén un ritmo de alto rendimiento sin pelear contra tu propia naturaleza.</span>
+      </div>
+      <div class="bullet-block">
+        <span class="bullet-arrow">→</span>
+        <span>Construye una vida y un negocio del que no estás tratando de escapar.</span>
+      </div>
+      </div>
+
+      <!-- OLD HIDDEN DIAGRAM (legacy, will remove) --><div style="display:none">
+      <div class="diagram-old">
+        <div class="diagram-phases">
+          <div class="diagram-phase"><span class="dp-num">I</span><span class="dp-name">Batallando</span></div>
+          <div class="diagram-phase"><span class="dp-num">II</span><span class="dp-name">Soltando</span></div>
+          <div class="diagram-phase"><span class="dp-num">III</span><span class="dp-name">Fluyendo</span></div>
+          <div class="diagram-phase"><span class="dp-num">IV</span><span class="dp-name">Recuperando</span></div>
+        </div>
+        <div class="diagram-canvas">
+          <div class="col-divider cd-1"></div>
+          <div class="col-divider cd-2"></div>
+          <div class="col-divider cd-3"></div>
+          <svg viewBox="0 0 880 360" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1A3A3F" stop-opacity="0.5"/>
+                <stop offset="15%" stop-color="#1A3A3F" stop-opacity="0.85"/>
+                <stop offset="35%" stop-color="#5eead4" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#5eead4" stop-opacity="1"/>
+                <stop offset="65%" stop-color="#5eead4" stop-opacity="0.95"/>
+                <stop offset="85%" stop-color="#1A3A3F" stop-opacity="0.85"/>
+                <stop offset="100%" stop-color="#1A3A3F" stop-opacity="0.5"/>
+              </linearGradient>
+              <marker id="arrowMacro" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.3)"/>
+              </marker>
+              <marker id="arrowBurnout" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.3)"/>
+              </marker>
+            </defs>
+
+            <!-- Camino al macro-flow (top arc) -->
+            <path class="dashed-path dashed-macro"
+                  d="M 660 50 C 600 10, 420 8, 300 40 C 240 56, 220 110, 235 160"
+                  marker-end="url(#arrowMacro)"/>
+            <text class="svg-label-emphasis" x="380" y="30" text-anchor="middle">camino al macro-flow</text>
+
+            <!-- Wave with breathing -->
+            <g class="breathing">
+              <path class="wave-glow-outer glow-pulse" stroke="url(#waveGrad)" stroke-width="6"
+                    d="M 24 270 C 70 272, 100 270, 130 263 C 160 254, 180 235, 210 215"/>
+              <path class="wave-glow-outer glow-pulse" stroke="url(#waveGrad)" stroke-width="14"
+                    d="M 210 215 C 250 188, 290 150, 340 110 C 380 80, 410 70, 440 70"/>
+              <path class="wave-glow-outer glow-pulse" stroke="url(#waveGrad)" stroke-width="26"
+                    d="M 440 70 C 490 70, 540 78, 580 100 C 615 120, 640 145, 660 175"/>
+              <path class="wave-glow-outer glow-pulse" stroke="url(#waveGrad)" stroke-width="10"
+                    d="M 660 175 C 685 215, 700 265, 730 290 C 770 310, 810 305, 856 295"/>
+
+              <path class="wave-glow-mid" stroke="url(#waveGrad)" stroke-width="3"
+                    d="M 24 270 C 70 272, 100 270, 130 263 C 160 254, 180 235, 210 215"/>
+              <path class="wave-glow-mid" stroke="url(#waveGrad)" stroke-width="6"
+                    d="M 210 215 C 250 188, 290 150, 340 110 C 380 80, 410 70, 440 70"/>
+              <path class="wave-glow-mid" stroke="url(#waveGrad)" stroke-width="11"
+                    d="M 440 70 C 490 70, 540 78, 580 100 C 615 120, 640 145, 660 175"/>
+              <path class="wave-glow-mid" stroke="url(#waveGrad)" stroke-width="4"
+                    d="M 660 175 C 685 215, 700 265, 730 290 C 770 310, 810 305, 856 295"/>
+
+              <path class="wave-core" stroke="url(#waveGrad)" stroke-width="1.5"
+                    d="M 24 270 C 70 272, 100 270, 130 263 C 160 254, 180 235, 210 215"/>
+              <path class="wave-core" stroke="url(#waveGrad)" stroke-width="2.5"
+                    d="M 210 215 C 250 188, 290 150, 340 110 C 380 80, 410 70, 440 70"/>
+              <path class="wave-core" stroke="url(#waveGrad)" stroke-width="5"
+                    d="M 440 70 C 490 70, 540 78, 580 100 C 615 120, 640 145, 660 175"/>
+              <path class="wave-core" stroke="url(#waveGrad)" stroke-width="2"
+                    d="M 660 175 C 685 215, 700 265, 730 290 C 770 310, 810 305, 856 295"/>
+            </g>
+
+            <!-- Lower labels -->
+            <circle cx="80" cy="271" r="2" fill="rgba(255,255,255,0.4)"/>
+            <line class="svg-arrow-line" x1="80" y1="273" x2="80" y2="305"/>
+            <text class="svg-label" x="80" y="320" text-anchor="middle">Resistencia</text>
+
+            <circle cx="240" cy="195" r="2" fill="rgba(255,255,255,0.5)"/>
+            <line class="svg-arrow-line" x1="240" y1="197" x2="240" y2="220"/>
+            <text class="svg-label" x="240" y="234" text-anchor="middle">Detonadores</text>
+            <text class="svg-label" x="240" y="245" text-anchor="middle">de Flow</text>
+
+            <circle cx="400" cy="80" r="2" fill="rgba(255,255,255,0.5)"/>
+            <line class="svg-arrow-line" x1="400" y1="82" x2="400" y2="115"/>
+            <text class="svg-label" x="400" y="129" text-anchor="middle">Alerta + Relajado</text>
+
+            <!-- Peak -->
+            <circle class="peak-dot pulse" cx="525" cy="78" r="4"/>
+            <text class="svg-label-aqua" x="525" y="58" text-anchor="middle">Energía + Atención</text>
+
+            <circle cx="660" cy="175" r="2" fill="rgba(255,255,255,0.5)"/>
+            <line class="svg-arrow-line" x1="660" y1="173" x2="660" y2="148"/>
+            <text class="svg-label" x="660" y="138" text-anchor="middle">Fin del Flow</text>
+
+            <circle cx="730" cy="285" r="2" fill="rgba(255,255,255,0.5)"/>
+            <line class="svg-arrow-line" x1="730" y1="283" x2="730" y2="252"/>
+            <text class="svg-label" x="730" y="240" text-anchor="middle">Desenfoque</text>
+            <text class="svg-label" x="730" y="251" text-anchor="middle">+ Ansiedad</text>
+
+            <!-- Camino al burnout (bottom arc) -->
+            <path class="dashed-path dashed-burnout"
+                  d="M 820 305 C 860 340, 600 350, 380 350 C 200 350, 80 335, 40 295"
+                  marker-end="url(#arrowBurnout)"/>
+            <text class="svg-label-warning" x="430" y="350" text-anchor="middle">camino al burnout</text>
+
+            <!-- Endpoints -->
+            <circle class="endpoint-dot pulse" cx="24" cy="270" r="2.8"/>
+            <circle class="endpoint-dot pulse" cx="856" cy="295" r="2.8" style="animation-delay: 1.5s"/>
+          </svg>
+        </div>
+      </div>
+
+      </div><!-- /hidden diagram -->
+
+      <!-- Stamps -->
+      <div class="stamps">
+        <div class="stamp">
+          <div class="stamp-icon">
+            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="stamp-text">
+            <div class="stamp-label">HIGH PERFORMANCE FRAMEWORK</div>
+            <div class="stamp-value">3 horas de Curso Intensivo</div>
+          </div>
+        </div>
+        <div class="stamp">
+          <div class="stamp-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/></svg>
+          </div>
+          <div class="stamp-text">
+            <div class="stamp-label">THE FLOW SCALE DIAGNOSTIC</div>
+            <div class="stamp-value">12 simples preguntas para saber qué priorizar en tu negocio</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Cycle the active tagline item
+  var items = document.querySelectorAll('.tagline-item');
+  var idx = 0;
+  function cycleTagline() {
+    items.forEach(function(el, i) { el.classList.toggle('active', i === idx); });
+    idx = (idx + 1) % items.length;
+  }
+  cycleTagline();
+  setInterval(cycleTagline, 2200);
+</script>
+
+</body>
+</html>
