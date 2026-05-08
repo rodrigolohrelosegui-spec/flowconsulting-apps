@@ -9,6 +9,7 @@
   :root {
     --bg-deep: #1d1d1f;
     --bg-soft: #2a2a2c;
+    --bg-section: #161618;
     --grid: rgba(64, 224, 208, 0.04);
     --accent: #5eead4;
     --accent-glow: rgba(94, 234, 212, 0.55);
@@ -331,6 +332,1539 @@
     line-height: 1.35;
   }
 
+  /* ===== TOC ===== */
+  .toc-section {
+    padding: 80px 0;
+    background: var(--bg-section);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+  .toc-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .toc-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.32em; color: var(--text-tertiary);
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .toc-intro {
+    font-weight: 600;
+    font-size: clamp(18px, 2vw, 21px);
+    color: var(--text-primary);
+    letter-spacing: -0.015em;
+    margin-bottom: 44px;
+    line-height: 1.4;
+  }
+  .toc-list { list-style: none; padding: 0; margin: 0; }
+  .toc-list li {
+    border-top: 1px solid var(--divider);
+    padding: 22px 0;
+  }
+  .toc-list li:last-child { border-bottom: 1px solid var(--divider); }
+  .toc-list a {
+    display: flex; align-items: baseline; gap: 24px;
+    text-decoration: none; color: var(--text-primary);
+    transition: color 0.25s ease;
+  }
+  .toc-list a:hover { color: var(--accent); }
+  .toc-list a:hover .toc-arrow { color: var(--accent); transform: translateX(4px); }
+  .toc-list a:hover .toc-title { color: var(--text-primary); }
+  .toc-num {
+    font-weight: 700; color: var(--accent);
+    font-size: 11px; min-width: 64px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .toc-title {
+    font-size: clamp(15px, 1.4vw, 16px);
+    font-weight: 500; line-height: 1.5;
+    flex: 1; color: var(--text-body);
+    transition: color 0.25s ease;
+  }
+  .toc-arrow {
+    color: var(--text-quaternary);
+    font-size: 14px; flex-shrink: 0;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .toc-title strong {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  /* ===== PART MARKER (energy beam divider) ===== */
+  .part-marker {
+    padding: 96px 0 24px;
+    text-align: center;
+    position: relative;
+  }
+  .part-marker::before {
+    content: ""; position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 80%; height: 220px;
+    background: radial-gradient(ellipse at 50% 30%, var(--accent-glow-soft) 0%, transparent 60%);
+    filter: blur(40px);
+    z-index: -1; opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Divider: pill at center of fading horizontal cyan line */
+  .part-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto 28px;
+    padding: 0 24px;
+  }
+  .part-divider .line-fade {
+    flex: 1;
+    height: 1px;
+    position: relative;
+    max-width: 280px;
+  }
+  .part-divider .line-fade::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--accent-glow-soft) 60%, var(--accent) 100%);
+  }
+  .part-divider .line-fade.right::before {
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-glow-soft) 40%, transparent 100%);
+  }
+  .part-divider .line-fade::after {
+    content: ""; position: absolute;
+    top: 50%; left: 0; right: 0; height: 14px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, transparent 0%, var(--accent-glow) 80%, var(--accent-glow) 100%);
+    filter: blur(8px);
+    opacity: 0.5;
+  }
+  .part-divider .line-fade.right::after {
+    background: linear-gradient(90deg, var(--accent-glow) 0%, var(--accent-glow) 20%, transparent 100%);
+  }
+  .part-divider .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 22px;
+    border: 1px solid var(--accent-faint);
+    border-radius: 999px;
+    background: rgba(94, 234, 212, 0.06);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 16px;
+    box-shadow: 0 0 24px rgba(94,234,212,0.18);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  /* Concept eyebrow + descriptor H1 (Variant 1) */
+  .section-concept {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 16px var(--accent-glow-soft);
+    margin: 0 auto 14px;
+  }
+  .section-title {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    max-width: 720px;
+    margin: 0 auto 56px;
+    padding: 0 24px;
+    text-wrap: balance;
+    -webkit-text-wrap: balance;
+  }
+
+  /* Legacy hooks (kept invisible to avoid visual breakage if referenced) */
+  .pm-pulse, .pm-pulse-halo, .pm-pulse-core,
+  .pm-num, .pm-progress, .pm-progress-dots, .pm-dot {
+    display: none !important;
+  }
+
+  /* ===== SECTION TYPOGRAPHY ===== */
+  .section-content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+  }
+  .section-content h2 {
+    font-weight: 800;
+    font-size: clamp(24px, 3.4vw, 34px);
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+    margin-bottom: 36px;
+  }
+  .section-content h2 .concept {
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow-soft);
+  }
+  .section-content p {
+    margin-bottom: 22px;
+    color: var(--text-body);
+    font-size: clamp(15px, 1.3vw, 17px);
+    line-height: 1.7;
+  }
+  .section-content p strong { color: var(--text-primary); font-weight: 600; }
+  .section-content p em { font-style: italic; color: var(--text-primary); }
+
+  /* ===== HIGHLIGHT P ===== */
+  .highlight-p {
+    font-weight: 600;
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.4;
+    color: var(--text-primary);
+    border-left: 2px solid var(--accent);
+    padding: 10px 0 10px 28px;
+    margin: 40px 0;
+    letter-spacing: -0.015em;
+  }
+  .highlight-p .accent {
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent-glow-soft);
+  }
+
+  /* ===== COMPOUND EFFECT DIAGRAM ===== */
+  .compound-section {
+    margin: 56px -24px;
+    padding: 64px 24px;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(94,234,212,0.04) 0%, transparent 70%);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+    text-align: center;
+  }
+  .compound-kicker {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.32em; color: var(--text-quaternary);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .compound-title {
+    font-weight: 800;
+    font-size: clamp(20px, 2.4vw, 26px);
+    line-height: 1.2; letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+  }
+  .compound-title .accent {
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow-soft);
+  }
+  .compound-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .compound-panel {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .compound-panel.exponential {
+    border-color: var(--accent-faint);
+    background: radial-gradient(ellipse at 80% 20%, rgba(94,234,212,0.06) 0%, transparent 60%), rgba(255,255,255,0.02);
+  }
+  .compound-panel .panel-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .compound-panel.illusion .panel-label { color: var(--text-tertiary); }
+  .compound-panel.exponential .panel-label { color: var(--accent); }
+  .compound-panel h4 {
+    font-weight: 700; font-size: 18px;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 24px;
+  }
+  .compound-panel .panel-svg-wrap {
+    width: 100%; aspect-ratio: 4 / 2.4;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .compound-panel .panel-svg-wrap svg { width: 100%; height: 100%; overflow: visible; }
+  .ce-axis-label {
+    fill: var(--text-quaternary);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    font-family: 'Inter', sans-serif;
+  }
+  .ce-axis-line { stroke: rgba(255,255,255,0.1); stroke-width: 1; fill: none; }
+  .ce-line-illusion {
+    fill: none;
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .ce-dot-illusion { fill: rgba(255,255,255,0.5); }
+
+  .ce-curve-glow {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 12;
+    filter: blur(8px);
+    opacity: 0.5;
+    stroke-linecap: round;
+    animation: ceBreathe 7s ease-in-out infinite;
+  }
+  .ce-curve-mid {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 4;
+    filter: blur(2px);
+    opacity: 0.85;
+    stroke-linecap: round;
+  }
+  .ce-curve-core {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+  @keyframes ceBreathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.75; } }
+  .ce-dot-expo {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+  @keyframes ceDotPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+  .ce-dot-expo.pulse { animation: ceDotPulse 3s ease-in-out infinite; }
+
+  .compound-panel .panel-caption {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .compound-takeaway {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    max-width: 600px;
+    margin: 32px auto 0;
+    line-height: 1.5;
+  }
+  .compound-takeaway .accent {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 600;
+  }
+  @media (max-width: 760px) {
+    .compound-grid { grid-template-columns: 1fr; gap: 16px; }
+    .compound-panel { padding: 22px; }
+    .compound-panel h4 { font-size: 16px; }
+    .compound-section { padding: 48px 16px; margin: 40px -16px; }
+  }
+
+  /* ===== FLYWHEEL DIAGRAM (radial 6-point) ===== */
+  .fw-section {
+    margin: 56px auto;
+    padding: 56px 24px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(94,234,212,0.05) 0%, transparent 70%);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+    text-align: center;
+    position: relative;
+    max-width: none;
+  }
+  .fw-section::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 0%, transparent 70%);
+    z-index: 0; opacity: 0.5;
+    pointer-events: none;
+  }
+  .fw-inner { position: relative; z-index: 1; }
+  .fw-kicker {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.32em; color: var(--text-quaternary);
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .fw-title {
+    font-weight: 800;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.2; letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 36px;
+  }
+  .fw-title .accent {
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow-soft);
+  }
+  .fw-canvas {
+    width: 100%; max-width: 460px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    position: relative;
+  }
+  .fw-canvas svg { width: 100%; height: 100%; overflow: visible; }
+  .fw-arc-glow {
+    fill: none; stroke: var(--accent);
+    stroke-width: 8;
+    filter: blur(6px);
+    opacity: 0.45;
+    stroke-linecap: round;
+  }
+  .fw-arc-core {
+    fill: none; stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 4px var(--accent));
+  }
+  .fw-node-glow {
+    fill: var(--accent);
+    opacity: 0.25;
+    filter: blur(4px);
+  }
+  .fw-node {
+    fill: var(--bg-deep);
+    stroke: var(--accent);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+  .fw-label {
+    fill: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .fw-amazon-text {
+    fill: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 38px;
+    font-style: italic;
+    letter-spacing: -0.04em;
+    filter: drop-shadow(0 0 12px var(--accent)) drop-shadow(0 0 24px rgba(94,234,212,0.45));
+  }
+  .fw-amazon-smile {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+  .fw-particle {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 20px rgba(94,234,212,0.6));
+  }
+
+  /* ===== CYCLE OF FLOW DIAGRAM ===== */
+  .cycle-section {
+    max-width: 1240px;
+    margin: 56px auto;
+    padding: 56px 24px 64px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(94,234,212,0.04) 0%, transparent 70%);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+    text-align: center;
+    position: relative;
+  }
+  .cycle-section::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 0%, transparent 70%);
+    z-index: 0; opacity: 0.5; pointer-events: none;
+  }
+  .cycle-inner { position: relative; z-index: 1; }
+  .cycle-kicker {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.32em; color: var(--text-quaternary);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .cycle-title-svg {
+    font-weight: 800;
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 36px;
+  }
+  .cycle-title-svg .accent { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow-soft); }
+  .phase-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+  .phase-cell { padding: 16px 8px; border-right: 1px solid var(--divider); text-align: center; }
+  .phase-cell:last-child { border-right: none; }
+  .phase-num { display: block; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); opacity: 0.55; margin-bottom: 4px; }
+  .phase-name { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: var(--text-primary); text-transform: uppercase; }
+  .cycle-canvas {
+    width: 100%; aspect-ratio: 1240 / 720;
+    position: relative;
+    background: radial-gradient(ellipse at 60% 35%, rgba(94,234,212,0.05) 0%, transparent 65%);
+  }
+  .cycle-canvas svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .col-divider { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.04); pointer-events: none; }
+  .col-divider.cd-1 { left: 25%; }
+  .col-divider.cd-2 { left: 50%; }
+  .col-divider.cd-3 { left: 75%; }
+  .wave-glow-outer { fill: none; stroke-linecap: round; stroke-linejoin: round; filter: blur(12px); opacity: 0.55; }
+  .wave-glow-mid { fill: none; stroke-linecap: round; stroke-linejoin: round; filter: blur(3px); opacity: 0.85; }
+  .wave-core { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes waveBreathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.025); } }
+  @keyframes wavePulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.78; } }
+  .wave-breathing { transform-origin: 50% 60%; transform-box: fill-box; animation: waveBreathe 7s ease-in-out infinite; }
+  .wave-glow-outer.pulse { animation: wavePulse 7s ease-in-out infinite; }
+  .annot-line { stroke: rgba(255, 255, 255, 0.18); stroke-width: 0.9; fill: none; }
+  .annot-line-correlate { stroke: rgba(94, 234, 212, 0.32); stroke-width: 1; fill: none; }
+  .annot-dot { fill: rgba(255,255,255,0.4); }
+  .annot-dot-cyan { fill: var(--accent); opacity: 0.7; filter: drop-shadow(0 0 4px var(--accent)); }
+  .annot-label { fill: rgba(255,255,255,0.5); font-size: 11px; font-weight: 500; font-family: 'Inter', sans-serif; }
+  .annot-label.small { font-size: 10px; fill: rgba(255,255,255,0.4); }
+  .annot-label.italic { font-style: italic; fill: rgba(255,255,255,0.42); font-weight: 400; font-size: 10px; }
+  .annot-label.peak { fill: var(--accent); font-weight: 600; font-size: 12px; opacity: 1; text-shadow: 0 0 12px var(--accent-glow); }
+  .annot-label.warn { fill: rgba(255,255,255,0.32); font-style: italic; font-size: 10px; }
+  .path-macro { fill: none; stroke: rgba(255,255,255,0.18); stroke-width: 0.9; stroke-dasharray: 4 5; animation: dashFlow 18s linear infinite reverse; }
+  .path-burnout { fill: none; stroke: rgba(255,255,255,0.16); stroke-width: 0.9; stroke-dasharray: 4 5; animation: dashFlow 18s linear infinite; }
+  @keyframes dashFlow { to { stroke-dashoffset: -90; } }
+  .peak-dot { fill: var(--accent); filter: drop-shadow(0 0 12px var(--accent)) drop-shadow(0 0 24px rgba(94,234,212,0.6)); }
+  @keyframes peakPulse { 0%, 100% { opacity: 1; r: 4; } 50% { opacity: 0.7; r: 6; } }
+  .peak-dot.pulse { animation: peakPulse 4s ease-in-out infinite; }
+  .endpoint-dot { fill: rgba(94,234,212,0.6); filter: drop-shadow(0 0 4px rgba(94,234,212,0.5)); }
+  .wave-particle { fill: var(--accent); filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 16px rgba(94,234,212,0.6)); }
+  .detonadores-on .on-ring, .detonadores-on .on-bar { stroke: var(--accent); stroke-linecap: round; fill: none; }
+  .detonadores-on .on-ring { stroke-width: 1.4; }
+  .detonadores-on .on-bar { stroke-width: 1.6; }
+  .detonadores-on { animation: detonadorON 14s linear infinite; }
+  @keyframes detonadorON {
+    0%   { opacity: 0.35; filter: none; }
+    20%  { opacity: 0.4;  filter: none; }
+    26%  { opacity: 1;    filter: drop-shadow(0 0 10px var(--accent)) drop-shadow(0 0 22px rgba(94,234,212,0.7)); }
+    34%  { opacity: 0.7;  filter: drop-shadow(0 0 6px var(--accent)); }
+    44%  { opacity: 0.4;  filter: none; }
+    100% { opacity: 0.35; filter: none; }
+  }
+
+  /* ===== DIAG BULLETS ===== */
+  .diag-bullets-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px; display: block;
+  }
+  .diag-bullets {
+    list-style: none; padding: 0;
+    margin: 16px 0 32px;
+  }
+  .diag-bullets li {
+    padding: 16px 0 16px 32px;
+    border-top: 1px solid var(--divider);
+    position: relative;
+    font-size: clamp(15px, 1.3vw, 16px);
+    line-height: 1.55;
+    color: var(--text-body);
+  }
+  .diag-bullets li:last-child { border-bottom: 1px solid var(--divider); }
+  .diag-bullets li::before {
+    content: "→"; position: absolute; left: 0; top: 16px;
+    color: var(--accent); font-weight: 700;
+  }
+  .diag-bullets li strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ===== DIAGNOSTIC HERO (replicating apps.flowconsulting.co/diagnostico/) ===== */
+  .diagnostic-hero-section {
+    margin: 32px auto 56px;
+    padding: 56px 24px 80px;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .diagnostic-hero-section::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center center;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 75%);
+    z-index: -2;
+  }
+  .diagnostic-hero-section::after {
+    content: ""; position: absolute;
+    top: 50%; left: 50%; width: 900px; height: 900px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, var(--accent-glow-soft) 0%, transparent 60%);
+    filter: blur(40px);
+    z-index: -1; opacity: 0.7;
+  }
+  .dh-inner { width: 100%; max-width: 880px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+
+  /* Kicker (override the global .kicker pill from the page hero) */
+  .diagnostic-hero-section .kicker {
+    display: block;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+    color: inherit;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    white-space: normal;
+    margin-bottom: 36px;
+  }
+  .kicker-brand {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .kicker-tag {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.38);
+    margin-bottom: 10px;
+  }
+  .flow-pills { display: inline-flex; align-items: center; gap: 0; }
+  .flow-pill {
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 8px 18px;
+    color: rgba(255, 255, 255, 0.38);
+    transition: color 0.6s ease, text-shadow 0.6s ease;
+    text-transform: uppercase;
+  }
+  .flow-pill.active {
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent-glow);
+  }
+  .flow-divider {
+    width: 24px; height: 1px;
+    background: rgba(255, 255, 255, 0.38);
+    opacity: 0.4;
+    position: relative;
+    overflow: hidden;
+  }
+  .flow-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: -20%;
+    width: 30%; height: 2px;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow: 0 0 12px var(--accent-glow);
+    animation: flow-pulse 4.5s ease-in-out infinite;
+    opacity: 0;
+  }
+  .flow-divider.d1::after { animation-delay: 0s; }
+  .flow-divider.d2::after { animation-delay: 1.5s; }
+  @keyframes flow-pulse {
+    0%   { left: -20%; opacity: 0; }
+    15%  { opacity: 1; }
+    50%  { left: 100%; opacity: 1; }
+    65%  { opacity: 0; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  /* Headline */
+  .hero-headline {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+  }
+  .hero-headline .accent {
+    color: var(--accent);
+    text-shadow: 0 0 40px var(--accent-glow-soft);
+  }
+  .hero-headline .strike {
+    color: rgba(255, 255, 255, 0.38);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(255, 255, 255, 0.25);
+    font-weight: 700;
+  }
+  .hero-lastline { display: inline-block; position: relative; text-align: center; }
+  .hero-soft-comma { font-size: 0.5em; color: var(--accent); opacity: 0.5; font-weight: 400; }
+  .hero-clarifier {
+    display: block; text-align: right;
+    font-size: clamp(13px, 1.4vw, 16px);
+    font-weight: 500;
+    color: var(--accent);
+    margin-top: 2px;
+    opacity: 0.8;
+    letter-spacing: 0.01em;
+  }
+
+  /* Subhead */
+  .hero-subhead {
+    font-size: clamp(15px, 1.4vw, 17px);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.62);
+    max-width: 820px;
+    margin: 0 auto 36px;
+  }
+  .hero-subhead .nowrap { white-space: nowrap; }
+
+  /* CTA */
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--accent);
+    color: #04100f;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 18px 32px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.3s, background 0.2s;
+    box-shadow:
+      0 0 0 1px rgba(94, 234, 212, 0.3),
+      0 0 40px var(--accent-glow-soft),
+      0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    background: #7df3dd;
+    box-shadow:
+      0 0 0 1px rgba(94, 234, 212, 0.5),
+      0 0 60px var(--accent-glow),
+      0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+  .hero-cta-arrow { transition: transform 0.2s; font-weight: 700; }
+  .hero-cta:hover .hero-cta-arrow { transform: translateX(4px); }
+
+  /* Transformation scene */
+  .tf-scene {
+    margin-top: 40px;
+    width: 100%; max-width: 720px;
+    margin-left: auto; margin-right: auto;
+  }
+  .tf-scene-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    position: relative;
+  }
+  .scene-box {
+    position: relative;
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    aspect-ratio: 1 / 1;
+    transition: border-color 0.5s, background 0.5s, box-shadow 0.5s;
+  }
+  .scene-box.is-active {
+    border-color: rgba(94, 234, 212, 0.5);
+    background: rgba(94, 234, 212, 0.04);
+    box-shadow: 0 0 30px rgba(94, 234, 212, 0.15), inset 0 0 20px rgba(94, 234, 212, 0.04);
+  }
+  .scene-box svg { width: 100%; height: 100%; display: block; }
+
+  /* Box 1: Chaos */
+  .chaos-path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.45);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1800;
+    stroke-dashoffset: 1800;
+    transition: stroke 0.25s, filter 0.25s;
+  }
+  .scene-box[data-step="0"].is-active .chaos-path {
+    stroke: var(--accent);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+  .scene-box[data-step="0"].is-drawing .chaos-path {
+    animation: drawChaos 5.2s linear forwards;
+  }
+  .scene-box[data-step="0"].is-done .chaos-path {
+    stroke-dashoffset: 0;
+    stroke: rgba(255, 255, 255, 0.3);
+    filter: none;
+  }
+  @keyframes drawChaos {
+    from { stroke-dashoffset: 1800; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  /* Box 2: Diagnostic grid */
+  .q-cell {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.18);
+    stroke-width: 1.2;
+    transition: all 0.4s;
+  }
+  .q-cell.lit {
+    stroke: var(--accent);
+    fill: rgba(94, 234, 212, 0.12);
+    filter: drop-shadow(0 0 5px var(--accent-glow));
+  }
+  .q-cell.completed {
+    stroke: rgba(255, 255, 255, 0.4);
+    fill: rgba(255, 255, 255, 0.05);
+    filter: none;
+  }
+  .q-check {
+    stroke: var(--accent);
+    stroke-width: 0.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    opacity: 0;
+    transition: opacity 0.3s, stroke 0.4s, filter 0.4s;
+  }
+  .q-check * {
+    stroke: inherit; stroke-width: inherit;
+    stroke-linecap: inherit; stroke-linejoin: inherit;
+    fill: inherit;
+  }
+  .q-check.shown {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+  }
+  .q-check.completed {
+    opacity: 1;
+    stroke: rgba(255, 255, 255, 0.55);
+    filter: none;
+  }
+  .q-section-label {
+    fill: rgba(255, 255, 255, 0.35);
+    font-size: 5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-anchor: start;
+    font-family: 'Inter', sans-serif;
+  }
+  .scene-box[data-step="1"].is-done .q-cell.lit {
+    stroke: rgba(255, 255, 255, 0.35);
+    fill: rgba(255, 255, 255, 0.04);
+    filter: none;
+  }
+  .scene-box[data-step="1"].is-done .q-check {
+    stroke: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Box 3: Clarity eye */
+  .clarity-circle {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+    opacity: 0;
+  }
+  .scene-box[data-step="2"].is-active .clarity-circle {
+    opacity: 0.85;
+    animation: drawCircle 2.4s ease-out 1.0s forwards;
+  }
+  @keyframes drawCircle {
+    from { stroke-dashoffset: 220; }
+    to   { stroke-dashoffset: 0; }
+  }
+  .clarity-elem {
+    opacity: 0;
+    transform-origin: 50px 50px;
+    transform-box: fill-box;
+    transform: scale(0.7);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .scene-box[data-step="2"].is-active .clarity-elem.show-2 { transition-delay: 3.4s; }
+  .scene-box[data-step="2"].is-active .clarity-elem.show-3 { transition-delay: 4.3s; }
+  .scene-box[data-step="2"].is-active .clarity-elem.show-4 { transition-delay: 5.2s; }
+  .scene-box[data-step="2"].is-active .clarity-elem.show-5 { transition-delay: 5.9s; }
+  .scene-box[data-step="2"].is-active .clarity-elem {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .pupil-blink { filter: drop-shadow(0 0 6px var(--accent-glow)); }
+  .scene-box[data-step="2"].is-active .pupil-blink {
+    animation: pupilBlink 2.5s ease-in-out 6.6s infinite;
+  }
+  @keyframes pupilBlink {
+    0%, 100% { filter: drop-shadow(0 0 4px var(--accent-glow-soft)); }
+    50% { filter: drop-shadow(0 0 16px var(--accent-glow)); }
+  }
+
+  /* Scene labels */
+  .tf-scene-labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .scene-label { text-align: center; transition: opacity 0.4s; opacity: 0.45; }
+  .scene-label.is-active { opacity: 1; }
+  .scene-label-tag {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.38);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    transition: color 0.4s;
+  }
+  .scene-label.is-active .scene-label-tag { color: var(--accent); }
+  .scene-label-text {
+    font-size: 11px; font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.45;
+  }
+  .scene-label.is-active .scene-label-text { color: rgba(255, 255, 255, 0.85); }
+
+  .micro-meta {
+    margin-top: 22px;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .diagnostic-hero-section { padding: 40px 16px 48px; }
+    .kicker { margin-bottom: 16px; }
+    .kicker-tag { font-size: 10px; margin-bottom: 8px; }
+    .flow-pill { padding: 4px 8px; font-size: 10px; letter-spacing: 0.12em; }
+    .flow-divider { width: 10px; }
+    .hero-headline { font-size: 28px; margin-bottom: 12px; line-height: 1.1; }
+    .hero-clarifier { font-size: 11px; }
+    .hero-subhead { font-size: 14px; margin-bottom: 20px; line-height: 1.45; }
+    .hero-subhead br { display: none; }
+    .hero-cta { padding: 14px 24px; font-size: 14px; width: 100%; max-width: 320px; justify-content: center; }
+    .tf-scene { margin-top: 24px; }
+    .tf-scene-labels { gap: 4px; margin-top: 10px; }
+    .scene-label-tag { font-size: 8px; letter-spacing: 0.14em; }
+    .scene-label-text { font-size: 9px; line-height: 1.3; }
+    .scene-label-text br { display: none; }
+  }
+
+  /* ===== CLASS CARDS ===== */
+  .class-intro { margin-bottom: 36px; color: var(--text-body); font-size: clamp(15px, 1.3vw, 17px); line-height: 1.7; }
+  .class-card {
+    border: 1px solid var(--border-card, rgba(255,255,255,0.06));
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 22px;
+    background: rgba(255,255,255,0.015);
+    transition: border-color 0.3s;
+  }
+  .class-card:hover { border-color: var(--accent-faint); }
+  .class-card .head { margin-bottom: 18px; }
+  .class-card .c-num {
+    display: inline-block; font-weight: 700; color: var(--accent);
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .class-card h4 {
+    font-weight: 700; font-size: clamp(20px, 2vw, 24px);
+    color: var(--text-primary);
+    line-height: 1.25; letter-spacing: -0.02em;
+  }
+  .class-card .opening {
+    font-size: clamp(15px, 1.3vw, 16px); color: var(--text-secondary);
+    margin-bottom: 20px; line-height: 1.65;
+  }
+  .class-card .promise {
+    font-size: clamp(15px, 1.3vw, 16px); font-weight: 600; color: var(--text-primary);
+    margin-bottom: 20px; line-height: 1.5;
+  }
+  .class-card .promise strong { color: var(--accent); font-weight: 700; }
+  .class-card .closing {
+    font-size: 14px; color: var(--text-tertiary);
+    margin-bottom: 24px; font-style: italic; line-height: 1.55;
+  }
+  .video-embed {
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    border-radius: 8px; overflow: hidden; background: #000;
+    border: 1px solid var(--divider);
+  }
+  .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+  /* ===== PARTE 6 — GUESTS ===== */
+  .guests-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .guests-title {
+    font-weight: 800;
+    font-size: clamp(28px, 3.8vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--text-primary);
+    margin-bottom: 18px;
+    text-wrap: balance;
+  }
+  .guests-title .accent {
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow-soft);
+  }
+  .guests-subtitle {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto;
+    text-wrap: balance;
+  }
+
+  /* Guests grid — full-width 2-col container (breakout from .section-content) */
+  .guests-wrap {
+    max-width: 1180px;
+    margin: 8px auto 32px;
+    padding: 0 24px;
+  }
+  .guests-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 760px) {
+    .guests-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Case-study cards (funnel-style) */
+  .guest-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 28px 28px 24px;
+    margin-bottom: 0;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.30);
+    display: flex; flex-direction: column;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .guest-result {
+    display: inline-block;
+    padding: 7px 14px;
+    background: rgba(94, 234, 212, 0.06);
+    border: 1px solid var(--accent-faint);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 18px;
+    line-height: 1.4;
+    align-self: flex-start;
+  }
+  .guest-card:hover {
+    border-color: rgba(94, 234, 212, 0.25);
+    transform: translateY(-2px);
+  }
+  .guest-attr {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 18px;
+  }
+  .guest-avatar {
+    width: 46px; height: 46px; flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(94,234,212,0.18), rgba(94,234,212,0.05));
+    border: 1.5px solid var(--accent);
+    box-shadow: 0 0 0 3px rgba(94,234,212,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-weight: 800;
+    font-size: 17px; letter-spacing: -0.02em;
+    text-transform: uppercase;
+    overflow: hidden;
+    position: relative;
+  }
+  .guest-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 50%;
+  }
+  .guest-attr-meta { flex: 1; min-width: 0; }
+  .guest-name {
+    font-size: 15px; font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .guest-niche {
+    font-size: 12px; font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.2; margin-top: 3px;
+  }
+  .guest-quote {
+    margin: 0 0 16px;
+    padding: 0;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-primary);
+  }
+  .guest-quote::before { content: "\201C"; color: var(--accent); margin-right: 1px; font-weight: 700; }
+  .guest-quote::after  { content: "\201D"; color: var(--accent); margin-left: 1px; font-weight: 700; }
+  .guest-quote strong { color: var(--accent); font-weight: 700; }
+  .guest-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    margin-top: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.30);
+    transition: transform 0.3s ease;
+  }
+  .guest-video:hover { transform: translateY(-2px); }
+  .guest-video img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .guest-video:hover img { transform: scale(1.04); }
+  .guest-video iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; border: 0;
+  }
+  .guest-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+    transition: background 0.3s;
+  }
+  .guest-play {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: #000;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(94,234,212,0.40);
+    box-shadow:
+      0 0 0 4px rgba(0,0,0,0.40),
+      0 8px 20px rgba(0,0,0,0.50);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .guest-video:hover .guest-play {
+    transform: scale(1.1);
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 4px rgba(94,234,212,0.15),
+      0 12px 28px rgba(94,234,212,0.30);
+  }
+  .guest-play svg {
+    width: 22px; height: 22px;
+    fill: var(--accent);
+    margin-left: 3px;
+  }
+
+  /* Quote-only variant (no video) — pending state */
+  .guest-video-pending {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    margin-top: 16px;
+    background: linear-gradient(135deg, rgba(94,234,212,0.04) 0%, rgba(94,234,212,0.02) 100%);
+    border: 1px dashed rgba(94,234,212,0.30);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .guest-pending-lbl {
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+  }
+
+  /* Instagram profile screenshot under each video */
+  .guest-ig-shot {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    margin: 16px auto 4px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 8px 24px -12px rgba(0,0,0,0.45);
+  }
+
+  /* Other-cards (no quote) — same grid cell as guest-cards, simpler layout */
+  .other-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 18px;
+    padding: 16px 16px 18px;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.30);
+    display: flex; flex-direction: column;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .other-card:hover {
+    border-color: rgba(94, 234, 212, 0.25);
+    transform: translateY(-2px);
+  }
+  .other-card .guest-video,
+  .other-card .guest-video-pending {
+    margin-top: 0;
+    border-radius: 12px;
+  }
+  .other-card-meta { padding: 14px 4px 0; }
+  .other-card-name {
+    font-size: 15px; font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .other-card-niche {
+    font-size: 12px; font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* Closing philosophical block */
+  .guests-closing {
+    padding: 96px 24px 48px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .guests-closing::before {
+    content: ""; position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 80%; height: 200px;
+    background: radial-gradient(ellipse at 50% 0%, var(--accent-glow-soft) 0%, transparent 60%);
+    filter: blur(40px);
+    z-index: -1; opacity: 0.5;
+    pointer-events: none;
+  }
+  .closing-line {
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    text-wrap: balance;
+  }
+  .closing-line.accent {
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow-soft);
+    margin-bottom: 36px;
+  }
+  .closing-body {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.65;
+    color: var(--text-body);
+    margin-bottom: 22px;
+    text-wrap: balance;
+  }
+  .closing-body strong { color: var(--text-primary); font-weight: 600; }
+
+  /* Closing patterns (3 numbered points) */
+  .closing-patterns {
+    display: flex; flex-direction: column;
+    gap: 28px;
+    max-width: 720px;
+    margin: 32px auto 40px;
+    text-align: left;
+  }
+  .closing-pattern {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .cp-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    text-align: center;
+    padding-top: 4px;
+    border: 1px solid var(--accent-faint);
+    border-radius: 999px;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(94, 234, 212, 0.04);
+    box-shadow: 0 0 16px rgba(94,234,212,0.15);
+    flex-shrink: 0;
+  }
+  .cp-title {
+    font-size: clamp(17px, 1.8vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .cp-title em {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 700;
+  }
+  .cp-body p {
+    font-size: clamp(14px, 1.3vw, 16px);
+    line-height: 1.6;
+    color: var(--text-body);
+    margin: 0;
+  }
+  .cp-body p strong { color: var(--text-primary); font-weight: 600; }
+  .cp-body p em { font-style: italic; color: var(--accent); }
+
+  .closing-final {
+    text-align: center;
+    font-size: clamp(18px, 2vw, 22px);
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-primary);
+    margin-top: 32px;
+    letter-spacing: -0.015em;
+  }
+  .closing-final .accent {
+    color: var(--accent);
+    text-shadow: 0 0 24px var(--accent-glow-soft);
+  }
+
+  /* Final CTA section (Agenda llamada de diagnóstico) */
+  .guests-cta {
+    max-width: 720px;
+    margin: 56px auto 0;
+    padding: 56px 32px;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 0%, rgba(94,234,212,0.08) 0%, transparent 70%);
+    border-top: 1px solid var(--accent-faint);
+    border-bottom: 1px solid var(--accent-faint);
+    border-radius: 18px;
+    position: relative;
+  }
+  .cta-eyebrow {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .cta-h3 {
+    font-weight: 800;
+    font-size: clamp(26px, 3.5vw, 38px);
+    line-height: 1.1; letter-spacing: -0.025em;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+  }
+  .cta-h3 .accent {
+    color: var(--accent);
+    text-shadow: 0 0 30px var(--accent-glow-soft);
+  }
+  .cta-sub {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.6;
+    color: var(--text-body);
+    margin-bottom: 32px;
+  }
+  .cta-sub strong { color: var(--accent); font-weight: 700; }
+  .cta-button-big {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--accent);
+    color: var(--bg-deep);
+    padding: 20px 36px;
+    border-radius: 999px;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.3s, background 0.2s;
+    box-shadow:
+      0 0 0 1px rgba(94, 234, 212, 0.3),
+      0 0 40px var(--accent-glow-soft),
+      0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+  .cta-button-big:hover {
+    transform: translateY(-2px);
+    background: #7df3dd;
+    box-shadow:
+      0 0 0 1px rgba(94, 234, 212, 0.5),
+      0 0 60px var(--accent-glow),
+      0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+  .cta-arrow { transition: transform 0.2s; font-weight: 700; }
+  .cta-button-big:hover .cta-arrow { transform: translateX(4px); }
+  .cta-followup {
+    font-size: clamp(13px, 1.2vw, 15px);
+    line-height: 1.6;
+    color: var(--text-tertiary);
+    margin-top: 28px;
+    max-width: 600px;
+    margin-left: auto; margin-right: auto;
+  }
+  @media (max-width: 600px) {
+    .closing-pattern { grid-template-columns: 44px 1fr; gap: 14px; }
+    .cp-num { width: 36px; height: 36px; font-size: 22px; }
+    .guests-cta { padding: 40px 22px; }
+  }
+
+  /* Outro — personal note */
+  .outro {
+    padding: 80px 24px 80px;
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .outro-note {
+    font-size: clamp(15px, 1.5vw, 17px);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+  .outro .signature {
+    font-size: clamp(15px, 1.5vw, 17px);
+    color: var(--text-secondary);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+
+  /* Footer */
+  footer {
+    padding: 32px 24px;
+    border-top: 1px solid var(--divider-soft, rgba(255,255,255,0.04));
+    text-align: center;
+  }
+  footer .copy {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.04em;
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 760px) {
+    .guest-card { padding: 24px; }
+    .guest-quote { font-size: 16px; }
+  }
+
+  /* ===== STAT CALLOUT ===== */
+  .stat-callout {
+    background: linear-gradient(135deg, rgba(94,234,212,0.05) 0%, rgba(26,58,63,0.12) 100%);
+    border: 1px solid var(--accent-faint);
+    border-radius: 12px;
+    padding: 26px 30px;
+    margin: 32px 0;
+  }
+  .stat-callout .source {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.24em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .stat-callout .stat-text {
+    font-weight: 500; font-size: 16px;
+    line-height: 1.5; color: var(--text-primary);
+    letter-spacing: -0.015em;
+  }
+  .stat-callout .stat-text strong { color: var(--accent); font-weight: 700; }
+
+  /* ===== PULL QUOTE ===== */
+  .pull-quote {
+    margin: 56px 0;
+    padding: 56px 64px 40px;
+    border-radius: 18px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(94,234,212,0.06) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(94,234,212,0.025) 0%, rgba(0,0,0,0) 100%);
+    border: 1px solid var(--accent-faint);
+    position: relative;
+    overflow: hidden;
+  }
+  .q-open, .q-close {
+    color: var(--accent);
+    font-weight: 700;
+    opacity: 0.85;
+    font-style: normal;
+  }
+  .q-open { margin-right: 1px; }
+  .q-close { margin-left: 1px; }
+  .pull-quote blockquote {
+    margin: 0 0 28px;
+    font-size: clamp(17px, 1.6vw, 19px);
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    position: relative; z-index: 1;
+    font-style: italic;
+  }
+  .pull-quote blockquote em {
+    font-style: italic; color: var(--accent);
+    text-shadow: 0 0 16px var(--accent-glow-soft);
+  }
+  .pull-quote .attribution {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent);
+    position: relative; z-index: 1;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pull-quote .attribution::before {
+    content: ""; width: 28px; height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .pull-quote .attribution-name {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .pull-quote .attribution-title {
+    color: rgba(94, 234, 212, 0.55);
+    font-weight: 500;
+  }
+  .pull-quote.pq-epigraph {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 56px;
+    padding: 64px 48px 48px;
+  }
+  .pull-quote.pq-epigraph blockquote {
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-style: italic;
+    margin-bottom: 32px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .pull-quote.pq-epigraph .attribution {
+    justify-content: center;
+  }
+  .pull-quote.pq-epigraph .q-open,
+  .pull-quote.pq-epigraph .q-close {
+    font-size: inherit;
+    color: var(--accent);
+  }
+
   @media (max-width: 760px) {
     .hero { padding: 40px 0 60px; }
     .tagline { font-size: 9px; letter-spacing: 0.18em; }
@@ -346,6 +1880,23 @@
     .svg-label-aqua { font-size: 8px; }
     .stamps { flex-direction: column; align-items: stretch; }
     .stamp { width: 100%; min-width: 0; }
+    .toc-section { padding: 56px 0; }
+    .toc-inner { padding: 0 20px; }
+    .toc-intro { font-size: 17px; }
+    .toc-list li { padding: 18px 0; }
+    .toc-list a { gap: 14px; }
+    .toc-num { min-width: 52px; font-size: 10px; }
+    .toc-title { font-size: 14px; }
+    .toc-arrow { font-size: 12px; }
+    .part-marker { padding: 56px 0 8px; }
+    .section-content { padding: 24px 20px 40px; }
+    .section-content h2 { font-size: 22px; margin-bottom: 28px; }
+    .section-content p { font-size: 15px; }
+    .highlight-p { font-size: 17px; padding-left: 20px; margin: 32px 0; }
+    .stat-callout { padding: 22px 22px; }
+    .stat-callout .stat-text { font-size: 15px; }
+    .pull-quote { padding: 32px 22px 24px; }
+    .pull-quote blockquote { font-size: 16px; }
   }
 </style>
 </head>
@@ -622,6 +2173,1006 @@
   </div>
 </section>
 
+<!-- ====== TOC ====== -->
+<section class="toc-section">
+  <div class="toc-inner">
+    <div class="toc-label">Índice</div>
+    <p class="toc-intro">Esto es lo que vas a encontrar al terminar de leer esta guía.</p>
+    <ul class="toc-list">
+      <li>
+        <a href="#parte-1">
+          <span class="toc-num">Parte 1</span>
+          <span class="toc-title"><strong>Intensidad Inconsistente:</strong> El mito de que te falta disciplina y fuerza de voluntad para escalar tu negocio.</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="#parte-2">
+          <span class="toc-num">Parte 2</span>
+          <span class="toc-title"><strong>Apalancamiento:</strong> Cómo ganar más haciendo menos.</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="#parte-3">
+          <span class="toc-num">Parte 3</span>
+          <span class="toc-title"><strong>Estado de Flow:</strong> Apalanca tu sistema nervioso para multiplicar tu energía y enfoque.</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="#parte-4">
+          <span class="toc-num">Parte 4</span>
+          <span class="toc-title"><strong>Ciclo de Flow:</strong> Mi sistema de optimización semanal para optimizar tu tiempo, energía y enfoque. <em style="color: var(--accent); font-style: italic; font-weight: 600;">(Curso Intensivo)</em></span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="#parte-5">
+          <span class="toc-num">Parte 5</span>
+          <span class="toc-title"><strong>Flow Scale Diagnostic:</strong> 12 simples preguntas que te darán claridad y enfoque en la prioridad que <strong style="color: var(--text-primary); font-weight: 700;">REALMENTE</strong> traerá más cash-flow, rentabilidad y tranquilidad a tu negocio.</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a href="#parte-6">
+          <span class="toc-num">Parte 6</span>
+          <span class="toc-title"><strong>Escala al Emprendedor para Escalar el Negocio:</strong> Ejemplos prácticos de founders que pasaron del agotamiento crónico a una vida y un negocio escalable del que ya no están tratando de escapar.</span>
+          <span class="toc-arrow">→</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ====== PARTE 1 ====== -->
+<div class="part-marker">
+  <div class="part-divider">
+    <div class="line-fade"></div>
+    <span class="pill">Parte 1</span>
+    <div class="line-fade right"></div>
+  </div>
+</div>
+<section id="parte-1">
+  <span class="section-concept">Intensidad Inconsistente:</span>
+  <h2 class="section-title">El mito de que te falta disciplina y fuerza de voluntad para escalar tu negocio.</h2>
+  <div class="section-content">
+
+    <p>Antes de que empieces, déjame contarte algo.</p>
+    <p>Si llegaste aquí, probablemente estás en un punto donde tu negocio ya está funcionando. Tienes clientes. Estás facturando. Tienes una idea clara de qué hacer.</p>
+    <p>Pero algo no está cuadrando.</p>
+    <p>Te levantas el lunes con energía. Te sientas a implementar lo que aprendiste en esa nueva mentoría, ese curso, ese sistema que sabes que va a llevarte al siguiente nivel. Tomas tu café. Le das duro toda la mañana. Llega la noche y son las 9 p.m. y te das cuenta de que sí — avanzaste algo, pero no tanto como deberías. El cerebro fundido. La cabeza llena. Y la sensación incómoda de que mientras tú llevas tres semanas peleándote con el mismo lanzamiento, hay otros que ya están dos pasos adelante.</p>
+    <p>Al día siguiente te cuesta más. No tienes el mismo enfoque del lunes. Empiezas a sentir esa culpa silenciosa de no estar al cien. Te empujas un poco más. Avanzas un poco menos.</p>
+    <p>Da igual si lo que tienes enfrente es un lanzamiento que necesita salir bien, una nueva oferta que llevas semanas intentando aterrizar, un equipo de ventas que tienes que entrenar, o simplemente la presión de mantener el ritmo de contenido que tu negocio te exige.</p>
+    <p>Todos los que estamos en esto hemos tenido la misma sensación: sentir que apenas vamos a la mitad del camino cuando ya solo nos queda el 10% de batería mental y emocional para terminarlo.</p>
+
+    <div class="highlight-p">Tu negocio es inconsistente porque <span class="accent">tú eres inconsistente</span>.</div>
+
+    <p>Y la solución que te ha dado la industria es siempre la misma: <strong>más disciplina, más fuerza de voluntad, deja las excusas atrás.</strong> Levántate a las 5 a.m. Métete al gimnasio. Bloquea tu calendario. Apaga las notificaciones. Tómate un café cargado y dale.</p>
+    <p>Lo has intentado. Funciona unos días. Después colapsa.</p>
+    <p>Y la conclusión a la que llegas, que es la conclusión más peligrosa de todas, es: el problema soy yo. No estoy dando el ancho. Otros pueden y yo no.</p>
+
+    <div class="highlight-p">Te voy a decir algo que casi nadie te va a decir en el mundo de los negocios digitales: <span class="accent">el problema no eres tú, y el problema tampoco es tu disciplina.</span></div>
+
+    <p>Tú no tienes problema de motivación. Te estás esforzando. Le estás metiendo. Estás haciendo lo que dijeron que había que hacer. El problema es otro.</p>
+    <p>El problema es que estás operando contra tu ciclo natural de energía. Y nadie te enseñó cómo funciona ese ciclo, porque toda la industria de productividad para emprendedores está basada en una idea que no es cierta: que más esfuerzo = más resultados.</p>
+    <p>Eso es mentira. Tu cerebro y tu cuerpo no funcionan así. Funcionan en ciclos. Hay momentos para esforzarte, hay momentos para soltar, hay momentos donde fluyes sin esfuerzo, y hay momentos donde tienes que parar a recuperarte. Cuando entiendes ese ciclo y trabajas con él en vez de contra él, todo cambia. Trabajas menos horas y avanzas más. Tomas mejores decisiones. Empiezas a disfrutar tu negocio otra vez.</p>
+
+    <div class="highlight-p">Empujarte a base de pura disciplina y fuerza de voluntad, a largo plazo, lo único que hace es <span class="accent">fundir tu sistema nervioso</span>. A esto es a lo que le llamamos <em>burnout</em>.</div>
+
+    <p>Y el burnout no llega con anuncio. Llega después de meses de aguantar, de "ya casi", de "una semana más y descanso", de creerle a la industria del más que si te esfuerzas otro poquito vas a llegar. Hasta que un día abres tu computadora y no puedes. Te sientas a grabar y no sale nada. Tomas decisiones desde el cansancio que después tienes que pagar carísimas. Le has apostado todo a tus sueños — y empiezas a dudar si valió la pena.</p>
+  </div>
+</section>
+
+<!-- ====== PARTE 2 ====== -->
+<div class="part-marker">
+  <div class="part-divider">
+    <div class="line-fade"></div>
+    <span class="pill">Parte 2</span>
+    <div class="line-fade right"></div>
+  </div>
+</div>
+<section id="parte-2">
+  <span class="section-concept">Apalancamiento:</span>
+  <h2 class="section-title">Cómo ganar más haciendo menos.</h2>
+  <div class="section-content">
+
+    <p>Todo emprendedor digital quiere lo mismo: ganar más dinero trabajando menos horas, con más libertad y más paz mental. No es un capricho — es la razón por la que emprendiste.</p>
+    <p>Y la única manera de lograrlo tiene un nombre: <strong>apalancamiento.</strong></p>
+    <p>Arquímedes dijo hace más de 2,000 años: <em>"Dame una palanca lo suficientemente larga y un punto de apoyo, y moveré el mundo."</em> La idea es simple: con la herramienta correcta, una persona puede lograr resultados desproporcionados a su esfuerzo. Un resultado gigante con una fuerza pequeña. Eso es apalancamiento. No trabajar más duro — sino diseñar tu negocio para que cada acción te genere un retorno mucho mayor que el esfuerzo que le pusiste.</p>
+    <p>¿Cómo se genera ese apalancamiento en un negocio?</p>
+    <p>A través de algo que en finanzas se llama <strong>efecto compuesto.</strong> Es probablemente la fuerza más poderosa en la creación de riqueza y funciona así: imagina que mejoras tu negocio un 1% cada semana. La primera semana, esa mejora es imperceptible. La segunda también. Pero la tercera mejora no se suma a la original — se multiplica por las dos anteriores. Y la cuarta por las tres anteriores. Es como una bola de nieve bajando una montaña — empieza pequeña, pero cada vuelta recoge más nieve que la anterior. Y después de un tiempo, la bola es gigante sin que nadie la esté empujando. Eso es el efecto compuesto: pequeñas acciones consistentes que se van multiplicando hasta generar resultados exponenciales.</p>
+    <div class="compound-section">
+      <div class="compound-kicker">El principio que separa los negocios que escalan</div>
+      <div class="compound-title">Linealidad vs <span class="accent">Efecto Compuesto</span></div>
+      <div class="compound-grid">
+        <div class="compound-panel illusion">
+          <div class="panel-label">La ilusión de apalancamiento</div>
+          <h4>Más esfuerzo = más resultados.</h4>
+          <div class="panel-svg-wrap">
+            <svg viewBox="0 0 320 192" xmlns="http://www.w3.org/2000/svg">
+              <text class="ce-axis-label" x="14" y="20">Resultados</text>
+              <line class="ce-axis-line" x1="14" y1="30" x2="14" y2="170"/>
+              <line class="ce-axis-line" x1="14" y1="170" x2="306" y2="170"/>
+              <text class="ce-axis-label" x="306" y="186" text-anchor="end">Esfuerzo</text>
+              <path class="ce-line-illusion" d="M 20 156 L 290 50"/>
+              <circle class="ce-dot-illusion" cx="60" cy="140" r="3"/>
+              <circle class="ce-dot-illusion" cx="105" cy="122" r="3"/>
+              <circle class="ce-dot-illusion" cx="150" cy="105" r="3"/>
+              <circle class="ce-dot-illusion" cx="195" cy="87" r="3"/>
+              <circle class="ce-dot-illusion" cx="240" cy="69" r="3"/>
+            </svg>
+          </div>
+          <p class="panel-caption">Cada hora extra produce el mismo retorno marginal. Eventualmente, llegas al techo de lo que puedes producir tú solo — y colapsas.</p>
+        </div>
+
+        <div class="compound-panel exponential">
+          <div class="panel-label">Apalancamiento real</div>
+          <h4>Pequeñas mejoras que se multiplican.</h4>
+          <div class="panel-svg-wrap">
+            <svg viewBox="0 0 320 192" xmlns="http://www.w3.org/2000/svg">
+              <text class="ce-axis-label" x="14" y="20">Resultados</text>
+              <line class="ce-axis-line" x1="14" y1="30" x2="14" y2="170"/>
+              <line class="ce-axis-line" x1="14" y1="170" x2="306" y2="170"/>
+              <text class="ce-axis-label" x="306" y="186" text-anchor="end">Esfuerzo consistente</text>
+              <path class="ce-curve-glow" d="M 20 162 C 80 162, 130 158, 170 148 C 220 130, 260 90, 300 30"/>
+              <path class="ce-curve-mid" d="M 20 162 C 80 162, 130 158, 170 148 C 220 130, 260 90, 300 30"/>
+              <path class="ce-curve-core" d="M 20 162 C 80 162, 130 158, 170 148 C 220 130, 260 90, 300 30"/>
+              <circle class="ce-dot-expo pulse" cx="50" cy="161" r="3" style="animation-delay: 0s"/>
+              <circle class="ce-dot-expo pulse" cx="100" cy="159" r="3" style="animation-delay: 0.3s"/>
+              <circle class="ce-dot-expo pulse" cx="150" cy="152" r="3" style="animation-delay: 0.6s"/>
+              <circle class="ce-dot-expo pulse" cx="200" cy="138" r="3" style="animation-delay: 0.9s"/>
+              <circle class="ce-dot-expo pulse" cx="240" cy="108" r="3.5" style="animation-delay: 1.2s"/>
+              <circle class="ce-dot-expo pulse" cx="285" cy="50" r="4" style="animation-delay: 1.5s"/>
+            </svg>
+          </div>
+          <p class="panel-caption">Cada mejora no se suma a la anterior — se multiplica. Como una bola de nieve. Y después de un tiempo, la bola crece sin que nadie la esté empujando.</p>
+        </div>
+      </div>
+      <p class="compound-takeaway"><span class="q-open">"</span>Los hábitos son el <span class="accent">interés compuesto</span> de la mejora personal.<span class="q-close">"</span>&nbsp;—&nbsp;James&nbsp;Clear</p>
+    </div>
+
+    <p>Como dice James&nbsp;Clear: <em>"Los hábitos son el interés compuesto de la mejora personal."</em> Lo mismo aplica a tu negocio. Pequeñas mejoras consistentes generan resultados exponenciales con el tiempo — no por más esfuerzo, sino por diseño. Porque cada mejora amplifica las anteriores.</p>
+    <p>Ahora, cuando ese efecto compuesto se aplica a un negocio completo — donde cada área del negocio alimenta a la siguiente — tiene un nombre específico. Se llama <strong>flywheel</strong>. Jeff Bezos diseñó toda la estrategia de Amazon alrededor de este principio y Jim Collins lo documentó en <em>Good to Great</em> como el concepto que separa a las empresas que escalan de las que se estancan.</p>
+    <p>El concepto es así de simple: si Amazon baja los precios, más gente compra. Si más gente compra, más vendedores quieren estar en la plataforma. Si hay más vendedores, hay más competencia entre ellos, lo que baja los precios aún más. Y el ciclo se repite — cada vuelta alimenta a la siguiente. Amazon no creció porque Bezos empujó más duro cada año. Creció porque diseñó un sistema donde cada pieza hacía más fácil la siguiente. Eso es un flywheel. Es el efecto compuesto aplicado no solo a una métrica, sino a todo el negocio como sistema.</p>
+
+    <div class="fw-section">
+      <div class="fw-inner">
+        <div class="fw-kicker">Caso de estudio</div>
+        <div class="fw-title">El Flywheel de <span class="accent">Amazon</span></div>
+        <div class="fw-canvas">
+          <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="fwArrowMain" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#5eead4"/>
+              </marker>
+              <radialGradient id="fwCenterGradMain" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5eead4" stop-opacity="0.25"/>
+                <stop offset="60%" stop-color="#5eead4" stop-opacity="0.04"/>
+                <stop offset="100%" stop-color="#5eead4" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="300" cy="300" r="120" fill="url(#fwCenterGradMain)"/>
+            <circle id="flywheelOrbitMain" cx="300" cy="300" r="200" fill="none" stroke="none"/>
+            <path class="fw-arc-glow" d="M 342 104 A 200 200 0 0 1 449 166"/>
+            <path class="fw-arc-core" d="M 342 104 A 200 200 0 0 1 449 166" marker-end="url(#fwArrowMain)"/>
+            <path class="fw-arc-glow" d="M 490 238 A 200 200 0 0 1 490 362"/>
+            <path class="fw-arc-core" d="M 490 238 A 200 200 0 0 1 490 362" marker-end="url(#fwArrowMain)"/>
+            <path class="fw-arc-glow" d="M 449 434 A 200 200 0 0 1 342 496"/>
+            <path class="fw-arc-core" d="M 449 434 A 200 200 0 0 1 342 496" marker-end="url(#fwArrowMain)"/>
+            <path class="fw-arc-glow" d="M 258 496 A 200 200 0 0 1 151 434"/>
+            <path class="fw-arc-core" d="M 258 496 A 200 200 0 0 1 151 434" marker-end="url(#fwArrowMain)"/>
+            <path class="fw-arc-glow" d="M 110 362 A 200 200 0 0 1 110 238"/>
+            <path class="fw-arc-core" d="M 110 362 A 200 200 0 0 1 110 238" marker-end="url(#fwArrowMain)"/>
+            <path class="fw-arc-glow" d="M 151 166 A 200 200 0 0 1 258 104"/>
+            <path class="fw-arc-core" d="M 151 166 A 200 200 0 0 1 258 104" marker-end="url(#fwArrowMain)"/>
+            <circle class="fw-node-glow" cx="300" cy="100" r="14"/><circle class="fw-node" cx="300" cy="100" r="7"/>
+            <circle class="fw-node-glow" cx="473" cy="200" r="14"/><circle class="fw-node" cx="473" cy="200" r="7"/>
+            <circle class="fw-node-glow" cx="473" cy="400" r="14"/><circle class="fw-node" cx="473" cy="400" r="7"/>
+            <circle class="fw-node-glow" cx="300" cy="500" r="14"/><circle class="fw-node" cx="300" cy="500" r="7"/>
+            <circle class="fw-node-glow" cx="127" cy="400" r="14"/><circle class="fw-node" cx="127" cy="400" r="7"/>
+            <circle class="fw-node-glow" cx="127" cy="200" r="14"/><circle class="fw-node" cx="127" cy="200" r="7"/>
+            <text class="fw-label" x="300" y="68" text-anchor="middle">Precios</text>
+            <text class="fw-label" x="300" y="84" text-anchor="middle">Más Bajos</text>
+            <text class="fw-label" x="525" y="190" text-anchor="start">Mejor</text>
+            <text class="fw-label" x="525" y="206" text-anchor="start">Experiencia</text>
+            <text class="fw-label" x="525" y="404" text-anchor="start">Más</text>
+            <text class="fw-label" x="525" y="420" text-anchor="start">Tráfico</text>
+            <text class="fw-label" x="300" y="540" text-anchor="middle">Más</text>
+            <text class="fw-label" x="300" y="556" text-anchor="middle">Vendedores</text>
+            <text class="fw-label" x="75" y="404" text-anchor="end">Más</text>
+            <text class="fw-label" x="75" y="420" text-anchor="end">Selección</text>
+            <text class="fw-label" x="75" y="190" text-anchor="end">Costos</text>
+            <text class="fw-label" x="75" y="206" text-anchor="end">Más Bajos</text>
+            <text class="fw-amazon-text" x="300" y="305" text-anchor="middle">amazon</text>
+            <path class="fw-amazon-smile" d="M 252 318 Q 300 348, 348 318" marker-end="url(#fwArrowMain)"/>
+            <circle class="fw-particle" r="5">
+              <animateMotion dur="14s" repeatCount="indefinite" rotate="auto"><mpath href="#flywheelOrbitMain"/></animateMotion>
+            </circle>
+            <circle class="fw-particle" r="2.5" opacity="0.6">
+              <animateMotion dur="14s" repeatCount="indefinite" begin="-0.4s"><mpath href="#flywheelOrbitMain"/></animateMotion>
+            </circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <p>Yo le llamo <strong>Infinite Flow</strong> — porque en un negocio digital como el tuyo, este flywheel produce 4 tipos de flujo simultáneos: flow mental del fundador, flujo de trabajo eficiente, flujo de leads constante y flujo de efectivo predecible.</p>
+    <p>Y funciona exactamente igual: cuando tu oferta es clara, tu marketing convierte más con menos inversión. Cuando tu marketing convierte más, llegan mejores prospectos a tus llamadas. Cuando llegan mejores prospectos, las ventas se sienten naturales — no tienes que estar 3 horas en una llamada convenciendo a nadie. Cuando los clientes llegan más convencidos, se comprometen más, tienen mejores resultados, se quedan más tiempo, te recomiendan y generan testimonios que hacen que tu marketing sea todavía más fácil. Y el ciclo se repite — cada vuelta más eficiente, más rentable y más libre que la anterior. Eso es apalancamiento real. Eso es el efecto compuesto trabajando a tu favor.</p>
+    <p>Pero para que el efecto compuesto funcione, necesita una condición innegociable: <strong>consistencia</strong>. La bola de nieve solo crece si no la interrumpes. Si la fragmentas, si la detienes, si cambias de dirección cada mes — se rompe y tienes que empezar de cero. Y aquí es exactamente donde la mayoría de los emprendedores se estrellan.</p>
+    <p>Cuando las cosas no funcionan — cuando los costos suben, cuando las ventas no cierran, cuando la facturación no es consistente — el instinto natural es hacer más. Más contenido. Más ads. Más productos. Más equipo. Más herramientas. Más horas. Más disciplina. Más esfuerzo.</p>
+
+    <div class="highlight-p"><span class="accent">Esto es lo que yo llamo la Ilusión de Apalancamiento:</span> la creencia de que hacer más te va a sacar del problema.</div>
+
+    <p>Parece lógico — si no estás generando suficientes resultados, ¿no deberías hacer más? Pero lo que realmente pasa es que cada cosa que agregas sin claridad diluye tu enfoque. Y cuando diluyes tu enfoque, interrumpes el efecto compuesto que estás tratando de construir. La bola de nieve no crece — se fragmenta en pedazos que van en diferentes direcciones. Como dice David Packard, cofundador de Hewlett-Packard: <em>"Los negocios no mueren de hambre — mueren de indigestión."</em></p>
+    <p>Estás escalando costos, complejidad y caos — no ganancias ni libertad. Facturación es vanidad, rentabilidad es sanidad. Y toda la industria te lo refuerza: las pasarelas de pago te dan placas por facturar más, los mentores te dicen que contrates más, las agencias te dicen que gastes más en ads. Nadie te dice que hagas menos — porque nadie gana dinero diciéndotelo.</p>
+    <p>Y como las cosas no mejoran con más, empujas más duro. Más horas. Más prisa. Te obligas a crear contenido cuando no tienes nada que decir. Trabajas más horas sin saber si lo que estás haciendo mueve la aguja. Te fuerzas con pura disciplina y fuerza de voluntad a empujar un negocio que se siente cada vez más pesado. Y poco a poco te vas drenando.</p>
+    <p>Primero empieza a colapsar el negocio — los resultados no llegan, los márgenes bajan, todo se siente cada vez más difícil. Tú tratas de sostenerlo con pura fuerza bruta. Y eventualmente lo que se funde no es el negocio — eres tú. Tu sistema nervioso. Tu energía creativa. Tu capacidad de pensar con claridad. Eso es burnout. Y cuando el fundador se quema, el efecto compuesto que estabas construyendo se interrumpe de raíz. No importa qué tan buena sea tu oferta ni cuánto inviertas en publicidad — si tú no puedes sostener el ritmo, todo se frena.</p>
+    <p>Entonces, ¿cuál es la clave para poder mantenerte de forma consistente operando tu negocio en alto rendimiento sin destruirte en el proceso?</p>
+
+    <div class="highlight-p"><span class="accent">La clave es flow.</span></div>
+  </div>
+</section>
+
+<!-- ====== PARTE 3 ====== -->
+<div class="part-marker">
+  <div class="part-divider">
+    <div class="line-fade"></div>
+    <span class="pill">Parte 3</span>
+    <div class="line-fade right"></div>
+  </div>
+</div>
+<section id="parte-3">
+  <span class="section-concept">Estado de Flow:</span>
+  <h2 class="section-title">Apalanca tu sistema nervioso para multiplicar tu energía y enfoque.</h2>
+  <div class="section-content">
+
+    <p><strong>El estado de flow es un estado interno de eficiencia energética.</strong></p>
+    <p>En psicología positiva, Mihaly&nbsp;Csikszentmihalyi — cofundador de la psicología positiva — dedicó su vida entera a estudiar este estado. Lo definió como <em>"un estado óptimo de consciencia donde nos sentimos y rendimos mejor que nunca."</em> Es cuando estás tan absorto en lo que haces que pierdes la noción del tiempo, tu mente deja de divagar, y todo tu enfoque está puesto en una sola cosa. No estás forzando nada — estás fluyendo.</p>
+    <p>Adam&nbsp;Grant, el psicólogo organizacional más respetado del mundo, dice que el flow es el antídoto a la apatía y la crisis de salud mental en el trabajo.</p>
+    <p>Y Naval&nbsp;Ravikant lo pone de la forma más clara:</p>
+
+    <div class="pull-quote">
+      <blockquote><span class="q-open">"</span>Si tuviera que resumir cómo ser exitoso en la vida en una palabra, diría: <em>productízate</em>. Encuentra lo que se siente como juego para ti pero parece trabajo para los demás. Para ellos parece trabajo, pero para ti se siente como juego. No es trabajo, así que les vas a ganar porque lo estás haciendo sin esfuerzo, lo estás haciendo por diversión. Ellos lo hacen por trabajo, lo hacen por un subproducto. Para ti es arte, es belleza, es flow, es plenitud. Entre más haces cosas que son naturales para ti, menos competencia tienes. Escapas de la competencia a través de la autenticidad siendo tú mismo.<span class="q-close">"</span></blockquote>
+      <div class="attribution">
+        <span class="attribution-name">Naval&nbsp;Ravikant</span>
+        <span class="attribution-title">· Fundador de AngelList</span>
+      </div>
+    </div>
+
+    <p>Eso es flow: un estado donde el trabajo se siente como juego. Donde para ti es fácil hacer lo que otros consideran difícil — no porque seas más inteligente o más talentoso, sino porque estás alineado con lo que haces. Y como lo disfrutas, puedes sostener un ritmo constante sin quemarte. Un ritmo que podrías mantener de por vida. No por intensidad — sino por disfrute.</p>
+    <p>A nivel mental, el flow es eficiencia energética. Es tu cerebro funcionando en su modo de mayor rendimiento con el menor desgaste.</p>
+
+    <div class="stat-callout">
+      <div class="source">Steven&nbsp;Kotler · Harvard&nbsp;Business&nbsp;Review</div>
+      <div class="stat-text">Steven&nbsp;Kotler publicó en <em>Harvard&nbsp;Business&nbsp;Review</em> un estudio de McKinsey que encontró que los ejecutivos en estado de flow son <strong>500% más productivos</strong> — no porque trabajen más horas, sino porque cada hora que trabajan rinde exponencialmente más.</div>
+    </div>
+
+    <p>Tu negocio eres tú productizado — tu conocimiento, tu experiencia, tu energía creativa convertidos en un sistema que escala. Si la fuente se seca, el sistema se seca. Y la ventaja competitiva más grande que puedes tener no es un mejor funnel ni más seguidores — es poder operar desde tu zona de genio el mayor porcentaje del tiempo posible.</p>
+    <p>Pero el flow por sí solo no es suficiente. Necesitas que tu negocio esté diseñado para proteger ese flow.</p>
+    <p>Como dice James&nbsp;Clear: <em>"No te elevas al nivel de tus metas. Caes al nivel de tus sistemas."</em> Tu flywheel ES tu sistema. Y lo que lo protege es que tú puedas mantener el ritmo sin quemarte. No se trata de intensidad — se trata de un ritmo constante, predecible y sostenible. Un ritmo que el efecto compuesto pueda amplificar vuelta tras vuelta.</p>
+
+    <div class="highlight-p">Por eso el sistema tiene <span class="accent">dos caras de la misma moneda: Flow del Fundador y Sistemas Estúpidamente Simples.</span></div>
+
+    <p>Tu flow es el combustible que mantiene el flywheel girando — la energía que te permite crear, vender, conectar y liderar sin destruirte. Los sistemas estúpidamente simples — automatizaciones, inteligencia artificial, equipo ligero — son la estructura que protege ese flow. Existen para que tú solo hagas lo que solo tú puedes hacer. Tu zona de genio. Todo lo demás lo hace el sistema.</p>
+    <p>Y cuando las dos cosas están presentes — un fundador operando en flow y un negocio con sistemas simples que no dependen de él — el efecto compuesto se activa de verdad.</p>
+    <p>Por eso le llamo <strong>Infinite Flow</strong> — porque produce 4 tipos de flujo simultáneos: flow mental del fundador, flujo de trabajo eficiente, flujo de leads constante y flujo de efectivo predecible.</p>
+    <p>Aplicado a tu contenido, cada pieza que creas desde la claridad y la autenticidad conecta más que 100 piezas forzadas. Aplicado a tu marketing, una narrativa alineada atrae a tu cliente ideal más consciente con menos esfuerzo y menor inversión. Aplicado a tus ventas, prospectos que llegan pre-convencidos compran sin que tengas que presionar. Aplicado a tu entrega de servicio, clientes comprometidos tienen mejores resultados, se quedan, te recomiendan, y sus testimonios hacen que todo el ciclo se vuelva todavía más fácil.</p>
+    <p>Se crea ese efecto de bola de nieve. Cada vuelta más eficiente, más rentable y más libre que la anterior. No por hacer más — sino porque todo está alineado y cada pieza alimenta a la siguiente.</p>
+    <p>Pero si solo arreglas el negocio sin cambiar la manera de pensar del fundador, el fundador vuelve a generar el mismo caos de forma inconsciente porque es a lo que está acostumbrado. Como dice Einstein: <em>"No podemos resolver problemas usando la misma forma de pensar que usamos cuando los creamos."</em> Una mente caótica no crea negocios que escalan sin dramas. Y si solo arreglas la mentalidad del fundador sin arreglar el negocio, el negocio sigue desperdiciando dinero, tiempo y energía — hasta que los problemas se vuelven tan grandes que el fundador colapsa otra vez, por muy motivado o comprometido que estés.</p>
+
+    <div class="highlight-p"><span class="accent">Las dos cosas tienen que ir juntas. Siempre.</span></div>
+
+    <p>Es por eso que fundé Flow Consulting: para ayudar a otros emprendedores a generar este Sistema de Flow Infinito en su negocio donde cada pieza alimenta a la siguiente, donde el fundador opera en su zona de genio, y donde el sistema se vuelve más rentable y más simple de operar con cada vuelta.</p>
+    <p>No por hacer más — sino por hacer menos, menos pero mejor. Y dejar que el efecto compuesto haga el trabajo pesado.</p>
+    <p>Una vida y un negocio del que ya no estás tratando de escapar.</p>
+
+    <div class="pull-quote pq-epigraph">
+      <blockquote><span class="q-open">"</span>Las personas más felices encuentran su naturaleza y alinean su realidad a&nbsp;ella.<span class="q-close">"</span></blockquote>
+      <div class="attribution">
+        <span class="attribution-name">Ray&nbsp;Dalio</span>
+        <span class="attribution-title">· Fundador de Bridgewater Associates</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PARTE 4 ====== -->
+<div class="part-marker">
+  <div class="part-divider">
+    <div class="line-fade"></div>
+    <span class="pill">Parte 4</span>
+    <div class="line-fade right"></div>
+  </div>
+</div>
+<section id="parte-4">
+  <span class="section-concept">Ciclo de Flow:</span>
+  <h2 class="section-title">Mi sistema de optimización semanal para optimizar tu tiempo, energía y enfoque.</h2>
+  <div class="section-content">
+
+    <p>Ahora, la pregunta se vuelve: ¿cómo podemos pasar más tiempo en estado de flow y evitar el agotamiento crónico cuando buscamos escalar un negocio?</p>
+    <p>La verdad es que el estado de flow no es algo que puedas controlar. Es un estado que emerge cuando se dan las condiciones correctas en tu ambiente para que puedas pasar más tiempo rindiendo a tu máximo potencial.</p>
+    <p>Los videos que verás a continuación explican uno de los modelos más importantes que existen para optimizar tu energía y organizar tu semana alrededor del Ciclo de Flow.</p>
+  </div>
+
+  <!-- ===== CYCLE OF FLOW DIAGRAM ===== -->
+  <div class="cycle-section">
+    <div class="cycle-inner">
+      <div class="cycle-kicker">El framework</div>
+      <h3 class="cycle-title-svg">El Ciclo del <span class="accent">Flow</span></h3>
+
+      <div class="phase-grid">
+        <div class="phase-cell"><span class="phase-num">Parte 1</span><span class="phase-name">Esfuerzo y Batalla</span></div>
+        <div class="phase-cell"><span class="phase-num">Parte 2</span><span class="phase-name">Soltar y Dejar Ir</span></div>
+        <div class="phase-cell"><span class="phase-num">Parte 3</span><span class="phase-name">Flow</span></div>
+        <div class="phase-cell"><span class="phase-num">Parte 4</span><span class="phase-name">Recuperación</span></div>
+      </div>
+
+      <div class="cycle-canvas">
+        <div class="col-divider cd-1"></div>
+        <div class="col-divider cd-2"></div>
+        <div class="col-divider cd-3"></div>
+        <svg viewBox="0 0 1240 720" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="waveGradMain" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#1A3A3F" stop-opacity="0.35"/>
+              <stop offset="20%"  stop-color="#1A3A3F" stop-opacity="0.5"/>
+              <stop offset="35%"  stop-color="#5eead4" stop-opacity="0.55"/>
+              <stop offset="50%"  stop-color="#5eead4" stop-opacity="0.85"/>
+              <stop offset="62%"  stop-color="#5eead4" stop-opacity="1"/>
+              <stop offset="75%"  stop-color="#5eead4" stop-opacity="0.7"/>
+              <stop offset="88%"  stop-color="#1A3A3F" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#1A3A3F" stop-opacity="0.35"/>
+            </linearGradient>
+            <marker id="arrowSubtle" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.22)"/>
+            </marker>
+            <marker id="arrowSubtleStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 10 0 L 0 5 L 10 10 z" fill="rgba(255,255,255,0.22)"/>
+            </marker>
+            <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(94,234,212,0.6)"/>
+            </marker>
+            <marker id="arrowCyanStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 10 0 L 0 5 L 10 10 z" fill="rgba(94,234,212,0.6)"/>
+            </marker>
+            <marker id="arrowDashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.22)"/>
+            </marker>
+          </defs>
+
+          <path class="path-macro" d="M 920 248 C 820 50, 280 60, 390 425" marker-end="url(#arrowDashed)"/>
+          <text class="annot-label italic" x="600" y="68" text-anchor="middle">Camino al Macro-Flow</text>
+
+          <g class="wave-breathing">
+            <path id="waveMain" class="wave-glow-outer pulse" stroke="url(#waveGradMain)" stroke-width="22"
+                  d="M 60 510 C 250 535, 400 510, 540 360 C 660 215, 800 180, 920 270 C 1000 360, 1100 510, 1200 555"/>
+            <path class="wave-glow-mid" stroke="url(#waveGradMain)" stroke-width="6"
+                  d="M 60 510 C 250 535, 400 510, 540 360 C 660 215, 800 180, 920 270 C 1000 360, 1100 510, 1200 555"/>
+            <path class="wave-core" stroke="url(#waveGradMain)" stroke-width="2.2"
+                  d="M 60 510 C 250 535, 400 510, 540 360 C 660 215, 800 180, 920 270 C 1000 360, 1100 510, 1200 555"/>
+          </g>
+
+          <!-- Resistencia -->
+          <circle class="annot-dot" cx="80" cy="513" r="2"/>
+          <line class="annot-line" x1="80" y1="525" x2="80" y2="595" marker-start="url(#arrowSubtleStart)"/>
+          <text class="annot-label" x="80" y="615" text-anchor="middle">Resistencia</text>
+
+          <!-- Detonadores: ON icon ABOVE label, dot ON the curve -->
+          <g class="detonadores-on" transform="translate(410, 380)">
+            <circle class="on-ring" r="9"/>
+            <line class="on-bar" x1="0" y1="-10" x2="0" y2="0"/>
+          </g>
+          <text class="annot-label" x="410" y="416" text-anchor="middle">Detonadores de Flow</text>
+          <line class="annot-line" x1="410" y1="427" x2="410" y2="455" marker-end="url(#arrowSubtle)"/>
+          <circle class="annot-dot" cx="410" cy="463" r="2"/>
+
+          <!-- Alerta + Relajado -->
+          <circle class="annot-dot-cyan" cx="540" cy="360" r="3"/>
+          <line class="annot-line" x1="540" y1="372" x2="540" y2="635" marker-end="url(#arrowSubtle)"/>
+          <text class="annot-label" x="540" y="652" text-anchor="middle">Alerta</text>
+          <text class="annot-label small" x="540" y="666" text-anchor="middle">+</text>
+          <text class="annot-label" x="540" y="680" text-anchor="middle">Relajado</text>
+
+          <!-- Peak dot -->
+          <circle class="peak-dot pulse" cx="790" cy="220" r="4"/>
+
+          <!-- Energía y Atención: BELOW the curve, horizontal arrow -->
+          <line class="annot-line-correlate" x1="540" y1="475" x2="1010" y2="475"
+                marker-start="url(#arrowCyanStart)" marker-end="url(#arrowCyan)"/>
+          <text class="annot-label peak" x="775" y="495" text-anchor="middle">Energía y Atención</text>
+
+          <!-- Fin del Flow -->
+          <circle class="annot-dot" cx="920" cy="270" r="2.5"/>
+          <line class="annot-line" x1="920" y1="255" x2="920" y2="225" marker-end="url(#arrowSubtle)"/>
+          <text class="annot-label" x="920" y="212" text-anchor="middle">Fin del Flow</text>
+
+          <!-- Protocolo de Recuperación -->
+          <circle class="annot-dot" cx="970" cy="312" r="2"/>
+          <line class="annot-line" x1="1080" y1="265" x2="977" y2="307" marker-end="url(#arrowSubtle)"/>
+          <text class="annot-label" x="1135" y="258" text-anchor="middle">Protocolo de</text>
+          <text class="annot-label" x="1135" y="272" text-anchor="middle">Recuperación</text>
+
+          <!-- Reset de Dopamina -->
+          <circle class="annot-dot" cx="1080" cy="460" r="2"/>
+          <line class="annot-line" x1="1158" y1="395" x2="1087" y2="455" marker-end="url(#arrowSubtle)"/>
+          <text class="annot-label" x="1190" y="385" text-anchor="middle">Reset de</text>
+          <text class="annot-label" x="1190" y="399" text-anchor="middle">Dopamina</text>
+
+          <!-- Desenfoque + Ansiedad -->
+          <circle class="annot-dot-cyan" cx="1010" cy="365" r="3"/>
+          <line class="annot-line" x1="1010" y1="378" x2="1010" y2="635" marker-start="url(#arrowSubtleStart)"/>
+          <text class="annot-label" x="1010" y="652" text-anchor="middle">Desenfoque</text>
+          <text class="annot-label small" x="1010" y="666" text-anchor="middle">+</text>
+          <text class="annot-label" x="1010" y="680" text-anchor="middle">Ansiedad</text>
+
+          <!-- Camino al Burnout -->
+          <path class="path-burnout"
+                d="M 1010 378 C 1200 600, 800 690, 400 690 C 150 690, 60 640, 60 540"
+                marker-end="url(#arrowDashed)"/>
+          <text class="annot-label warn" x="220" y="700" text-anchor="middle">Camino al Burnout</text>
+
+          <!-- Endpoint dots -->
+          <circle class="endpoint-dot" cx="60" cy="510" r="3"/>
+          <circle class="endpoint-dot" cx="1200" cy="555" r="3"/>
+
+          <!-- Particle traveling along the wave -->
+          <circle class="wave-particle" r="3.5">
+            <animateMotion dur="14s" repeatCount="indefinite">
+              <mpath href="#waveMain"/>
+            </animateMotion>
+          </circle>
+          <circle class="wave-particle" r="2" opacity="0.5">
+            <animateMotion dur="14s" repeatCount="indefinite" begin="-0.4s">
+              <mpath href="#waveMain"/>
+            </animateMotion>
+          </circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 3 CLASES ===== -->
+  <div class="section-content">
+    <p>Lo he utilizado para trabajar con emprendedores que apenas inician su negocio, con directivos de empresas multinacionales Fortune 500, e incluso trabajando con la cultura interna de la firma de consultoría más grande del mundo, que nos contrató para ayudar a que sus consultores rindan al máximo sin caer en burnout.</p>
+    <p>El Ciclo de Flow es uno de los modelos que más me ha servido para ayudar a mis clientes a evitar el burnout, reconectar con su energía creativa y volver a tener la misma pasión, energía y enfoque que tenían cuando apenas arrancaban su negocio.</p>
+    <p style="margin-bottom: 36px;">Ahora es completamente tuyo. Espero que te sirva de la misma manera que me ha servido a mí y a todos mis clientes.</p>
+
+    <div class="class-card">
+      <div class="head">
+        <div class="c-num">Clase 1</div>
+        <h4>Introducción al Ciclo de Flow</h4>
+      </div>
+      <p class="opening">Si te sientes bloqueado, disperso o quemado en ciertos momentos del día — y otros días sientes que todo fluye sin esfuerzo — no es casualidad. Es un ciclo natural que todos los emprendedores vivimos, pero que muy pocos saben leer.</p>
+      <p class="promise"><strong>Al terminar esta clase vas a poder identificar exactamente en qué fase del ciclo estás operando en este momento</strong> — y por qué tu energía y tu enfoque cambian a lo largo del día sin que parezca que tú lo estés controlando.</p>
+      <p class="closing">Esta clase sienta las bases. Lo que viene después depende de que entiendas este modelo primero.</p>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/xVbtjqpa7G0?start=1284" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="head">
+        <div class="c-num">Clase 2</div>
+        <h4>Masterclass del Ciclo de Flow</h4>
+      </div>
+      <p class="opening">Una vez que entiendes el ciclo, viene la pregunta: ¿cómo te mueves dentro de él a propósito? ¿Cómo aprovechas cada fase en lugar de pelearte con ella? ¿Qué haces cuando estás en la fase incorrecta para la actividad que tienes enfrente?</p>
+      <p class="promise"><strong>Al terminar esta masterclass vas a saber exactamente cómo operar en cada una de las cuatro fases del ciclo</strong> — qué hacer cuando te cuesta empezar, cómo entrar en flow más rápido, cuándo parar antes de quemarte, y cómo recuperarte para que mañana puedas volver a rendir al máximo.</p>
+      <p class="closing">Es la diferencia entre entender el ciclo conceptualmente y poder usarlo todos los días para multiplicar tu enfoque, energía y productividad.</p>
+      <div class="video-embed">
+        <iframe src="https://www.loom.com/embed/24a4f37783b64a8290ff807d86b40263" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="class-card">
+      <div class="head">
+        <div class="c-num">Clase 3</div>
+        <h4>Detonadores de Flow</h4>
+      </div>
+      <p class="opening">Conocer el ciclo te da el mapa. Pero el flow no se fuerza — emerge cuando se dan ciertas condiciones específicas en tu ambiente y en tu trabajo. A esas condiciones les llamo detonadores.</p>
+      <p class="promise"><strong>Al terminar esta clase vas a tener los seis detonadores que puedes instalar deliberadamente en tu rutina, en tu negocio y en tus proyectos</strong> para que el flow deje de ser algo que te llega de vez en cuando — y se convierta en un estado al que puedes acceder a voluntad casi todos los días.</p>
+      <p class="closing">Esta es la clase más práctica de las tres. Es donde el modelo se convierte en sistema operativo.</p>
+      <div class="video-embed">
+        <iframe src="https://www.loom.com/embed/ff17cea8d4e34352a3972a772dc9aa81" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PARTE 5 ====== -->
+<div class="part-marker">
+  <div class="part-divider">
+    <div class="line-fade"></div>
+    <span class="pill">Parte 5</span>
+    <div class="line-fade right"></div>
+  </div>
+</div>
+<section id="parte-5">
+  <span class="section-concept">Flow Scale Diagnostic:</span>
+  <h2 class="section-title">12 simples preguntas para diagnosticar dónde enfocarte para escalar tu negocio.</h2>
+  <div class="section-content">
+    <p>Si terminaste las lecciones de aquí arriba, ya sabes cómo optimizar tu energía, tu tiempo y tu enfoque para ser mucho más productivo como fundador.</p>
+    <p>Pero da igual que sepas cómo optimizar tu energía y tu enfoque. Si te estás enfocando en la cosa equivocada, o estás diluyendo tu enfoque y energía en 37 cosas a la vez, el negocio nunca va a escalar — y a largo plazo, esto también produce burnout.</p>
+    <p>Por eso creé este diagnóstico de <strong>12 preguntas</strong> que terminas en 3 minutos. Te va a ayudar a diagnosticar en dónde deberías estarte enfocando para que cada hora que inviertas en tu negocio realmente mueva la aguja.</p>
+  </div>
+  <!-- close section-content for diagnostic hero breakout -->
+
+  <!-- ===== Diagnostic hero (mirror of apps.flowconsulting.co/diagnostico/) ===== -->
+  <section class="diagnostic-hero-section">
+    <div class="dh-inner">
+
+      <!-- Kicker -->
+      <div class="kicker">
+        <div class="kicker-brand">FLOW CONSULTING</div>
+        <div class="kicker-tag">DIAGNÓSTICO DE CLARIDAD EN 3 ÁREAS:</div>
+        <div class="flow-pills">
+          <span class="flow-pill" data-pill="0">FOUNDER FLOW</span>
+          <span class="flow-divider d1"></span>
+          <span class="flow-pill" data-pill="1">LEAD FLOW</span>
+          <span class="flow-divider d2"></span>
+          <span class="flow-pill" data-pill="2">CASH FLOW</span>
+        </div>
+      </div>
+
+      <!-- Headline -->
+      <h2 class="hero-headline">
+        Para escalar tu negocio<br>
+        no necesitas <span class="strike">hacer más</span>.<br>
+        <span class="hero-lastline">Necesitas <span class="accent">hacer menos</span><span class="hero-soft-comma">,</span>
+          <span class="hero-clarifier">— menos pero con más enfoque.</span>
+        </span>
+      </h2>
+
+      <!-- CTA -->
+      <a href="https://apps.flowconsulting.co/diagnostico/" class="hero-cta">
+        Encuentra mi prioridad #1
+        <span class="hero-cta-arrow">→</span>
+      </a>
+
+      <!-- Transformation scene -->
+      <div class="tf-scene">
+        <div class="tf-scene-grid">
+
+          <!-- Box 1: Caos -->
+          <div class="scene-box" data-step="0">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <path class="chaos-path" d="M 35 50 C 28 42, 30 35, 38 35 C 48 35, 52 44, 46 48 C 38 52, 32 46, 36 40 C 42 32, 56 32, 58 42 C 60 52, 48 58, 42 54 C 34 50, 32 40, 40 34 C 50 27, 64 30, 64 42 C 64 54, 52 60, 44 56 C 36 52, 34 42, 42 38 C 52 33, 62 38, 60 48 C 58 58, 46 62, 40 58 C 32 53, 32 42, 42 40 C 54 38, 62 46, 58 54 C 54 62, 42 64, 38 58 C 33 50, 38 42, 48 44 C 58 46, 60 54, 52 58 C 44 62, 38 56, 42 50 L 100 50"/>
+            </svg>
+          </div>
+
+          <!-- Box 2: Diagnóstico - 4 cols × 3 rows -->
+          <div class="scene-box" data-step="1">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <text class="q-section-label" x="14" y="20">FOUNDER FLOW</text>
+              <text class="q-section-label" x="14" y="48">LEAD FLOW</text>
+              <text class="q-section-label" x="14" y="76">CASH FLOW</text>
+
+              <rect class="q-cell" data-q="0" x="14" y="23" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="1" x="32" y="23" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="2" x="50" y="23" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="3" x="68" y="23" width="16" height="11" rx="2"/>
+
+              <rect class="q-cell" data-q="4" x="14" y="51" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="5" x="32" y="51" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="6" x="50" y="51" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="7" x="68" y="51" width="16" height="11" rx="2"/>
+
+              <rect class="q-cell" data-q="8"  x="14" y="79" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="9"  x="32" y="79" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="10" x="50" y="79" width="16" height="11" rx="2"/>
+              <rect class="q-cell" data-q="11" x="68" y="79" width="16" height="11" rx="2"/>
+
+              <!-- Icons -->
+              <g class="q-check" data-c="0"><path d="M 19 28 Q 19 25 22 25 Q 25 25 25 28 Q 25 31 22 31 Q 19 31 19 28 Z"/><path d="M 22 25 L 22 31"/></g>
+              <g class="q-check" data-c="1"><path d="M 41 25 L 38 29 L 40 29 L 39 32 L 42 28 L 40 28 Z"/></g>
+              <g class="q-check" data-c="2"><circle cx="58" cy="28" r="2"/><path d="M 58 24.5 L 58 25.5 M 58 30.5 L 58 31.5 M 54.5 28 L 55.5 28 M 60.5 28 L 61.5 28 M 55.7 25.7 L 56.4 26.4 M 59.6 29.6 L 60.3 30.3 M 55.7 30.3 L 56.4 29.6 M 59.6 26.4 L 60.3 25.7"/></g>
+              <g class="q-check" data-c="3"><rect x="73" y="25" width="6" height="6" rx="0.5"/><path d="M 73 27 L 71.5 27 M 73 29 L 71.5 29 M 79 27 L 80.5 27 M 79 29 L 80.5 29 M 75 25 L 75 23.5 M 77 25 L 77 23.5 M 75 31 L 75 32.5 M 77 31 L 77 32.5"/></g>
+
+              <g class="q-check" data-c="4"><circle cx="22" cy="54.5" r="1.3"/><path d="M 19 60 Q 22 56.5 25 60"/></g>
+              <g class="q-check" data-c="5"><rect x="38.5" y="52" width="3" height="5" rx="1.5"/><path d="M 37 56 Q 37 58.5 40 58.5 Q 43 58.5 43 56 M 40 58.5 L 40 60.5"/></g>
+              <g class="q-check" data-c="6"><path d="M 55 53 L 61 53 L 59 56 L 59 60 L 57 60 L 57 56 Z"/></g>
+              <g class="q-check" data-c="7"><path d="M 73 56 L 76 56 L 74.5 54.5 M 76 56 L 74.5 57.5 M 79 56 L 76 56"/><circle cx="76" cy="56" r="0.8"/></g>
+
+              <g class="q-check" data-c="8"><path d="M 23 81 Q 20 81 20 82.5 Q 20 84 22 84 Q 24 84 24 85.5 Q 24 87 21 87"/><path d="M 22 80 L 22 88"/></g>
+              <g class="q-check" data-c="9"><path d="M 37 87 L 37 84 M 39.5 87 L 39.5 82 M 42 87 L 42 80 M 36 87 L 43 87"/></g>
+              <g class="q-check" data-c="10"><path d="M 55 84 Q 55 81 58 81 Q 60.5 81 61 83"/><path d="M 61 84.5 L 61 82.5 L 59.5 82.7"/><path d="M 61 84 Q 61 87 58 87 Q 55.5 87 55 85"/><path d="M 55 83.5 L 55 85.5 L 56.5 85.3"/></g>
+              <g class="q-check" data-c="11"><path d="M 73 87 L 73 81 L 79 81 M 73 87 Q 75 87 76 85 Q 77.5 82 79 81"/></g>
+            </svg>
+          </div>
+
+          <!-- Box 3: Clarity eye -->
+          <div class="scene-box" data-step="2">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle class="clarity-circle" cx="50" cy="50" r="34" transform="rotate(180 50 50)"/>
+
+              <g class="clarity-elem show-2" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" filter="drop-shadow(0 0 4px var(--accent-glow))">
+                <line x1="50" y1="11" x2="50" y2="18"/>
+                <line x1="89" y1="50" x2="82" y2="50"/>
+                <line x1="50" y1="89" x2="50" y2="82"/>
+                <line x1="11" y1="50" x2="18" y2="50"/>
+              </g>
+
+              <path class="clarity-elem show-3" d="M 22 50 Q 50 26 78 50 Q 50 74 22 50 Z" fill="none" stroke="var(--accent)" stroke-width="1.4" filter="drop-shadow(0 0 4px var(--accent-glow))"/>
+
+              <g class="clarity-elem show-3" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" filter="drop-shadow(0 0 3px var(--accent-glow))">
+                <line x1="36" y1="32" x2="33" y2="27"/>
+                <line x1="50" y1="29" x2="50" y2="23"/>
+                <line x1="64" y1="32" x2="67" y2="27"/>
+              </g>
+
+              <circle class="clarity-elem show-4" cx="50" cy="50" r="10" fill="none" stroke="var(--accent)" stroke-width="1.3" filter="drop-shadow(0 0 4px var(--accent-glow))"/>
+
+              <g class="clarity-elem show-4" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round" filter="drop-shadow(0 0 3px var(--accent-glow))">
+                <line x1="50" y1="38" x2="50" y2="44"/>
+                <line x1="62" y1="50" x2="56" y2="50"/>
+                <line x1="50" y1="62" x2="50" y2="56"/>
+                <line x1="38" y1="50" x2="44" y2="50"/>
+              </g>
+
+              <circle class="clarity-elem show-5 pupil-blink" cx="50" cy="50" r="3" fill="var(--accent)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Labels under each box -->
+        <div class="tf-scene-labels">
+          <div class="scene-label" data-label="0">
+            <div class="scene-label-tag">ANTES</div>
+            <div class="scene-label-text">Desperdiciando tiempo, dinero<br>y energía por falta de claridad</div>
+          </div>
+          <div class="scene-label" data-label="1">
+            <div class="scene-label-tag">DIAGNÓSTICO</div>
+            <div class="scene-label-text">12 simples preguntas,<br>3 minutos para contestar</div>
+          </div>
+          <div class="scene-label" data-label="2">
+            <div class="scene-label-tag">DESPUÉS</div>
+            <div class="scene-label-text">Una prioridad simple y clara<br>para escalar con enfoque y flow</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="micro-meta">12 preguntas · 3 minutos · 1 prioridad clara</div>
+    </div>
+  </section>
+</section>
+
+<!-- ====== PARTE 6 ====== -->
+<div class="part-marker">
+  <div class="part-divider">
+    <div class="line-fade"></div>
+    <span class="pill">Parte 6</span>
+    <div class="line-fade right"></div>
+  </div>
+</div>
+<section id="parte-6">
+  <span class="section-concept">Escala al Emprendedor para Escalar el Negocio:</span>
+  <h2 class="section-title">Founders que diseñaron un negocio donde producen más sin sacrificar su calidad de vida.</h2>
+  <div class="section-content">
+    <p>Tu negocio no debería estar drenando tu energía. Si lo hace, está mal diseñado.</p>
+    <p>La motivación te hace empezar. La disciplina te hace seguir. Solo el flow lo vuelve sostenible.</p>
+    <p>No se trata de hacer más — sino de <strong style="color: var(--accent);">hacer menos, menos pero mejor</strong>.</p>
+    <p>Mira cómo nuestros clientes usaron los principios de esta guía para escalar sus negocios sin burnout.</p>
+  </div>
+
+  <!-- Guests grid breaks out to wider container (1180px) -->
+  <div class="guests-wrap">
+    <div class="guests-grid">
+
+    <!-- 1. Maryell Cisneros -->
+    <div class="guest-card">
+      <div class="guest-result">$70K USD/mes · Leads infinitos · Ventas sin fricción</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/maryell.jpg" alt="Maryell Cisneros" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Maryell Cisneros</div>
+          <div class="guest-niche">Espiritualidad y transición de carrera</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Mi error al principio fue entender el flow como yo haciéndolo todo sola. El flow es todo: el equipo moviéndose armónicamente, los sistemas complementándose. Hoy tengo el equipo y los sistemas para que yo pueda entrar en flow.</blockquote>
+      <div class="guest-video" data-yt="xU2C807XX_I" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/xU2C807XX_I/maxresdefault.jpg" alt="Maryell Cisneros" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-maryell.webp" alt="Perfil de Instagram de Maryell Cisneros" loading="lazy">
+    </div>
+
+    <!-- 2. Regina Righi -->
+    <div class="guest-card">
+      <div class="guest-result">Escalando un negocio de lanzamientos y marca personal con un estilo de vida sostenible</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/regina.jpg" alt="Regina Righi" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Regina Righi</div>
+          <div class="guest-niche">Consultoría de imagen</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Más, no siempre es mejor. Muchas personas te venden "más, haz más" — ¿a costo de qué? Hoy mi modelo de negocio está basado en flow. El mismo método me hace poder descansar — y eso es lo que me hace no quemarme.</blockquote>
+      <div class="guest-video" data-yt="gaKsssy9eSg" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/gaKsssy9eSg/maxresdefault.jpg" alt="Regina Righi" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/10-3662820.png?format=webp" alt="Perfil de Instagram de Regina Righi" loading="lazy">
+    </div>
+
+    <!-- 3. Alejandra Ramírez -->
+    <div class="guest-card">
+      <div class="guest-result">Reconectó con su esencia para escalar su negocio desde el flow</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/alejandra.jpg" alt="Alejandra Ramírez · Hola Sueños" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Alejandra Ramírez · Hola Sueños</div>
+          <div class="guest-niche">Manifestación y desarrollo personal · 400K+ comunidad</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Si la estrategia no se siente alineada con tu verdad, lo único que va a hacer es fragmentarte por dentro. Y cuando tú te fragmentas por dentro, no hay nada que sirva. Tener la estrategia alineada con la verdad es el paso #1 para que un negocio escale.</blockquote>
+      <div class="guest-video" data-yt="0XH7Fb-ZGBY" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/0XH7Fb-ZGBY/maxresdefault.jpg" alt="Alejandra Ramírez" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-alejandra.webp" alt="Perfil de Instagram de Alejandra Ramírez" loading="lazy">
+    </div>
+
+    <!-- 4. Mary&nbsp;Carmen&nbsp;Mejía -->
+    <div class="guest-card">
+      <div class="guest-result">$15K USD/semana · 80% rentabilidad · 1 sola asistente · 400K+ comunidad</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/marycarmen.jpg" alt="Mary Carmen Mejía" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Mary&nbsp;Carmen&nbsp;Mejía</div>
+          <div class="guest-niche">Psicología y relaciones de pareja · 400K+ comunidad</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Cuando más gente he tenido, menos generaba. Hoy somos solo mi asistente y yo. Pasé de un negocio con 27 productos a algo simple — más fácil, más ingresos, más tiempo libre. En vez de hacer más, fue quitar todo lo que no, y enfocarme en lo que sí.</blockquote>
+      <div class="guest-video" data-yt="-A7jbb_Sz8I" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/-A7jbb_Sz8I/maxresdefault.jpg" alt="Mary&nbsp;Carmen&nbsp;Mejía" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-marycarmen.webp" alt="Perfil de Instagram de Mary Carmen Mejía" loading="lazy">
+    </div>
+
+    <!-- 5. Gilda Caballero -->
+    <div class="guest-card">
+      <div class="guest-result">Liderando la industria de Management Consulting con una cultura sin burnout</div>
+      <div class="guest-attr">
+        <div class="guest-avatar">G</div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Gilda Caballero</div>
+          <div class="guest-niche">Directora de capital humano · Top 4 firma de consultoría</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Lograr que nuestros high performers eleven su nivel de productividad sin que sea a costa de su bienestar mental y emocional — y no pagar esas facturas tan altas que luego tenemos de burnout — es algo súper alcanzable con tu metodología.</blockquote>
+      <div class="guest-video" data-yt="AOuQiZSt170" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/AOuQiZSt170/maxresdefault.jpg" alt="Gilda Caballero" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/Handle_Instagram_Testimonios-4074595.png?format=webp" alt="Perfil de LinkedIn de Gilda Caballero" loading="lazy">
+    </div>
+
+    <!-- 6. Erick Gamio (no quote — más sutil) -->
+    <div class="guest-card">
+      <div class="guest-result">Negocio de $9.2M+ sostenido sin romperse</div>
+      <div class="guest-attr">
+        <div class="guest-avatar">E</div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Erick Gamio</div>
+          <div class="guest-niche">Liderazgo</div>
+        </div>
+      </div>
+      <div class="guest-video" data-yt="211yJbqI8tM" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/211yJbqI8tM/maxresdefault.jpg" alt="Erick Gamio" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/4-3651722.png?format=webp" alt="Perfil de Instagram de Erick Gamio" loading="lazy">
+    </div>
+
+    <!-- 7. Viviana Fuica (no quote — más sutil) -->
+    <div class="guest-card">
+      <div class="guest-result">Sanar el burnout y volver a vender sin esfuerzo</div>
+      <div class="guest-attr">
+        <div class="guest-avatar">V</div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Viviana Fuica</div>
+          <div class="guest-niche">Rediseño de segunda etapa de vida</div>
+        </div>
+      </div>
+      <div class="guest-video" data-yt="kwoD3asxxmY" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/kwoD3asxxmY/maxresdefault.jpg" alt="Viviana Fuica" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://content.app-sources.com/s/578212822343850601/uploads/Images/5-3651722.png?format=webp" alt="Perfil de Instagram de Viviana Fuica" loading="lazy">
+    </div>
+
+    <!-- 8. Andrés Mora -->
+    <div class="guest-card">
+      <div class="guest-result">$97,000 USD en sus primeros 3 meses · Subió el precio de su oferta 100X</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/andres.jpg" alt="Andrés Mora" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Andrés Mora</div>
+          <div class="guest-niche">Academia de arte e ilustración</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Estás tratando de hacer 10, 15 cosas al mismo tiempo. Y hoy día gracias a la formación contigo, tengo 1, 2, 3 elementos. Y eso es.</blockquote>
+      <div class="guest-video" data-yt="ltYb6cHe52c" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/ltYb6cHe52c/maxresdefault.jpg" alt="Andrés Mora" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-andres.webp" alt="Perfil de Instagram de Andrés Mora" loading="lazy">
+    </div>
+
+    <!-- 9. Inés Arroyo -->
+    <div class="guest-card">
+      <div class="guest-result">De 7 meses sin facturar a €30,000 en 2 meses</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/ines.jpg" alt="Inés Arroyo" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Inés Arroyo</div>
+          <div class="guest-niche">Branding y diseño</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Llevaba 7 meses sin que entrara ni un duro en mi negocio. Hicimos cuatro ajustes — cuatro cosas — y en 30 días empecé a facturar. No es que estuvieran fallando mis funnels — es que yo había bloqueado la entrada de energía a mi negocio.</blockquote>
+      <div class="guest-video" data-yt="96lUcUPZS4o" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/96lUcUPZS4o/maxresdefault.jpg" alt="Inés Arroyo" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-ines.webp" alt="Perfil de Instagram de Inés Arroyo" loading="lazy">
+    </div>
+
+    <!-- 10. Joao Guerra -->
+    <div class="guest-card">
+      <div class="guest-result">$60K USD/mes en sus primeros 2 meses · ROAS +10×</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/joao.jpg" alt="Joao Guerra" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Joao Guerra</div>
+          <div class="guest-niche">Cardiología y consultoría para doctores</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Estoy en el proceso de liberarme también de la venta — poniendo un vendedor para que me reemplace y yo pueda estar libre manteniendo ese nivel de facturación.</blockquote>
+      <div class="guest-video" data-yt="dBa5G1AgmBs" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/dBa5G1AgmBs/maxresdefault.jpg" alt="Joao Guerra" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-joao.webp" alt="Perfil de Instagram de Joao Guerra" loading="lazy">
+    </div>
+
+    <!-- 11. Daniel Marcos -->
+    <div class="guest-card">
+      <div class="guest-result">Récord histórico: $350K USD en el primer mes trabajando juntos</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/daniel.jpg" alt="Daniel Marcos" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Daniel Marcos</div>
+          <div class="guest-niche">Growth&nbsp;Institute · consultoría de negocios</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Ha sido el mayor mes de ventas de curso en línea en español en la historia de Growth&nbsp;Institute.</blockquote>
+      <div class="guest-video" data-yt="PVm5mtQwpYI" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/PVm5mtQwpYI/maxresdefault.jpg" alt="Daniel Marcos" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-daniel.webp" alt="Perfil de Instagram de Daniel Marcos" loading="lazy">
+    </div>
+
+    <!-- 12. Omar Cabrera -->
+    <div class="guest-card">
+      <div class="guest-result">De $49K a $150K USD/mes sin invertir más en publicidad</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/omar.jpg" alt="Omar Cabrera" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Omar Cabrera</div>
+          <div class="guest-niche">Consultoría de procesos B2B</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Nos quedábamos a cuarenta y nueve mil dólares en los lanzamientos y en el último lanzamiento venimos un poquito más de ciento cincuenta mil dólares… me pusiste en otra, en otras ligas.</blockquote>
+      <div class="guest-video" data-yt="TxUvYp4uwBY" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/TxUvYp4uwBY/maxresdefault.jpg" alt="Omar Cabrera" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-omar.webp" alt="Perfil de Instagram de Omar Cabrera" loading="lazy">
+    </div>
+
+    <!-- 13. Julio Iero -->
+    <div class="guest-card">
+      <div class="guest-result">$20K → $75K USD/mes · ROAS 15X · Equipo de 33 a pocas personas</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/julio.jpg" alt="Julio Iero" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Julio Iero</div>
+          <div class="guest-niche">Agencia de marketing</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">La claridad da dinero. Cuando tenemos claridad hacemos las cosas. En la agencia llegamos a ser 33 personas y facturábamos lo mismo que ahora con muchísimo menos equipo.</blockquote>
+      <div class="guest-video" data-yt="PhkLkYtuewI" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/PhkLkYtuewI/maxresdefault.jpg" alt="Julio Iero" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-julio.webp" alt="Perfil de Instagram de Julio Iero" loading="lazy">
+    </div>
+
+    <!-- 14. Erika Herrera -->
+    <div class="guest-card">
+      <div class="guest-result">$21K USD primera semana · 80% rentabilidad · Orgánico</div>
+      <div class="guest-attr">
+        <div class="guest-avatar"><img src="https://apps.flowconsulting.co/funnel/assets/testimonios/erika.jpg" alt="Erika Herrera" loading="lazy"></div>
+        <div class="guest-attr-meta">
+          <div class="guest-name">Erika Herrera</div>
+          <div class="guest-niche">Consultoría para odontólogos</div>
+        </div>
+      </div>
+      <blockquote class="guest-quote">Ninguna plata vale mi tiempo, mi paz, mi salud mental y emocional, mi tranquilidad. Eso no tiene precio — y eso es lo que me ha dado este programa.</blockquote>
+      <div class="guest-video" data-yt="yLStPGJ99n8" onclick="loadYTVideo(this)">
+        <img src="https://img.youtube.com/vi/yLStPGJ99n8/maxresdefault.jpg" alt="Erika Herrera" loading="lazy">
+        <div class="guest-overlay"><div class="guest-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <img class="guest-ig-shot" src="https://apps.flowconsulting.co/funnel/assets/testimonios/ig-erika.webp" alt="Perfil de Instagram de Erika Herrera" loading="lazy">
+    </div>
+
+    </div><!-- /.guests-grid -->
+  </div><!-- /.guests-wrap -->
+
+  <!-- Philosophical closing block — 3 patterns -->
+  <div class="guests-closing">
+    <p class="closing-line">Si miras estos casos con atención, vas a encontrar <span class="accent">tres patrones en común</span>.</p>
+
+    <div class="closing-patterns">
+      <div class="closing-pattern">
+        <div class="cp-num">1</div>
+        <div class="cp-body">
+          <div class="cp-title">Lo que <em>no</em> hicieron.</div>
+          <p>Ninguno abrió más proyectos. Ninguno contrató más personas. Ninguno creó más contenido, ni gastó más en publicidad, ni trabajó más horas. Todos hicieron lo opuesto: <strong>simplificaron</strong> — hicieron menos, pero con muchísimo más enfoque.</p>
+        </div>
+      </div>
+
+      <div class="closing-pattern">
+        <div class="cp-num">2</div>
+        <div class="cp-body">
+          <div class="cp-title">Lo que <em>sí</em> tuvieron que alinear.</div>
+          <p>Todos escalaron simultáneamente al <strong>founder</strong> y al <strong>negocio</strong>. Los consultores de negocios solo arreglan lo externo — pero el founder sigue bloqueado. Los coaches de mentalidad solo arreglan lo interno — pero el negocio sigue sin producir. En Flow Consulting trabajamos las dos caras de la misma moneda al mismo tiempo. Porque tu negocio no va a escalar más allá de lo que tú te expandes como founder.</p>
+        </div>
+      </div>
+
+      <div class="closing-pattern">
+        <div class="cp-num">3</div>
+        <div class="cp-body">
+          <div class="cp-title">Lo que todos ganaron.</div>
+          <p>Ninguno escaló solo facturando más. Todos escalaron con <strong>más rentabilidad, más libertad y más paz mental</strong> — al mismo tiempo. Esa es la diferencia entre <em>crecer</em> y <em>escalar</em>.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="closing-final">La complejidad parece crecimiento, pero es una ilusión.<br><span class="accent">Solo lo simple escala.</span></p>
+  </div>
+
+  <!-- CTA -->
+  <div class="guests-cta">
+    <p class="cta-sub">
+      Si después de ver los casos de estudio te gustaría que te llevemos de la mano en el mismo proceso con el que ayudamos a nuestros clientes, agenda una llamada de diagnóstico aquí abajo. En esta llamada vamos a explorar qué cuellos de botella internos y externos están frenando tu negocio y encontrar los puntos más importantes para poder destrabar tus resultados.
+    </p>
+    <a href="https://api.leadconnectorhq.com/widget/booking/cSwRWdmS7xa4sL57ZFrM?utm_source=ciclo-de-flow&utm_medium=lead-magnet&utm_campaign=ciclo-flow&utm_content=cta-final" class="cta-button-big" target="_blank" rel="noopener">
+      Quiero simplificar y escalar mi negocio
+      <span class="cta-arrow">→</span>
+    </a>
+    <p class="cta-followup">
+      Si te hace sentido, también te platicamos cómo te podemos acompañar en el proceso. Pero incluso si decides no hacerlo, te vas con muchísima más claridad de cuáles son tus siguientes pasos — y qué cosas deberías quitar para que tu negocio sea más simple y rentable.
+    </p>
+  </div>
+</section>
+
+<!-- Outro — personal note -->
+<section class="outro">
+  <p class="outro-note">
+    Si llegaste hasta aquí, muchas gracias por leerme.<br>
+    Espero que esta guía te sirva para construir una vida<br>
+    y un negocio del que ya no estás tratando de escapar.
+  </p>
+  <div class="signature">— Rodrigo</div>
+</section>
+
+<footer>
+  <div class="copy">© Flow Consulting · <a href="https://www.flowconsulting.co">flowconsulting.co</a></div>
+</footer>
+
 <script>
   // Cycle the active tagline item
   var items = document.querySelectorAll('.tagline-item');
@@ -632,6 +3183,93 @@
   }
   cycleTagline();
   setInterval(cycleTagline, 2200);
+
+  // Diagnostic hero scene animation (mirrors apps.flowconsulting.co/diagnostico/)
+  var dhPills  = document.querySelectorAll('.flow-pill');
+  var dhBoxes  = document.querySelectorAll('.scene-box');
+  var dhLabels = document.querySelectorAll('.scene-label');
+  var dhCells  = document.querySelectorAll('.q-cell');
+  var dhChecks = document.querySelectorAll('.q-check');
+
+  // Independent pill cycling — pill 2 (Cash Flow) starts ~1s earlier than uniform timing
+  if (dhPills.length) {
+    function dhCyclePill(idx) {
+      dhPills.forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+      var nextIdx = (idx + 1) % dhPills.length;
+      // pill 0 → 1: normal pace; pill 1 → 2: 1s earlier; pill 2 → 0: normal pace
+      var nextDelay = (idx === 1) ? 500 : 1500;
+      setTimeout(function() { dhCyclePill(nextIdx); }, nextDelay);
+    }
+    dhCyclePill(0);
+  }
+
+  function dhSetActive(activeIdx) {
+    dhBoxes.forEach(function(b, i) { b.classList.toggle('is-active', i === activeIdx); });
+    dhLabels.forEach(function(l, i) { l.classList.toggle('is-active', i === activeIdx); });
+  }
+
+  function dhClearStates() {
+    dhBoxes.forEach(function(b) { b.classList.remove('is-active', 'is-drawing', 'is-done', 'is-exiting'); });
+    dhCells.forEach(function(c) { c.classList.remove('lit', 'completed'); });
+    dhChecks.forEach(function(c) { c.classList.remove('shown', 'completed'); });
+  }
+
+  function dhRunScene() {
+    if (!dhBoxes.length) return;
+    dhClearStates();
+    dhSetActive(0);
+    dhBoxes[0].classList.add('is-drawing');
+
+    setTimeout(function() {
+      dhBoxes[0].classList.remove('is-drawing');
+      dhBoxes[0].classList.add('is-done');
+      dhSetActive(1);
+
+      var cellInterval = 450;
+      dhCells.forEach(function(cell, i) {
+        setTimeout(function() {
+          if (i > 0) {
+            dhCells[i - 1].classList.remove('lit');
+            dhCells[i - 1].classList.add('completed');
+            if (dhChecks[i - 1]) {
+              dhChecks[i - 1].classList.remove('shown');
+              dhChecks[i - 1].classList.add('completed');
+            }
+          }
+          cell.classList.add('lit');
+          if (dhChecks[i]) dhChecks[i].classList.add('shown');
+          if (i === dhCells.length - 1) dhBoxes[1].classList.add('is-exiting');
+        }, i * cellInterval);
+      });
+
+      setTimeout(function() {
+        if (dhCells.length) {
+          dhCells[dhCells.length - 1].classList.remove('lit');
+          dhCells[dhCells.length - 1].classList.add('completed');
+        }
+        if (dhChecks.length) {
+          dhChecks[dhChecks.length - 1].classList.remove('shown');
+          dhChecks[dhChecks.length - 1].classList.add('completed');
+        }
+        dhBoxes[1].classList.remove('is-exiting');
+        dhBoxes[1].classList.add('is-done');
+        dhSetActive(2);
+        setTimeout(dhRunScene, 9150);
+      }, 12 * cellInterval + 800);
+    }, 1000);
+  }
+
+  if (dhBoxes.length) dhRunScene();
+
+  // Click-to-load YouTube videos for guest testimonials
+  function loadYTVideo(el) {
+    var id = el.getAttribute('data-yt');
+    if (!id) return;
+    el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+    el.style.cursor = 'default';
+    el.onclick = null;
+  }
+  window.loadYTVideo = loadYTVideo;
 </script>
 
 </body>
