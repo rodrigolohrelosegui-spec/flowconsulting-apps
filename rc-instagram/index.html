@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="es" class="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ramiro Cubria · Análisis Estratégico</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      colors: {
+        ink: { 950:'#0a0a0c', 900:'#111114', 800:'#18181d', 700:'#22222a', 600:'#2d2d36', 500:'#3a3a45', 400:'#5a5a68', 300:'#8b8b99', 200:'#c5c5cf', 100:'#e8e8ec' },
+        accent: { 600:'#10b981', 500:'#34d399', 400:'#6ee7b7' },
+        warn: { 600:'#f59e0b', 500:'#fbbf24' },
+        danger: { 600:'#ef4444', 500:'#f87171' },
+        info: { 600:'#3b82f6', 500:'#60a5fa' },
+        purple: { 600:'#8b5cf6', 500:'#a78bfa' },
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="/rc-instagram/data.js"></script>
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  .stat-num { font-feature-settings:'tnum'; font-variant-numeric:tabular-nums; }
+  .scroll-container { scroll-behavior:smooth; }
+  .nav-btn.active { background:#10b981; color:white; }
+  .nav-btn.active .nav-num { background:rgba(255,255,255,0.25); color:white; }
+  /* hide scrollbar in sidebar */
+  .nav-scroll::-webkit-scrollbar { width:4px; }
+  .nav-scroll::-webkit-scrollbar-track { background:transparent; }
+  .nav-scroll::-webkit-scrollbar-thumb { background:#2d2d36; border-radius:2px; }
+  .heatmap-cell { transition: all 0.15s ease; }
+  .heatmap-cell:hover { transform: scale(1.4); z-index:10; box-shadow: 0 0 0 2px #10b981; }
+  /* fade in sections */
+  section { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  /* arrow styling */
+  .arrow-down::after { content:'↓'; display:block; text-align:center; color:#5a5a68; font-size:24px; line-height:1; padding:6px 0; }
+  /* tabs */
+  .tab-btn { background: transparent; color: #8b8b99; border: 1px solid transparent; transition: all 0.15s; }
+  .tab-btn:hover { color: #e8e8ec; background: #22222a; }
+  .tab-btn.active { background: #10b981; color: white; border-color: #10b981; }
+  /* visual card */
+  .post-card { background: #18181d; border: 1px solid #2d2d36; border-radius: 12px; overflow: hidden; transition: all 0.2s; display: flex; flex-direction: column; }
+  .post-card:hover { border-color: #10b981; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .post-thumb { aspect-ratio: 9/16; background: #0a0a0c; position: relative; overflow: hidden; }
+  .post-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .post-thumb .rank-badge { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.85); color: white; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace; backdrop-filter: blur(4px); }
+  .post-thumb .metric-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(16,185,129,0.95); color: white; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace; backdrop-filter: blur(4px); }
+  .post-card .body { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .post-card .links { display: flex; gap: 6px; padding: 8px 12px; border-top: 1px solid #2d2d36; }
+  .post-card .links a { font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: 600; transition: all 0.15s; }
+  .post-card .link-ig { background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%); color: white; flex: 1; text-align: center; }
+  .post-card .link-at { background: #2d2d36; color: #c5c5cf; }
+  .post-card .link-ig:hover, .post-card .link-at:hover { transform: scale(1.03); }
+  /* carousel slot for thumbnail with badges */
+  .carousel-card-thumb { aspect-ratio: 1; background: #0a0a0c; }
+  .carousel-card-thumb img { width:100%; height:100%; object-fit: cover; }
+</style>
+</head>
+<body class="bg-ink-950 text-ink-100 min-h-screen">
+
+<!-- TOP HEADER -->
+<header class="fixed top-0 left-0 right-0 z-40 bg-ink-900/80 backdrop-blur-xl border-b border-ink-700">
+  <div class="px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-info-600 flex items-center justify-center text-white font-bold text-sm">R</div>
+      <div>
+        <h1 class="text-base font-semibold leading-tight">Ramiro Cubria · Análisis Estratégico</h1>
+        <p class="text-xs text-ink-300 leading-tight">@ramiro.cubria · 695 posts + 150 stories · 6 meses</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="hidden md:inline-flex items-center gap-1.5 text-xs text-ink-300 bg-ink-800 px-2.5 py-1.5 rounded-md border border-ink-700">
+        <span class="w-1.5 h-1.5 bg-accent-500 rounded-full animate-pulse"></span>
+        Live data · Apr 2026
+      </span>
+      <button onclick="window.print()" class="text-xs px-3 py-1.5 bg-ink-800 hover:bg-ink-700 border border-ink-700 rounded-md text-ink-200">Print</button>
+    </div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="fixed left-0 top-14 bottom-0 w-60 bg-ink-900/50 border-r border-ink-700 overflow-y-auto nav-scroll">
+  <nav class="p-3 space-y-0.5" id="nav">
+    <!-- Filled by JS -->
+  </nav>
+  <div class="p-3 mt-2 border-t border-ink-700">
+    <div class="text-[10px] uppercase tracking-wider text-ink-400 mb-2">Tags</div>
+    <div class="flex flex-wrap gap-1">
+      <span class="text-[10px] px-1.5 py-0.5 bg-accent-600/20 text-accent-500 rounded">#funnel</span>
+      <span class="text-[10px] px-1.5 py-0.5 bg-info-600/20 text-info-500 rounded">#stories</span>
+      <span class="text-[10px] px-1.5 py-0.5 bg-purple-600/20 text-purple-500 rounded">#hooks</span>
+      <span class="text-[10px] px-1.5 py-0.5 bg-warn-600/20 text-warn-500 rounded">#whitespace</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="ml-60 pt-14 scroll-container">
+
+<!-- ===== HERO ===== -->
+<section id="hero" class="px-8 py-10 border-b border-ink-700">
+  <div class="max-w-6xl">
+    <div class="flex items-center gap-2 text-xs text-accent-500 font-medium tracking-wider uppercase mb-3">
+      <span class="w-6 h-px bg-accent-500"></span>
+      Snapshot ejecutivo
+    </div>
+    <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-3">El sistema de contenido más industrial de LATAM en marketing digital.</h2>
+    <p class="text-lg text-ink-300 max-w-3xl mb-8">Análisis estructural de 6 meses, 695 publicaciones y 150 historias. Mapa completo del embudo, métricas de performance y patrones replicables.</p>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Posts en feed</div>
+        <div class="text-3xl font-bold stat-num text-ink-100" id="kpi-posts">—</div>
+        <div class="text-[10px] text-ink-400 mt-1">Reels + carruseles</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Historias</div>
+        <div class="text-3xl font-bold stat-num text-ink-100" id="kpi-stories">—</div>
+        <div class="text-[10px] text-ink-400 mt-1">139 video + 11 imagen</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Posts/semana</div>
+        <div class="text-3xl font-bold stat-num text-accent-500">27</div>
+        <div class="text-[10px] text-ink-400 mt-1">Cadencia industrial</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Días sin saltar</div>
+        <div class="text-3xl font-bold stat-num text-accent-500">137</div>
+        <div class="text-[10px] text-ink-400 mt-1">Streak consecutivo</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Top viral</div>
+        <div class="text-3xl font-bold stat-num text-warn-500">2M</div>
+        <div class="text-[10px] text-ink-400 mt-1">2,016,551 plays</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Top CR</div>
+        <div class="text-3xl font-bold stat-num text-info-500">8.33%</div>
+        <div class="text-[10px] text-ink-400 mt-1">Lead-getter máximo</div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-3 mt-3">
+      <div class="bg-gradient-to-br from-accent-600/10 to-info-600/10 rounded-xl p-5 border border-accent-600/30">
+        <div class="text-xs uppercase tracking-wider text-accent-500 font-semibold mb-2">Hipótesis central</div>
+        <p class="text-sm text-ink-200 leading-relaxed">Ramiro construyó una <b class="text-accent-500">máquina industrial de captación y conversión dentro de IG</b> con 4 capas que se complementan, sin email ni landing pages externas.</p>
+      </div>
+      <div class="bg-gradient-to-br from-warn-600/10 to-danger-600/10 rounded-xl p-5 border border-warn-600/30">
+        <div class="text-xs uppercase tracking-wider text-warn-500 font-semibold mb-2">Punto de inflexión</div>
+        <p class="text-sm text-ink-200 leading-relaxed">El <b class="text-warn-500">16 feb 2026</b> dobló volumen (19→38/sem) y cambió el mix: de educar el problema a mostrar la solución con resultados.</p>
+      </div>
+      <div class="bg-gradient-to-br from-purple-600/10 to-info-600/10 rounded-xl p-5 border border-purple-600/30">
+        <div class="text-xs uppercase tracking-wider text-purple-500 font-semibold mb-2">Moat real</div>
+        <p class="text-sm text-ink-200 leading-relaxed">Tres pilares defendibles: <b class="text-purple-500">cadencia + biblioteca de casos + lenguaje rioplatense</b>. Difícil de copiar sin equipo y sin contexto cultural.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EMBUDO 4 CAPAS ===== -->
+<section id="funnel" class="px-8 py-10 border-b border-ink-700">
+  <div class="flex items-end justify-between mb-6">
+    <div>
+      <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 02</div>
+      <h2 class="text-3xl font-bold">El Embudo de 4 Capas</h2>
+      <p class="text-ink-300 mt-1">Sistema completo de captación → conversión, todo dentro de Instagram.</p>
+    </div>
+    <div class="hidden lg:block text-xs text-ink-400 bg-ink-800 px-3 py-1.5 rounded-md">Click cada capa para detalle</div>
+  </div>
+
+  <div class="grid lg:grid-cols-12 gap-4">
+    <div class="lg:col-span-7 space-y-3">
+      <!-- Layer 1 -->
+      <div class="bg-ink-800 rounded-xl border border-ink-700 hover:border-accent-600/50 transition cursor-pointer group" onclick="toggleLayer(1)">
+        <div class="p-5 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-info-600 to-info-500 flex items-center justify-center text-white font-bold text-lg">1</div>
+            <div>
+              <div class="font-bold text-lg">ATRACCIÓN <span class="text-ink-300 font-normal text-sm">· Reels + Carruseles</span></div>
+              <div class="text-sm text-ink-300 mt-0.5">695 posts · 49% educativo + tutorial · CTA lead magnet 67%</div>
+            </div>
+          </div>
+          <div class="text-info-500 text-2xl">→</div>
+        </div>
+        <div id="layer-1" class="hidden border-t border-ink-700 p-5 bg-ink-900/30 text-sm space-y-2">
+          <div class="grid grid-cols-2 gap-3">
+            <div><span class="text-ink-300">Función:</span> Generar reach, atraer fríos, capturar leads.</div>
+            <div><span class="text-ink-300">Awareness target:</span> 79% nivel 3-4 (no fríos absolutos)</div>
+            <div><span class="text-ink-300">Hook signature:</span> "¿Cómo X en Y segundos?"</div>
+            <div><span class="text-ink-300">Lead magnet:</span> Keyword en DM (BOT, IA, ADS)</div>
+          </div>
+        </div>
+      </div>
+      <div class="arrow-down"></div>
+
+      <!-- Layer 2 -->
+      <div class="bg-ink-800 rounded-xl border border-ink-700 hover:border-accent-600/50 transition cursor-pointer" onclick="toggleLayer(2)">
+        <div class="p-5 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-purple-500 flex items-center justify-center text-white font-bold text-lg">2</div>
+            <div>
+              <div class="font-bold text-lg">CONFIANZA <span class="text-ink-300 font-normal text-sm">· Stories video</span></div>
+              <div class="text-sm text-ink-300 mt-0.5">139 stories · 50% prueba social · 81% del BOFU con casos</div>
+            </div>
+          </div>
+          <div class="text-purple-500 text-2xl">→</div>
+        </div>
+        <div id="layer-2" class="hidden border-t border-ink-700 p-5 bg-ink-900/30 text-sm space-y-2">
+          <div class="grid grid-cols-2 gap-3">
+            <div><span class="text-ink-300">Función:</span> Construir confianza con prueba social masiva</div>
+            <div><span class="text-ink-300">Formato dominante:</span> cara a cámara (54%)</div>
+            <div><span class="text-ink-300">CTA:</span> 88% sin CTA explícito (contenido pre-vende)</div>
+            <div><span class="text-ink-300">Mecánica:</span> 53 arcos narrativos serializados</div>
+          </div>
+        </div>
+      </div>
+      <div class="arrow-down"></div>
+
+      <!-- Layer 3 -->
+      <div class="bg-ink-800 rounded-xl border border-ink-700 hover:border-accent-600/50 transition cursor-pointer" onclick="toggleLayer(3)">
+        <div class="p-5 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-warn-600 to-warn-500 flex items-center justify-center text-white font-bold text-lg">3</div>
+            <div>
+              <div class="font-bold text-lg">CIERRE <span class="text-ink-300 font-normal text-sm">· Stories imagen</span></div>
+              <div class="text-sm text-ink-300 mt-0.5">11 stories · 73% BOFU · 11× más miedo a perder</div>
+            </div>
+          </div>
+          <div class="text-warn-500 text-2xl">→</div>
+        </div>
+        <div id="layer-3" class="hidden border-t border-ink-700 p-5 bg-ink-900/30 text-sm space-y-2">
+          <div class="grid grid-cols-2 gap-3">
+            <div><span class="text-ink-300">Función:</span> Cierre con dolor matemático + costo oportunidad</div>
+            <div><span class="text-ink-300">Hook típico:</span> "Estar quieto = PERDER 23 cada mes"</div>
+            <div><span class="text-ink-300">CTA:</span> 18% dm_directo (3.6× más que video)</div>
+            <div><span class="text-ink-300">Frecuencia óptima:</span> 1 por cada 9 stories video</div>
+          </div>
+        </div>
+      </div>
+      <div class="arrow-down"></div>
+
+      <!-- Layer 4 -->
+      <div class="bg-ink-800 rounded-xl border border-ink-700 hover:border-accent-600/50 transition cursor-pointer" onclick="toggleLayer(4)">
+        <div class="p-5 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-600 to-accent-500 flex items-center justify-center text-white font-bold text-lg">4</div>
+            <div>
+              <div class="font-bold text-lg">CONVERSIÓN <span class="text-ink-300 font-normal text-sm">· DM + ManyChat</span></div>
+              <div class="text-sm text-ink-300 mt-0.5">95 menciones de ManyChat · 4 keywords activas</div>
+            </div>
+          </div>
+          <div class="text-accent-500 text-2xl">📞</div>
+        </div>
+        <div id="layer-4" class="hidden border-t border-ink-700 p-5 bg-ink-900/30 text-sm space-y-2">
+          <div class="grid grid-cols-2 gap-3">
+            <div><span class="text-ink-300">Keywords activas:</span> INFO, ENTREGABLES, AUDITORIA, MANY</div>
+            <div><span class="text-ink-300">Output:</span> Auditoría 1-1 → call agendada</div>
+            <div><span class="text-ink-300">Tool dominante:</span> ManyChat (95 menciones totales)</div>
+            <div><span class="text-ink-300">Loop:</span> Lead → nutre → auditoría → call → venta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5">
+      <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 h-full">
+        <div class="text-xs text-ink-300 uppercase tracking-wider mb-4">Distribución del sistema</div>
+        <canvas id="funnelChart" height="280"></canvas>
+        <div class="mt-6 space-y-2 text-xs">
+          <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-info-500"></span> <span class="text-ink-200">Capa 1 — Atracción (feed)</span> <span class="ml-auto text-ink-400">695 piezas</span></div>
+          <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-purple-500"></span> <span class="text-ink-200">Capa 2 — Confianza (stories video)</span> <span class="ml-auto text-ink-400">139 piezas</span></div>
+          <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-warn-500"></span> <span class="text-ink-200">Capa 3 — Cierre (stories imagen)</span> <span class="ml-auto text-ink-400">11 piezas</span></div>
+          <div class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-accent-500"></span> <span class="text-ink-200">Capa 4 — Conversión (DM)</span> <span class="ml-auto text-ink-400">95 menciones</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEMPORAL ===== -->
+<section id="temporal" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 03</div>
+    <h2 class="text-3xl font-bold">Volumen y cadencia · Evolución temporal</h2>
+    <p class="text-ink-300 mt-1">3 fases: calibración (oct'25) → consolidación (nov-ene) → industrialización (feb-abr).</p>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-4 mb-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-2">Posts por mes</div>
+      <canvas id="monthlyVolumeChart" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-2">Engagement mediana mensual</div>
+      <canvas id="monthlyEngagementChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+    <div class="bg-ink-800 rounded-xl p-5 border-l-4 border-accent-500 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-1">Fase 1 · Oct 2025</div>
+      <div class="font-semibold mb-1">Calibración</div>
+      <p class="text-sm text-ink-300">16 posts en el mes inicial. Engagement altísimo (498 comments mediana). Aprendizaje del formato.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border-l-4 border-info-500 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-info-500 mb-1">Fase 2 · Nov-Ene</div>
+      <div class="font-semibold mb-1">Consolidación</div>
+      <p class="text-sm text-ink-300">~85 posts/mes (3/día). Plays escalan. Comments por post bajan a 180-260, audiencia se amplía.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border-l-4 border-warn-500 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-1">Fase 3 · Feb-Abr</div>
+      <div class="font-semibold mb-1">Industrialización</div>
+      <p class="text-sm text-ink-300">Salto a 115 → 171 posts/mes. Pico marzo (5.5/día). Decay abr 2026: plays -30% vs feb.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CALENDAR HEATMAP ===== -->
+<section id="calendar" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 04</div>
+    <h2 class="text-3xl font-bold">Calendario de contenido · Heatmap diario</h2>
+    <p class="text-ink-300 mt-1">Intensidad de publicación día a día. Cada cuadro es 1 día. Tonos verdes = posts feed. Tonos morados = stories.</p>
+  </div>
+
+  <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 mb-4">
+    <div class="flex items-center justify-between mb-4">
+      <div class="text-sm font-semibold">Posts en feed (reels + carruseles)</div>
+      <div class="flex items-center gap-2 text-xs text-ink-300">
+        <span>Menos</span>
+        <div class="flex gap-0.5">
+          <div class="w-3 h-3 rounded-sm bg-ink-700"></div>
+          <div class="w-3 h-3 rounded-sm bg-accent-600/30"></div>
+          <div class="w-3 h-3 rounded-sm bg-accent-600/60"></div>
+          <div class="w-3 h-3 rounded-sm bg-accent-600/90"></div>
+          <div class="w-3 h-3 rounded-sm bg-accent-500"></div>
+        </div>
+        <span>Más</span>
+      </div>
+    </div>
+    <div id="postsHeatmap" class="grid gap-1"></div>
+  </div>
+
+  <div class="bg-ink-800 rounded-xl p-6 border border-ink-700">
+    <div class="flex items-center justify-between mb-4">
+      <div class="text-sm font-semibold">Stories (video + imagen)</div>
+      <div class="flex items-center gap-2 text-xs text-ink-300">
+        <span>Menos</span>
+        <div class="flex gap-0.5">
+          <div class="w-3 h-3 rounded-sm bg-ink-700"></div>
+          <div class="w-3 h-3 rounded-sm bg-purple-600/30"></div>
+          <div class="w-3 h-3 rounded-sm bg-purple-600/60"></div>
+          <div class="w-3 h-3 rounded-sm bg-purple-600/90"></div>
+          <div class="w-3 h-3 rounded-sm bg-purple-500"></div>
+        </div>
+        <span>Más</span>
+      </div>
+    </div>
+    <div id="storiesHeatmap" class="grid gap-1"></div>
+  </div>
+</section>
+
+<!-- ===== MIX ESTRATEGICO ===== -->
+<section id="mix" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 05</div>
+    <h2 class="text-3xl font-bold">Mix estratégico</h2>
+    <p class="text-ink-300 mt-1">Cómo se distribuyen las piezas por pilar, propósito, awareness y formato.</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Posts · Pilar (categorías)</div>
+      <canvas id="postsPillarChart" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Posts · Propósito</div>
+      <canvas id="postsPurposeChart" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Posts · Awareness level</div>
+      <canvas id="postsAwarenessChart" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Stories · Categoría</div>
+      <canvas id="storiesCategoryChart" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Stories · Funnel stage</div>
+      <canvas id="storiesFunnelChart" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Stories · Emoción</div>
+      <canvas id="storiesEmotionChart" height="200"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PERFORMANCE / ARCHETYPES ===== -->
+<section id="performance" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 06</div>
+    <h2 class="text-3xl font-bold">Performance por arquetipo</h2>
+    <p class="text-ink-300 mt-1">Plays mediana vs frecuencia de uso. Identifica formatos sub-utilizados con potencial.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Plays mediana por arquetipo</div>
+      <canvas id="archPlaysChart" height="320"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Frecuencia de uso · Sub vs sobre-utilizados</div>
+      <canvas id="archUsesChart" height="320"></canvas>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-3 mt-4">
+    <div class="bg-gradient-to-br from-accent-600/10 to-accent-600/5 rounded-xl p-5 border border-accent-600/30">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-2">Sub-utilizado de oro</div>
+      <div class="font-bold text-lg">interactivo_qa</div>
+      <div class="text-sm text-ink-300 mt-1">Solo 13 usos pero plays mediana 40,581 — el 25% más alto que el promedio.</div>
+    </div>
+    <div class="bg-gradient-to-br from-info-600/10 to-info-600/5 rounded-xl p-5 border border-info-600/30">
+      <div class="text-xs uppercase tracking-wider text-info-500 mb-2">Crece después de feb 2026</div>
+      <div class="font-bold text-lg">antes_despues</div>
+      <div class="text-sm text-ink-300 mt-1">De 0-3 hist. → 11 → 21 → 11 entre feb-abr. Es el formato emergente.</div>
+    </div>
+    <div class="bg-gradient-to-br from-warn-600/10 to-warn-600/5 rounded-xl p-5 border border-warn-600/30">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">El motor base</div>
+      <div class="font-bold text-lg">educativo_negativo</div>
+      <div class="text-sm text-ink-300 mt-1">184 posts (26.5%) — el formato más usado para captura, dominante todo el período.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TOP POSTS ===== -->
+<section id="top-posts" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 07</div>
+    <h2 class="text-3xl font-bold">Top performers · Galería</h2>
+    <p class="text-ink-300 mt-1">Las piezas que más rinden por 4 dimensiones. Click en thumbnail abre Instagram, click en "AT" abre el record en Airtable.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex flex-wrap gap-2 mb-5 border-b border-ink-700 pb-2" id="topPostsTabs">
+    <button data-tab="viral" class="tab-btn active px-4 py-2 rounded-lg text-sm font-medium">🔥 Reels más virales (plays)</button>
+    <button data-tab="cr" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium">🎯 Reels lead-getter (CR%)</button>
+    <button data-tab="carouselsLikes" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium">❤️ Carruseles top likes</button>
+    <button data-tab="carouselsComments" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium">💬 Carruseles top comments</button>
+  </div>
+
+  <div id="topPostsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4"></div>
+</section>
+
+<!-- ===== CARRUSELES DEEP DIVE ===== -->
+<section id="carousels-deep" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 08</div>
+    <h2 class="text-3xl font-bold">Deep dive · Carruseles</h2>
+    <p class="text-ink-300 mt-1">El formato menos hablado pero el de mayor engagement. 161 piezas con métricas radicalmente distintas a los reels.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-12 gap-4 mb-5">
+    <div class="lg:col-span-4 grid grid-cols-2 gap-3">
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Total carruseles</div>
+        <div class="text-2xl font-bold stat-num">161</div>
+        <div class="text-[10px] text-ink-400 mt-1">23.2% del feed</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Comments mediana</div>
+        <div class="text-2xl font-bold stat-num text-accent-500">190</div>
+        <div class="text-[10px] text-accent-500 mt-1">+90% vs reels</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Likes mediana</div>
+        <div class="text-2xl font-bold stat-num">264</div>
+        <div class="text-[10px] text-ink-400 mt-1">vs reels: 307</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs text-ink-300 mb-1">Top engagement</div>
+        <div class="text-2xl font-bold stat-num text-warn-500">26,958</div>
+        <div class="text-[10px] text-ink-400 mt-1">comments en 1 carrusel</div>
+      </div>
+    </div>
+    <div class="lg:col-span-4 bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Arquetipos en carruseles</div>
+      <canvas id="carouselArchChart" height="200"></canvas>
+    </div>
+    <div class="lg:col-span-4 bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Pilares en carruseles</div>
+      <canvas id="carouselPillarChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-3 mb-5">
+    <div class="bg-gradient-to-br from-accent-600/10 to-accent-600/5 rounded-xl p-5 border border-accent-600/30">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-2">Hallazgo crítico</div>
+      <div class="font-bold text-lg mb-1">Carruseles ≠ Reels</div>
+      <p class="text-sm text-ink-200">Los carruseles tienen 90% MÁS comments por pieza (190 vs 100). Son el formato de discusión profunda. Mientras los reels capturan, los carruseles educan y nutren.</p>
+    </div>
+    <div class="bg-gradient-to-br from-info-600/10 to-info-600/5 rounded-xl p-5 border border-info-600/30">
+      <div class="text-xs uppercase tracking-wider text-info-500 mb-2">Top arquetipo</div>
+      <div class="font-bold text-lg mb-1">antes_despues domina (29%)</div>
+      <p class="text-sm text-ink-200">47 de 161 carruseles son antes/después. Es el formato dominante para mostrar transformaciones de clientes. En reels solo se usa 3 veces.</p>
+    </div>
+  </div>
+
+  <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Top 4 carruseles más comentados (con análisis)</div>
+  <div id="topCarouselsAnalysis" class="grid md:grid-cols-2 gap-4"></div>
+</section>
+
+<!-- ===== STORIES VIDEO vs IMAGEN ===== -->
+<section id="stories-vi" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 07</div>
+    <h2 class="text-3xl font-bold">Stories: Video vs Imagen</h2>
+    <p class="text-ink-300 mt-1">Las imágenes son la artillería de cierre. Perfil radicalmente distinto al de los videos.</p>
+  </div>
+
+  <div class="bg-ink-800 rounded-xl p-6 border border-ink-700">
+    <div class="grid grid-cols-12 text-xs text-ink-300 mb-3 pb-2 border-b border-ink-700">
+      <div class="col-span-4">Métrica</div>
+      <div class="col-span-3 text-right">Video (139)</div>
+      <div class="col-span-3 text-right">Imagen (11)</div>
+      <div class="col-span-2 text-right">Diferencia</div>
+    </div>
+    <div id="viCompareTable" class="space-y-3"></div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-3 mt-4">
+    <div class="bg-purple-600/10 rounded-xl p-5 border border-purple-600/30">
+      <div class="text-xs uppercase tracking-wider text-purple-500 mb-2">📹 Stories video (90% del mix)</div>
+      <p class="text-sm text-ink-200">Construyen confianza. Cara a cámara, alta energía, casos reales. Emociones positivas (confianza, inspiración, aspiración). Sin CTA explícito en 88% — el contenido pre-vende.</p>
+    </div>
+    <div class="bg-warn-600/10 rounded-xl p-5 border border-warn-600/30">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">🖼️ Stories imagen (10% del mix)</div>
+      <p class="text-sm text-ink-200">Cierran con dolor matemático. Texto plano sobre fondo plano. Cálculo de costo de oportunidad ("23 clientes/mes × $1K = $23K perdidos"). DM directo activado por keyword.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STORIES VISUALES ===== -->
+<section id="stories-gallery" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 10</div>
+    <h2 class="text-3xl font-bold">Stories · Galería visual por categoría</h2>
+    <p class="text-ink-300 mt-1">Ejemplos representativos de cada categoría narrativa con thumbnails y análisis.</p>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-5" id="storiesCatTabs"></div>
+  <div id="storiesGallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+</section>
+
+<!-- ===== HOOK ENGINEERING ===== -->
+<section id="hooks" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 08</div>
+    <h2 class="text-3xl font-bold">Hook Engineering · Plantillas</h2>
+    <p class="text-ink-300 mt-1">7 estructuras de apertura que aparecen sistemáticamente en los lead-getters de Ramiro.</p>
+  </div>
+  <div id="hookTemplates" class="grid md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+</section>
+
+<!-- ===== ARCS ===== -->
+<section id="arcs" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 09</div>
+    <h2 class="text-3xl font-bold">Arcos narrativos en stories</h2>
+    <p class="text-ink-300 mt-1">82% de las stories son parte de un arco. 53 arcos únicos. Top 15 por volumen.</p>
+  </div>
+  <div class="bg-ink-800 rounded-xl p-5 border border-ink-700" style="height: 460px;">
+    <canvas id="arcsChart"></canvas>
+  </div>
+</section>
+
+<!-- ===== COMMENTS & BENCHMARKS ===== -->
+<section id="benchmarks" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 13</div>
+    <h2 class="text-3xl font-bold">Comments & Benchmarks</h2>
+    <p class="text-ink-300 mt-1">Comparativo de Ramiro vs benchmarks de industria. Dónde sobresale y dónde no.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-4 mb-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Comment rate (%)</div>
+      <div id="bm_cr" class="space-y-3"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Posts por semana</div>
+      <div id="bm_pw" class="space-y-3"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Engagement rate (%)</div>
+      <div id="bm_er" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-3">
+    <div class="bg-gradient-to-br from-accent-600/10 to-accent-600/5 rounded-xl p-5 border border-accent-600/30">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-1">Top performer</div>
+      <div class="text-3xl font-bold stat-num text-accent-500">11.21%</div>
+      <div class="text-sm font-medium mb-1">Best CR</div>
+      <p class="text-xs text-ink-200">37× más alto que el promedio de coaches (0.3%) y 7× más que top creators (1.5%).</p>
+    </div>
+    <div class="bg-gradient-to-br from-info-600/10 to-info-600/5 rounded-xl p-5 border border-info-600/30">
+      <div class="text-xs uppercase tracking-wider text-info-500 mb-1">Cadencia industrial</div>
+      <div class="text-3xl font-bold stat-num text-info-500">27/sem</div>
+      <div class="text-sm font-medium mb-1">Posts por semana</div>
+      <p class="text-xs text-ink-200">Casi 2× más que studios con equipo. 9× más que coach individual promedio.</p>
+    </div>
+    <div class="bg-gradient-to-br from-warn-600/10 to-warn-600/5 rounded-xl p-5 border border-warn-600/30">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-1">Carruseles destacan</div>
+      <div class="text-3xl font-bold stat-num text-warn-500">+90%</div>
+      <div class="text-sm font-medium mb-1">Comments vs reels</div>
+      <p class="text-xs text-ink-200">El formato carrusel genera casi el doble de discusión que un reel. Engagement profundo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CORRELACIONES DE LONGITUD ===== -->
+<section id="length-corr" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 14</div>
+    <h2 class="text-3xl font-bold">Correlaciones de longitud</h2>
+    <p class="text-ink-300 mt-1">¿Cuánto rinde un video según duración? ¿Captions cortas o largas? ¿Cuántos slides en carrusel?</p>
+  </div>
+  <div class="grid lg:grid-cols-2 gap-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Duración del video × Plays mediana</div>
+      <canvas id="durationChart" height="220"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Longitud caption × Plays mediana</div>
+      <canvas id="captionLengthChart" height="220"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Hook (palabras) × CR mediana</div>
+      <canvas id="hookLengthChart" height="220"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Slides en carrusel × Comments mediana</div>
+      <canvas id="slidesChart" height="220"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TOPIC CROSSROADS ===== -->
+<section id="topic-cross" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 15</div>
+    <h2 class="text-3xl font-bold">Topic Crossroads · Mapa estratégico</h2>
+    <p class="text-ink-300 mt-1">Cada punto = 1 topic. Eje X = frecuencia de uso. Eje Y = CR mediana. Identifica pillars y minas de oro.</p>
+  </div>
+  <div class="grid lg:grid-cols-3 gap-4">
+    <div class="lg:col-span-2 bg-ink-800 rounded-xl p-5 border border-ink-700" style="height: 460px;">
+      <canvas id="topicScatter"></canvas>
+    </div>
+    <div class="space-y-3">
+      <div class="bg-accent-600/10 rounded-xl p-4 border border-accent-600/30">
+        <div class="text-xs uppercase tracking-wider text-accent-500 mb-1">🏛️ Pillar (alta freq + alto CR)</div>
+        <div class="text-2xl font-bold stat-num text-accent-500" id="qSum-pillar">—</div>
+        <div class="text-xs text-ink-300">Topics que rinden y se usan. Mantener.</div>
+      </div>
+      <div class="bg-warn-600/10 rounded-xl p-4 border border-warn-600/30">
+        <div class="text-xs uppercase tracking-wider text-warn-500 mb-1">💎 Mina de oro (baja freq + alto CR)</div>
+        <div class="text-2xl font-bold stat-num text-warn-500" id="qSum-mina">—</div>
+        <div class="text-xs text-ink-300">Topics sub-explotados con potencial. Escalar.</div>
+      </div>
+      <div class="bg-info-600/10 rounded-xl p-4 border border-info-600/30">
+        <div class="text-xs uppercase tracking-wider text-info-500 mb-1">📋 Saturado (alta freq + bajo CR)</div>
+        <div class="text-2xl font-bold stat-num text-info-500" id="qSum-saturated">—</div>
+        <div class="text-xs text-ink-300">Topics quemados. Diversificar.</div>
+      </div>
+      <div class="bg-ink-800 rounded-xl p-4 border border-ink-700">
+        <div class="text-xs uppercase tracking-wider text-ink-300 mb-1">🧪 Experimento (baja freq + bajo CR)</div>
+        <div class="text-2xl font-bold stat-num text-ink-300" id="qSum-experiment">—</div>
+        <div class="text-xs text-ink-300">Topics tirados sin escalar. Cortar o iterar.</div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 grid md:grid-cols-2 gap-3">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">💎 Top 10 minas de oro</div>
+      <div id="minaList" class="space-y-1 text-xs"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-2">🏛️ Top 10 pillars</div>
+      <div id="pillarList" class="space-y-1 text-xs"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CAPTION STRATEGY ===== -->
+<section id="caption-strategy" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 16</div>
+    <h2 class="text-3xl font-bold">Caption Strategy · Lo que hace y NO hace</h2>
+    <p class="text-ink-300 mt-1">El caption no es para SEO ni storytelling. Es solo un activador de keyword. Patrón replicable.</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+    <div class="bg-gradient-to-br from-danger-600/10 to-danger-600/5 rounded-xl p-5 border border-danger-600/30">
+      <div class="text-xs uppercase tracking-wider text-danger-500 mb-1">Hashtags utilizados</div>
+      <div class="text-4xl font-bold stat-num text-danger-500">0</div>
+      <div class="text-xs text-ink-300 mt-1">de 695 posts. Estratégico.</div>
+    </div>
+    <div class="bg-gradient-to-br from-danger-600/10 to-danger-600/5 rounded-xl p-5 border border-danger-600/30">
+      <div class="text-xs uppercase tracking-wider text-danger-500 mb-1">@Mentions utilizados</div>
+      <div class="text-4xl font-bold stat-num text-danger-500">0</div>
+      <div class="text-xs text-ink-300 mt-1">de 695 posts. Sin networking en captions.</div>
+    </div>
+    <div class="bg-gradient-to-br from-accent-600/10 to-accent-600/5 rounded-xl p-5 border border-accent-600/30">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-1">Caption mediana</div>
+      <div class="text-4xl font-bold stat-num text-accent-500">18</div>
+      <div class="text-xs text-ink-300 mt-1">caracteres. Ultra corto.</div>
+    </div>
+    <div class="bg-gradient-to-br from-warn-600/10 to-warn-600/5 rounded-xl p-5 border border-warn-600/30">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-1">Captions tipo CTA</div>
+      <div class="text-4xl font-bold stat-num text-warn-500">453</div>
+      <div class="text-xs text-ink-300 mt-1">"Comentá X" o similar. 65%.</div>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-4 mb-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Distribución de longitud</div>
+      <canvas id="captionDist" height="200"></canvas>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Top 12 keywords ManyChat</div>
+      <canvas id="keywordsChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="bg-gradient-to-br from-purple-600/10 to-info-600/10 rounded-xl p-5 border border-purple-600/30">
+    <div class="text-xs uppercase tracking-wider text-purple-500 mb-2">📖 Insight estratégico</div>
+    <p class="text-sm text-ink-200 leading-relaxed">
+      El caption NO es contenido — es <b class="text-purple-500">infraestructura de conversión</b>. Cada caption corto activa un flow ManyChat distinto vía keyword.
+      535 keywords detectadas en 695 posts (más de 1 keyword por post de promedio cuando se cuentan las repeticiones del mismo usuario).
+      Top keywords con mayor performance: <b class="text-accent-500">CLASE</b> (44,779 plays mediana), <b class="text-accent-500">100</b> (44,704), <b class="text-accent-500">IA</b> (34,724).
+      Lo que NO hace en captions: hashtags (0), mentions (0), storytelling largo (solo 2 posts >200 chars).
+    </p>
+  </div>
+</section>
+
+<!-- ===== PERFORMANCE PERCENTILES ===== -->
+<section id="percentiles" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 17</div>
+    <h2 class="text-3xl font-bold">Performance Percentiles · Sistema de scoring</h2>
+    <p class="text-ink-300 mt-1">Distribución estadística de cada métrica. Te permite ubicar cualquier post nuevo contra los benchmarks de Ramiro.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-4 gap-4 mb-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Plays</div>
+      <div id="pct_plays" class="space-y-2"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Likes</div>
+      <div id="pct_likes" class="space-y-2"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Comments</div>
+      <div id="pct_comments" class="space-y-2"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Comment Rate %</div>
+      <div id="pct_cr" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <div class="bg-ink-800 rounded-xl p-5 border border-ink-700 mb-4">
+    <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Histograma · Distribución de plays (escala log)</div>
+    <canvas id="playsHist" height="180"></canvas>
+  </div>
+
+  <div class="bg-gradient-to-br from-info-600/10 to-purple-600/10 rounded-xl p-5 border border-info-600/30">
+    <div class="text-xs uppercase tracking-wider text-info-500 mb-2">🎯 Cómo usar esto para otra marca</div>
+    <p class="text-sm text-ink-200 leading-relaxed">
+      Estos percentiles son la <b class="text-info-500">vara de medir benchmark interno</b> de Ramiro. Para otra marca:
+      replicar este cálculo sobre sus posts → cualquier nuevo post se compara automáticamente contra su propio P50/P75/P90/P99.
+      Un post nuevo en P99 = 1% más alto = candidato a viral. Un post en P50 = mediana = baseline. Un post bajo P25 = bandera roja.
+    </p>
+  </div>
+</section>
+
+<!-- ===== TOPICS / TOOLS / PAINS ===== -->
+<section id="topics" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 10</div>
+    <h2 class="text-3xl font-bold">Topics, herramientas y dolores</h2>
+    <p class="text-ink-300 mt-1">Universo lingüístico y semántico de la cuenta.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Top topics (recurrencia)</div>
+      <div id="topTopicsList" class="space-y-2"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Herramientas mencionadas</div>
+      <div id="toolsList" class="space-y-2"></div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-3">Dolores del avatar (top)</div>
+      <div id="painsList" class="space-y-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHITE SPACE ===== -->
+<section id="whitespace" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-warn-500 font-medium tracking-wider uppercase mb-2">Sección 11</div>
+    <h2 class="text-3xl font-bold">White Space · Lo que Ramiro NO hace</h2>
+    <p class="text-ink-300 mt-1">Gaps estructurales del sistema. Espacios donde su estrategia no opera.</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">Awareness sub-cubierto</div>
+      <div class="font-bold mb-1">1_inconsciente: 2.2%</div>
+      <p class="text-sm text-ink-300">Casi no hace TOFU absoluto. Sistema de cosecha, no de plantación.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">Arquetipos sin explotar</div>
+      <div class="font-bold mb-1">interactivo_qa, demostrativo_objeto</div>
+      <p class="text-sm text-ink-300">Performance arriba del promedio pero usados <2%.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">CTAs ausentes</div>
+      <div class="font-bold mb-1">directo_venta: 1.7%</div>
+      <p class="text-sm text-ink-300">Solo modalidad lead magnet. Sin venta directa ni soft engagement.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">Audiencia desatendida</div>
+      <div class="font-bold mb-1">Agencias $10K-$50K MRR</div>
+      <p class="text-sm text-ink-300">Habla a creadores que empiezan. Casi nada para agencias maduras.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">Topics tirados</div>
+      <div class="font-bold mb-1">73% topics: 1 post solo</div>
+      <p class="text-sm text-ink-300">292 de 398 topics se tocaron 1 sola vez sin escalar. Mina sin explotar.</p>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-2">Plataformas ignoradas</div>
+      <div class="font-bold mb-1">100% Instagram</div>
+      <p class="text-sm text-ink-300">TikTok 0.3% · YouTube 0.6%. Riesgo: dependencia algorítmica total.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RADAR DE 12 DIMENSIONES ===== -->
+<section id="radar" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 20</div>
+    <h2 class="text-3xl font-bold">Radar de 12 dimensiones · Framework reutilizable</h2>
+    <p class="text-ink-300 mt-1">Score 0-100 en cada dimensión. Permite comparar marcas y detectar fortalezas/gaps de un vistazo.</p>
+  </div>
+
+  <div class="grid lg:grid-cols-12 gap-4 mb-4">
+    <div class="lg:col-span-7 bg-ink-800 rounded-xl p-5 border border-ink-700" style="height: 540px;">
+      <canvas id="radarChart"></canvas>
+    </div>
+    <div class="lg:col-span-5 space-y-2 max-h-[540px] overflow-y-auto pr-2 nav-scroll">
+      <div class="text-xs uppercase tracking-wider text-ink-300 mb-2">Detalle por dimensión</div>
+      <div id="dimensionsList" class="space-y-2"></div>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-3">
+    <div class="bg-gradient-to-br from-accent-600/10 to-accent-600/5 rounded-xl p-5 border border-accent-600/30">
+      <div class="text-xs uppercase tracking-wider text-accent-500 mb-1">Score promedio</div>
+      <div class="text-3xl font-bold stat-num text-accent-500" id="overallScore">—</div>
+      <div class="text-xs text-ink-300 mt-1">Top 1% global de creadores</div>
+    </div>
+    <div class="bg-gradient-to-br from-info-600/10 to-info-600/5 rounded-xl p-5 border border-info-600/30">
+      <div class="text-xs uppercase tracking-wider text-info-500 mb-1">Top 3 fortalezas</div>
+      <div class="text-sm font-medium" id="topStrengths">—</div>
+    </div>
+    <div class="bg-gradient-to-br from-warn-600/10 to-warn-600/5 rounded-xl p-5 border border-warn-600/30">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-1">Top 3 gaps</div>
+      <div class="text-sm font-medium" id="topGaps">—</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MATURITY STAGE ===== -->
+<section id="maturity" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-info-500 font-medium tracking-wider uppercase mb-2">Sección 21</div>
+    <h2 class="text-3xl font-bold">Maturity Stage Classifier</h2>
+    <p class="text-ink-300 mt-1">5 fases de evolución de una cuenta de contenido. Clasifica cualquier marca en una fase.</p>
+  </div>
+
+  <div class="space-y-3 mb-5">
+    <div id="stageList" class="grid lg:grid-cols-5 gap-3"></div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-4">
+    <div class="bg-ink-800 rounded-xl p-5 border border-ink-700">
+      <div class="text-xs uppercase tracking-wider text-warn-500 mb-3">📍 Indicadores que ubican a Ramiro en SATURACIÓN → REINVENCIÓN</div>
+      <div id="ramiroIndicators" class="space-y-2"></div>
+    </div>
+    <div class="bg-gradient-to-br from-purple-600/10 to-info-600/10 rounded-xl p-5 border border-purple-600/30">
+      <div class="text-xs uppercase tracking-wider text-purple-500 mb-2">🔮 Predicción próximos 90 días</div>
+      <p class="text-sm text-ink-200 leading-relaxed mb-3">Ramiro está cerrando la fase de saturación. Los indicadores apuntan a 3 movimientos probables:</p>
+      <ul class="text-sm text-ink-200 space-y-2">
+        <li>1. <b class="text-purple-500">Diversificación de plataforma</b> (TikTok / YouTube Shorts) — gap detectado</li>
+        <li>2. <b class="text-purple-500">Premium tier para agencias maduras</b> — audiencia desatendida</li>
+        <li>3. <b class="text-purple-500">Más stories de imagen</b> — formato emergente que crece</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5 VERDADES ===== -->
+<section id="truths" class="px-8 py-10 border-b border-ink-700">
+  <div class="mb-6">
+    <div class="text-xs text-accent-500 font-medium tracking-wider uppercase mb-2">Sección 12</div>
+    <h2 class="text-3xl font-bold">Las 5 verdades estratégicas</h2>
+    <p class="text-ink-300 mt-1">Conclusiones meta destiladas de todo el análisis.</p>
+  </div>
+
+  <div class="space-y-3">
+    <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 hover:border-accent-600/50 transition">
+      <div class="flex items-start gap-4">
+        <div class="text-4xl font-bold text-accent-500/40 stat-num">01</div>
+        <div>
+          <h3 class="font-bold text-xl mb-1">El sistema es un embudo de 4 capas en una sola plataforma.</h3>
+          <p class="text-sm text-ink-300">Reels (atracción) → Stories video (confianza) → Stories imagen (cierre) → DM/ManyChat (conversión). No usa email, ni landing pages externas, ni ads obligatorios. Todo el journey desde frío hasta call agendada vive en IG. <b class="text-ink-100">Bajo costo de infra, alto riesgo de plataforma.</b></p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 hover:border-accent-600/50 transition">
+      <div class="flex items-start gap-4">
+        <div class="text-4xl font-bold text-accent-500/40 stat-num">02</div>
+        <div>
+          <h3 class="font-bold text-xl mb-1">La cadencia es el cimiento, no la creatividad.</h3>
+          <p class="text-sm text-ink-300">27 posts/semana sostenidos. 137 días seguidos sin saltar. Pico de 5.5/día en marzo. <b class="text-ink-100">No replicable como individual</b> — requiere equipo o automatización IA. La consistencia opera el algoritmo más que cualquier hack creativo.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 hover:border-accent-600/50 transition">
+      <div class="flex items-start gap-4">
+        <div class="text-4xl font-bold text-accent-500/40 stat-num">03</div>
+        <div>
+          <h3 class="font-bold text-xl mb-1">La prueba social acumulada hace el trabajo, no el pitch.</h3>
+          <p class="text-sm text-ink-300">50% de stories video son autoridad_proof. 81% del BOFU con prueba social. 88% de stories sin CTA. <b class="text-ink-100">El asset real NO es su contenido — es su biblioteca de casos documentados.</b> Sin esa base, el sistema colapsa.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 hover:border-accent-600/50 transition">
+      <div class="flex items-start gap-4">
+        <div class="text-4xl font-bold text-accent-500/40 stat-num">04</div>
+        <div>
+          <h3 class="font-bold text-xl mb-1">Los virales NO traen clientes; los lead-getters sí.</h3>
+          <p class="text-sm text-ink-300">Top viral: 2M plays con CR 0.04% (casi cero leads). Top lead-getter: 8.33% CR con 30K plays. <b class="text-ink-100">Doblar plays NO dobla leads.</b> La fórmula que escala dinero: screen recording + pregunta directa + tutorial + lead magnet via DM keyword.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-ink-800 rounded-xl p-6 border border-ink-700 hover:border-accent-600/50 transition">
+      <div class="flex items-start gap-4">
+        <div class="text-4xl font-bold text-accent-500/40 stat-num">05</div>
+        <div>
+          <h3 class="font-bold text-xl mb-1">El lenguaje rioplatense crudo es la verdadera barrera de entrada.</h3>
+          <p class="text-sm text-ink-300">"Las bolas", "pana", "salame", "qué quilombo". En un mercado de coaches con voz de "experto profesional", Ramiro habla como el amigo argentino que dice las cosas como son. <b class="text-ink-100">Es el moat más defendible del sistema</b> — difícil de copiar para alguien fuera de Argentina/Uruguay.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-8 py-10 text-center text-xs text-ink-400">
+  <p>Ramiro Cubria · Análisis estratégico · Generado por Flow Consulting · {{date}}</p>
+  <p class="mt-1">Datos: Apify scrape + Insanely Fast Whisper + Claude vision + Sonnet analysis</p>
+</footer>
+
+</main>
+
+<script src="/rc-instagram/app.js"></script>
+</body>
+</html>
