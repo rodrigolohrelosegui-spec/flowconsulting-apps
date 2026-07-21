@@ -43,7 +43,10 @@
 
   <link rel="stylesheet" href="./assets/styles.css?v=1.1" />
 
-  <!-- Analytics placeholders · descomenta el que prefieras y reemplaza ID -->
+  <!-- OJO: el Meta Pixel de Flow Consulting YA viene incluido (ver el script
+       /shared/fc-pixel.js justo antes de </head>). No hay que agregarlo a mano
+       ni pegar el snippet de Meta: se hereda solo al copiar este template.
+       Lo de abajo son extras OPCIONALES · descomenta el que prefieras y reemplaza ID -->
   <!-- GA4:
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -57,6 +60,8 @@
   <script defer data-domain="apps.flowconsulting.co" src="https://plausible.io/js/script.js"></script>
   <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
   -->
+  <!-- Meta Pixel centralizado (dataset oficial FC). Fuente: /shared/fc-pixel.js -->
+  <script src="/shared/fc-pixel.js" defer></script>
 </head>
 
 <body class="theme-dark">

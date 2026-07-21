@@ -57,3 +57,14 @@ Aplicar al final de cada LM antes de marcarlo DONE.
 - [ ] ≥30% de opt-in completion
 - [ ] ≥10% click-through al CTA final (booking)
 - [ ] ≥2% conversión a llamada agendada
+
+## Tracking (Meta Pixel)
+
+No hay que hacer nada: el pixel oficial de Flow Consulting ya viene incluido en
+`index.html` mediante `<script src="/shared/fc-pixel.js" defer></script>`.
+
+- Fuente única: `/shared/fc-pixel.js` en la raíz del repo (dataset "Flow Consulting - Oficial").
+- Si algún día cambia el pixel, se cambia SOLO en ese archivo y aplica a todos
+  los lead magnets a la vez. No pegar el snippet de Meta en páginas sueltas.
+- Verificar que dispara: abrir la página y en la consola correr
+  `fbq.getState().pixels.map(p => p.id)` → debe devolver el ID oficial.
