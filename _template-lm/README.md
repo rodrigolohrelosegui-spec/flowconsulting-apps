@@ -22,7 +22,7 @@ Fork limpio del `/diagnostico/` (validado en producción). Acelera la creación 
 | Token a buscar | Sustituir por |
 |---|---|
 | `El Diagnóstico del Piloto IA · Flow IBS` | Title del LM |
-| `apps.flowibs.com/diagnostico/` | `apps.flowconsulting.co/<slug>/` |
+| `apps.flowibs.com/diagnostico/` | `flowconsulting.co/<slug>` (sin barra final) |
 | `Flow IBS` (en og:site_name, etc.) | `Flow Consulting` |
 | Hero: hook + subhook + microcopy CTA | Copy específico del LM |
 | Capture: titulo + subtitulo + bonus mention | Custom por LM |
@@ -35,7 +35,9 @@ Fork limpio del `/diagnostico/` (validado en producción). Acelera la creación 
 const CFG = {
   WEBHOOK_ICP: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/<lm-slug>',
   URL_DISCOVERY: 'https://api.leadconnectorhq.com/widget/bookings/<rodrigo-call>',
-  QUESTIONS_PATH: './assets/questions.json',
+  // Absoluta, NO './assets/...'. La página se sirve en /<slug> sin barra final,
+  // así que una ruta relativa resolvería a la raíz del dominio y daría 404.
+  QUESTIONS_PATH: '/<lm-slug>/assets/questions.json',
   STORAGE_KEY: 'fc_<lm-slug>_state_v1',
   REQUEST_TIMEOUT_MS: 45000
 };
@@ -76,11 +78,30 @@ Duplicar el workflow `diagnostico-icp` en n8n. Cambiar:
 - Custom fields ya creados sirven (LEAD_MAGNET_RESPUESTAS + BUSINESS_CONTEXT)
 - Email template específico por LM
 
+## Dónde vive un LM nuevo (cambió el 2026-07-22)
+
+Los lead magnets ya NO se publican en este repo. Viven en el sitio principal:
+
+    ~/FlowProjects/flowconsulting-web/public/<lm-slug>/index.html
+    -> https://flowconsulting.co/<lm-slug>
+
+Este repo (apps.flowconsulting.co) sólo conserva los stubs de redirección de las
+URLs viejas y esta plantilla. Al crear un LM nuevo hay que:
+
+1. Copiar la plantilla a `flowconsulting-web/public/<lm-slug>/`.
+2. Agregar el slug al array `LEAD_MAGNETS` de `next.config.ts`, para que
+   `/<slug>` (sin barra final) sirva el `index.html`.
+3. Usar rutas ABSOLUTAS (`/<slug>/assets/...`) en el HTML, el CSS y el JS.
+   Las relativas (`./assets/...`) se rompen sin la barra final.
+
+El rastreo (Meta Pixel + GA4 + Vercel Web Analytics) lo hereda solo por el
+`<script src="/shared/fc-tracking.js" defer>` que ya trae la plantilla.
+
 ## Procedimiento de fork (orden)
 
 ```bash
-# 1. Fork
-cp -r _template-lm/ <lm-slug>/
+# 1. Fork al sitio principal (NO a este repo)
+cp -r _template-lm/ ~/FlowProjects/flowconsulting-web/public/<lm-slug>/
 
 # 2. Lee la spec del LM en memoria:
 #    ~/.claude/projects/.../memory/flowconsulting_lead_magnets_pipeline.md
@@ -98,7 +119,10 @@ cp -r _template-lm/ <lm-slug>/
 
 # 7. Backend: duplicar workflow n8n + system_prompt_v1.md basado en template
 
-# 8. Deploy
+# 8. Registrar el slug en flowconsulting-web/next.config.ts (array LEAD_MAGNETS)
+
+# 9. Deploy (desde flowconsulting-web, no desde este repo)
+cd ~/FlowProjects/flowconsulting-web
 git add . && git commit -m "feat: LM <slug> · v1" && git push origin main
 ```
 
