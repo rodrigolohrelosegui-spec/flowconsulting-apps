@@ -43,25 +43,13 @@
 
   <link rel="stylesheet" href="./assets/styles.css?v=1.1" />
 
-  <!-- OJO: el Meta Pixel de Flow Consulting YA viene incluido (ver el script
-       /shared/fc-pixel.js justo antes de </head>). No hay que agregarlo a mano
-       ni pegar el snippet de Meta: se hereda solo al copiar este template.
-       Lo de abajo son extras OPCIONALES · descomenta el que prefieras y reemplaza ID -->
-  <!-- GA4:
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
-  </script>
-  -->
-  <!-- Plausible:
-  <script defer data-domain="apps.flowconsulting.co" src="https://plausible.io/js/script.js"></script>
-  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
-  -->
-  <!-- Meta Pixel centralizado (dataset oficial FC). Fuente: /shared/fc-pixel.js -->
-  <script src="/shared/fc-pixel.js" defer></script>
+  <!-- OJO: el rastreo de Flow Consulting (Meta Pixel + Google Analytics 4) YA
+       viene incluido en el script /shared/fc-tracking.js, justo antes de </head>.
+       NO agregar aquí el snippet de Meta ni el de GA4: se duplicarían las visitas.
+       Se hereda solo al copiar este template. Si hay que cambiar un ID, se cambia
+       en /shared/fc-tracking.js y aplica a todos los lead magnets a la vez. -->
+  <!-- Rastreo centralizado de FC (Meta Pixel + GA4). Fuente: /shared/fc-tracking.js -->
+  <script src="/shared/fc-tracking.js" defer></script>
 </head>
 
 <body class="theme-dark">

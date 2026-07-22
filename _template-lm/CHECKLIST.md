@@ -58,13 +58,19 @@ Aplicar al final de cada LM antes de marcarlo DONE.
 - [ ] ≥10% click-through al CTA final (booking)
 - [ ] ≥2% conversión a llamada agendada
 
-## Tracking (Meta Pixel)
+## Rastreo (Meta Pixel + Google Analytics)
 
-No hay que hacer nada: el pixel oficial de Flow Consulting ya viene incluido en
-`index.html` mediante `<script src="/shared/fc-pixel.js" defer></script>`.
+No hay que hacer nada: el rastreo ya viene incluido en `index.html` con
+`<script src="/shared/fc-tracking.js" defer></script>`.
 
-- Fuente única: `/shared/fc-pixel.js` en la raíz del repo (dataset "Flow Consulting - Oficial").
-- Si algún día cambia el pixel, se cambia SOLO en ese archivo y aplica a todos
-  los lead magnets a la vez. No pegar el snippet de Meta en páginas sueltas.
+- Fuente única: `/shared/fc-tracking.js` en la raíz del repo. Incluye el Meta
+  Pixel (dataset oficial de FC) y Google Analytics 4 (propiedad
+  "Flow Consulting - Web", de contacto@flowconsulting.co).
+- Son los MISMOS IDs que usa flowconsulting.co, para que el sitio y los lead
+  magnets caigan en una sola propiedad y un solo dataset.
+- Si cambia un ID, se cambia SOLO en ese archivo y aplica a todos los lead
+  magnets a la vez. NO pegar snippets de Meta ni de GA en páginas sueltas: se
+  duplicarían las visitas.
 - Verificar que dispara: abrir la página y en la consola correr
-  `fbq.getState().pixels.map(p => p.id)` → debe devolver el ID oficial.
+    fbq.getState().pixels.map(p => p.id)   -> debe dar el ID de Meta
+    window.dataLayer.length > 0            -> debe ser true (GA4 cargado)
