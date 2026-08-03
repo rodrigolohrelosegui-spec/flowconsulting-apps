@@ -14,7 +14,7 @@
   /* --------- Config: webhook n8n + URLs --- */
   const CFG = {
     // Endpoint del workflow n8n (duplicar 'diagnostico-icp' y cambiar el path)
-    WEBHOOK_ICP: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/{{LM_SLUG}}',
+    WEBHOOK_ICP: 'https://n8n.flowibs.com/webhook/{{LM_SLUG}}',
     // URL del booking de Rodrigo (GHL)
     URL_DISCOVERY: 'https://api.leadconnectorhq.com/widget/bookings/{{RODRIGO_CALL_SLUG}}',
     QUESTIONS_PATH: './assets/questions.json',

@@ -6,7 +6,7 @@
   'use strict';
 
   const CFG = {
-    WEBHOOK_URL: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/diagnostico-flow',
+    WEBHOOK_URL: 'https://n8n.flowibs.com/webhook/diagnostico-flow',
     USE_LOCAL_FALLBACK: false,
     URL_BOOKING: 'https://flow-consulting.co/agenda-igdm',
     QUESTIONS_PATH: './assets/questions.json',

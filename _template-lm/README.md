@@ -33,7 +33,7 @@ Fork limpio del `/diagnostico/` (validado en producción). Acelera la creación 
 
 ```js
 const CFG = {
-  WEBHOOK_ICP: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/<lm-slug>',
+  WEBHOOK_ICP: 'https://n8n.flowibs.com/webhook/<lm-slug>',
   URL_DISCOVERY: 'https://api.leadconnectorhq.com/widget/bookings/<rodrigo-call>',
   // Absoluta, NO './assets/...'. La página se sirve en /<slug> sin barra final,
   // así que una ruta relativa resolvería a la raíz del dominio y daría 404.

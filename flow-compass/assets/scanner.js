@@ -10,7 +10,7 @@
 
   /* --------- Config --------- */
   const CFG = {
-    WEBHOOK: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/flow-compass',
+    WEBHOOK: 'https://n8n.flowibs.com/webhook/flow-compass',
     URL_DISCOVERY: 'https://calendly.com/contacto-flowconsulting/llamada-de-exploracion-flow-consulting?utm_source=flow-compass&utm_id=lm-flow-compass',
     URL_MASTERCLASS: 'https://www.youtube.com/@rodrigolohr',
     QUESTIONS_PATH: './assets/questions.json',

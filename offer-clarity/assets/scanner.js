@@ -10,7 +10,7 @@
 
   /* --------- Config --------- */
   const CFG = {
-    WEBHOOK: 'https://n8n-flowjorge-u59154.vm.elestio.app/webhook/offer-clarity',
+    WEBHOOK: 'https://n8n.flowibs.com/webhook/offer-clarity',
     URL_DISCOVERY: 'https://calendly.com/contacto-flowconsulting/llamada-de-exploracion-flow-consulting?utm_source=offer-clarity-scanner&utm_id=lm-offer-clarity',
     QUESTIONS_PATH: './assets/questions.json',
     STORAGE_KEY: 'fc_offer_clarity_state_v2',
