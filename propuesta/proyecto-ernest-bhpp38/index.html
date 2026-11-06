@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#07131A">
+<title>Propuesta Proyecto Ernest · Flow Consulting</title>
+<link rel="icon" href="../../diagnostico/assets/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+/* Link de compartir de la llamada en Fathom (Share → Copy link).
+   Cada botón "Ver explicación en video" abre este link en el segundo exacto. */
+const FATHOM = "https://fathom.video/share/Brr7hSWwWoKAyw2YGi--7ehichkkCKY_";
+</script>
+<style>
+:root{
+  --dark:#07131A; --dark-2:#0B1A22; --dark-3:#0F2530;
+  --cyan:#5FE8D7; --cyan-mid:#14B8A6; --cyan-ink:#0F766E; --cyan-soft:#E8FBF8;
+  --bg:#FAFAF7; --card:#FFFFFF; --ink:#1A2530; --ink-soft:#3A4854; --muted:#6B7785; --line:#E6E9E4;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+a{color:inherit;text-decoration:none}
+b,strong{font-weight:700;color:var(--ink)}
+
+/* Hero */
+header{background:var(--dark);color:#fff}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+.brand{padding-top:24px;font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--cyan)}
+.hero{padding:44px 0 40px}
+.hero .for{font-size:14px;color:rgba(255,255,255,.6);font-weight:600}
+.hero h1{font-size:clamp(30px,5.4vw,46px);font-weight:800;letter-spacing:-.025em;line-height:1.1;margin-top:10px}
+.hero p.lead{color:rgba(255,255,255,.75);font-size:18px;margin-top:14px;max-width:640px}
+.resumen{margin-top:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.resumen div{background:var(--dark-3);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 18px}
+.resumen small{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.resumen span{display:block;font-size:17px;font-weight:700;margin-top:4px;line-height:1.35}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(7,19,26,.96);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.06)}
+nav .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav .wrap::-webkit-scrollbar{display:none}
+nav a{font-size:13.5px;font-weight:600;color:rgba(255,255,255,.6);padding:13px 12px;white-space:nowrap;border-bottom:2px solid transparent}
+nav a:hover{color:#fff}
+nav a.on{color:#fff;border-bottom-color:var(--cyan)}
+
+/* Secciones */
+main{padding:8px 0 40px}
+section{padding:56px 0 8px;scroll-margin-top:48px}
+.kick{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan-ink)}
+h2{font-size:clamp(24px,3.6vw,32px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-top:6px}
+.intro{color:var(--ink-soft);font-size:17px;margin-top:12px;max-width:720px}
+.big{font-size:clamp(19px,2.6vw,23px);font-weight:700;line-height:1.4;letter-spacing:-.01em;margin-top:18px;max-width:780px}
+.big em{font-style:normal;color:var(--cyan-ink)}
+
+.list{margin-top:24px;display:grid;gap:12px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px}
+.item h3{font-size:17px;font-weight:700;line-height:1.35}
+.item p{color:var(--ink-soft);margin-top:6px;font-size:15.5px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:24px}
+
+/* Botón de video */
+.vid{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;font-weight:700;color:var(--cyan-ink);background:var(--cyan-soft);border-radius:999px;padding:6px 14px 6px 6px;transition:background .15s}
+.vid:hover{background:#D3F6F1}
+.vid i{width:22px;height:22px;border-radius:50%;background:var(--cyan-mid);display:grid;place-items:center;flex:none}
+.vid i:after{content:"";border-left:7px solid #fff;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;margin-left:2px}
+.vid span{font-weight:600;color:var(--muted)}
+.dark-card .vid{background:rgba(95,232,215,.12);color:var(--cyan)}
+.dark-card .vid span{color:rgba(255,255,255,.55)}
+
+/* Objetivo */
+.meta{margin-top:24px;background:var(--dark);color:#fff;border-radius:20px;padding:28px}
+.meta .n{font-size:clamp(36px,7vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--cyan)}
+.meta .n small{font-size:18px;color:#fff;font-weight:700;letter-spacing:0;margin-left:6px}
+.meta p{color:rgba(255,255,255,.75);margin-top:10px;max-width:620px}
+.meta b{color:#fff}
+
+/* Roadmap */
+.paso{display:grid;grid-template-columns:52px 1fr;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;margin-top:12px}
+.paso .num{width:52px;height:52px;border-radius:14px;background:var(--dark);color:var(--cyan);display:grid;place-items:center;font-weight:800;font-size:20px}
+.paso h3{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.25}
+.paso .sub{color:var(--cyan-ink);font-weight:700;font-size:15px;margin-top:2px}
+.paso p{color:var(--ink-soft);margin-top:10px;font-size:15.5px}
+.paso ul{margin:10px 0 0 18px;color:var(--ink-soft);font-size:15.5px}
+.paso li{margin-top:4px}
+
+/* Soporte */
+.nivel{display:flex;gap:14px;align-items:flex-start}
+.nivel .k{flex:none;font-size:12px;font-weight:800;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px 8px;margin-top:2px}
+
+/* ROI */
+.tabla{margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.fila{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:8px;padding:14px 20px;border-top:1px solid var(--line);font-size:15px;align-items:center}
+.fila:first-child{border-top:0;background:var(--bg);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.fila .res{font-weight:800;font-size:17px}
+.fila .esc{font-weight:700}
+.fila .esc small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.nota{margin-top:14px;font-size:14px;color:var(--muted);max-width:760px}
+.calc{margin-top:16px;background:var(--cyan-soft);border-radius:var(--r);padding:20px 22px;font-size:15.5px;color:var(--ink-soft)}
+
+/* Garantía e inversión */
+.dark-card{background:var(--dark);color:#fff;border-radius:20px;padding:28px;margin-top:24px}
+.dark-card h3{font-size:21px;font-weight:800;line-height:1.3}
+.dark-card p{color:rgba(255,255,255,.75);margin-top:10px;max-width:680px}
+.dark-card b{color:#fff}
+.precios{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:24px}
+.precio{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.precio small{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.precio .n{font-size:30px;font-weight:800;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.precio p{color:var(--ink-soft);font-size:15px;margin-top:6px}
+
+/* Casos */
+.caso small{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan-ink)}
+
+/* FAQ */
+.faq{margin-top:24px;display:grid;gap:10px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px}
+summary{list-style:none;cursor:pointer;padding:18px 52px 18px 20px;font-weight:700;font-size:16px;position:relative;line-height:1.4}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";position:absolute;right:20px;top:14px;font-size:24px;font-weight:400;color:var(--muted)}
+details[open] summary:after{content:"–"}
+summary .quien{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:2px}
+details .resp{padding:0 20px 20px;color:var(--ink-soft);font-size:15.5px}
+details .resp p+p{margin-top:8px}
+
+/* Cierre */
+.cierre{margin-top:24px;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:28px}
+.cierre p{color:var(--ink-soft);margin-top:8px;max-width:680px}
+footer{background:var(--dark);color:rgba(255,255,255,.5);font-size:13px;padding:28px 0;margin-top:48px}
+footer b{color:#fff}
+
+@media (max-width:640px){
+  .hero{padding:32px 0 32px}
+  .paso{grid-template-columns:1fr;gap:12px;padding:20px}
+  .fila{grid-template-columns:1fr 1fr;row-gap:2px}
+  .fila:first-child{display:none}
+  .fila .esc{grid-column:1/-1}
+  .fila>div:nth-child(2):before{content:"Ventas: ";color:var(--muted)}
+  .fila>div:nth-child(3):before{content:"Precio: ";color:var(--muted)}
+  .fila .res{grid-column:1/-1;margin-top:4px}
+  .meta,.dark-card,.cierre{padding:22px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">FLOW CONSULTING</div>
+    <div class="hero">
+      <div class="for">Para Perla, Fer y Sylvia · 6 de noviembre de 2026</div>
+      <h1>Proyecto Ernest: de un método que funciona a un negocio que funciona</h1>
+      <p class="lead">El resumen de lo que platicamos: dónde está hoy Proyecto Ernest, a dónde quiere llegar y el camino para lograrlo. En cada sección pueden ver el momento exacto de la llamada donde lo explico.</p>
+      <div class="resumen">
+        <div><small>Meta inicial</small><span>$25,000 USD al mes en 6 meses</span></div>
+        <div><small>El camino</small><span>3 pasos: oferta, flujo de leads y venta consultiva</span></div>
+        <div><small>Inversión</small><span>300,000 MXN en 3 pagos o 250,000 MXN en uno</span></div>
+        <div><small>Garantía</small><span>Si a los 6 meses no han duplicado la inversión, seguimos sin costo</span></div>
+      </div>
+    </div>
+  </div>
+  <nav><div class="wrap">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#favor">Lo que ya tienen</a>
+    <a href="#objetivo">Objetivo</a>
+    <a href="#modelo">El modelo</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#soporte">Acompañamiento</a>
+    <a href="#roi">Proyección</a>
+    <a href="#garantia">Garantía</a>
+    <a href="#inversion">Inversión</a>
+    <a href="#casos">Casos</a>
+    <a href="#preguntas">Preguntas</a>
+  </div></nav>
+</header>
+
+<main class="wrap">
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="kick">Diagnóstico</div>
+  <h2>La problemática #1 en Proyecto Ernest</h2>
+  <p class="big">Proyecto Ernest tiene un método que cambia vidas, pero <em>no tiene un sistema que convierta ese método en ventas constantes.</em></p>
+  <p class="intro">Desde 2011 el método se ha probado cara a cara, en bootcamps y en televisión. En 2021 se reconstruyó y se empaquetó para llevarlo en línea. Funciona: quien lo vive, cambia. Pero la última venta fue en febrero y hoy la marca necesita inyección de capital para sostenerse.</p>
+  <a class="vid" data-t="164"></a>
+
+  <div class="list">
+    <div class="item">
+      <h3>Ventas que dependen de la suerte, no de un sistema</h3>
+      <p>Antes los clientes llegaban por televisión y recomendaciones. Funcionaba, pero nunca se sabía cuánto se iba a vender el mes siguiente, y en línea ese flujo todavía no existe.</p>
+      <a class="vid" data-t="173"></a>
+    </div>
+    <div class="item">
+      <h3>Presencia en línea que no se convierte en negocio</h3>
+      <p>Como empresa nueva en digital, hace falta tráfico, y ese tráfico tiene que convertirse en ventas reales, no en likes ni en seguidores.</p>
+      <a class="vid" data-t="328"></a>
+    </div>
+    <div class="item">
+      <h3>Llegan prospectos que no pueden invertir</h3>
+      <p>Los leads que sí llegan no tienen la posición económica para comprar. Se les atiende con el mismo cariño que a todos, pero consumen llamadas y energía del equipo sin calificar.</p>
+      <a class="vid" data-t="5497"></a>
+    </div>
+    <div class="item">
+      <h3>Muchos productos, ningún foco</h3>
+      <p>La ruta de 11 módulos, los programas plus, VIP y todo el ecosistema que ya existe compiten entre sí. Cuando todo se ofrece al mismo tiempo, nada se vende con claridad.</p>
+      <a class="vid" data-t="3064"></a>
+    </div>
+    <div class="item">
+      <h3>Un precio pensado para volumen, en el mercado más caro de competir</h3>
+      <p>El modelo de bajo precio obliga a pelear contra anunciantes que invierten millones en publicidad, copywriters e inteligencia artificial. Es el juego más difícil para un negocio que está arrancando en línea.</p>
+      <a class="vid" data-t="4082"></a>
+    </div>
+    <div class="item">
+      <h3>El costo de seguir así</h3>
+      <p>Cada mes sin ventas es otro mes financiando el proyecto desde fuera, y el riesgo de que algo que sí funciona termine tratándose como un hobby.</p>
+      <a class="vid" data-t="3494"></a>
+    </div>
+  </div>
+</section>
+
+<!-- A FAVOR -->
+<section id="favor">
+  <div class="kick">Lo que ya tienen a favor</div>
+  <h2>Los ingredientes son buenos, solo están en desorden</h2>
+  <p class="intro">Proyecto Ernest no arranca de cero. Lo que falta es orden: oferta, mensaje y sistema. Lo difícil de construir ya está.</p>
+  <a class="vid" data-t="5084"></a>
+  <div class="g2">
+    <div class="item">
+      <h3>Un método probado desde 2011</h3>
+      <p>El 100% de quienes lo han tomado quedaron satisfechos y el 75% volvió a comprar.</p>
+      <a class="vid" data-t="3970"></a>
+    </div>
+    <div class="item">
+      <h3>La experta es el producto</h3>
+      <p>Perla habla, conecta y transmite autoridad frente a cámara. En este nicho, eso es lo que vende.</p>
+      <a class="vid" data-t="6488"></a>
+    </div>
+    <div class="item">
+      <h3>Un mercado validado y creciendo</h3>
+      <p>Hay marcas invirtiendo millones en anuncios de “hablar con confianza”. Ellos educan al mercado; Proyecto Ernest atiende a quienes buscan algo más profundo y personal.</p>
+      <a class="vid" data-t="1191"></a>
+    </div>
+    <div class="item">
+      <h3>Un equipo de dos</h3>
+      <p>Perla y Fer, creadora de contenido con experiencia en marcas grandes. Dos personas enfocadas no avanzan al doble: avanzan mucho más rápido.</p>
+      <a class="vid" data-t="7181"></a>
+    </div>
+  </div>
+</section>
+
+<!-- OBJETIVO -->
+<section id="objetivo">
+  <div class="kick">Objetivo</div>
+  <h2>A dónde quiere llegar Proyecto Ernest</h2>
+  <div class="meta">
+    <div class="n">$25,000<small>USD al mes</small></div>
+    <p>La primera meta, en alrededor de 6 meses: una operación constante, con un método comercial probado para el nicho. <b>El siguiente nivel, $50,000 a $60,000 USD al mes</b>, la meta que Perla y Fer ven posible.</p>
+    <a class="vid" data-t="3505" style="background:rgba(95,232,215,.12);color:var(--cyan)"></a>
+  </div>
+  <div class="g2">
+    <div class="item">
+      <h3>Un negocio que se paga solo</h3>
+      <p>Que Proyecto Ernest pague a todo el equipo y deje de necesitar capital externo.</p>
+      <a class="vid" data-t="3577"></a>
+    </div>
+    <div class="item">
+      <h3>Libertad para elegir</h3>
+      <p>Tranquilidad para tomar otros proyectos, como entrar a nuevos mercados, sin que el negocio dependa de estar encima todo el día.</p>
+      <a class="vid" data-t="3599"></a>
+    </div>
+    <div class="item">
+      <h3>El legado funcionando</h3>
+      <p>Que el método llegue a más personas sin volver a los bootcamps de 60 a 70 horas que agotaban.</p>
+      <a class="vid" data-t="3135"></a>
+    </div>
+  </div>
+</section>
+
+<!-- MODELO -->
+<section id="modelo">
+  <div class="kick">El modelo</div>
+  <h2>Por qué premium y no masivo</h2>
+  <p class="intro">La tartamudez es una condición de por vida, así que un modelo masivo parece lógico. El problema es que ese es el juego más competido del mercado en línea. Arrancando, el camino más corto a $25,000 USD es otro.</p>
+  <div class="g2">
+    <div class="item">
+      <h3>Menos ventas para llegar a la meta</h3>
+      <p>Con una oferta de $2,500 USD, $25,000 al mes son 10 clientes. A $5,000 USD, son 5.</p>
+      <a class="vid" data-t="4082"></a>
+    </div>
+    <div class="item">
+      <h3>Clientes más comprometidos</h3>
+      <p>Quien invierte en serio se compromete más, tiene más resultados y refiere a personas de su mismo nivel.</p>
+      <a class="vid" data-t="7520"></a>
+    </div>
+    <div class="item">
+      <h3>Todo el ecosistema, en una sola oferta</h3>
+      <p>Lo que ya existe no se tira: se integra a una oferta premium que da un resultado, no un catálogo de cursos.</p>
+      <a class="vid" data-t="4500"></a>
+    </div>
+    <div class="item">
+      <h3>Membresía para graduados</h3>
+      <p>Cabe perfecto después: quien termina el programa puede seguir en la comunidad con una cuota mensual o subir a algo uno a uno.</p>
+      <a class="vid" data-t="4344"></a>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="kick">Roadmap</div>
+  <h2>3 pasos para llegar a $25,000 USD al mes</h2>
+  <p class="intro">Es simple, no fácil. Como el gimnasio: todos saben qué hacer, pocos lo hacen. Por eso existen todos los niveles de acompañamiento.</p>
+  <a class="vid" data-t="5937"></a>
+
+  <div class="paso">
+    <div class="num">1</div>
+    <div>
+      <h3>Effortless Offer</h3>
+      <div class="sub">Una oferta que se vende y se entrega con el menor esfuerzo posible</div>
+      <p>Diseñamos con ustedes una sola oferta premium que cumpla tres cosas:</p>
+      <ul>
+        <li><b>Se vende</b> con el menor esfuerzo posible.</li>
+        <li><b>Se entrega</b> con el menor esfuerzo posible.</li>
+        <li><b>Llega a la meta</b> con la menor cantidad de ventas posible.</li>
+      </ul>
+      <p>El punto de partida sugerido es <b>$2,500 USD</b>. El precio sube conforme crecen los casos de éxito, la claridad y la confianza en la oferta.</p>
+      <a class="vid" data-t="6055"></a>
+    </div>
+  </div>
+
+  <div class="paso">
+    <div class="num">2</div>
+    <div>
+      <h3>Flujo de leads constante y predecible</h3>
+      <div class="sub">Personas calificadas llegando todos los días</div>
+      <p>La mezcla entre contenido orgánico y anuncios se define según el estilo de cada quien. Todo parte de la <b>arquitectura narrativa</b>: el documento con los ángulos, historias y mensajes que filtran al cliente ideal y alejan a quien no puede invertir.</p>
+      <p>Los anuncios arrancan con presupuesto bajo y solo se escalan cuando ya hay ventas.</p>
+      <a class="vid" data-t="6738"></a>
+    </div>
+  </div>
+
+  <div class="paso">
+    <div class="num">3</div>
+    <div>
+      <h3>Venta consultiva</h3>
+      <div class="sub">Convertir conversaciones en clientes</div>
+      <p>Perla y Fer aprenden a llevar llamadas como la que tuvimos: diagnosticar, entender y presentar la oferta como la solución. Con guiones, role play y retroalimentación directa del equipo de ventas.</p>
+      <a class="vid" data-t="7898"></a>
+    </div>
+  </div>
+</section>
+
+<!-- SOPORTE -->
+<section id="soporte">
+  <div class="kick">Acompañamiento</div>
+  <h2>5 niveles de soporte</h2>
+  <p class="intro">No es un curso. Es como si el equipo de Flow Consulting trabajara dentro de Proyecto Ernest.</p>
+  <div class="list">
+    <div class="item nivel"><span class="k">1</span><div>
+      <h3>Plataforma con todos los sistemas</h3>
+      <p>Entrenamientos, SOPs, prompts y procesos. Es el respaldo: el coach les dice qué ver y cuándo, para que no se pierdan en videos.</p>
+      <a class="vid" data-t="2036"></a></div></div>
+    <div class="item nivel"><span class="k">2</span><div>
+      <h3>Coach uno a uno</h3>
+      <p>Miguel convierte la estrategia en una lista de acciones semana a semana y da retroalimentación constante de contenido y anuncios.</p>
+      <a class="vid" data-t="2247"></a></div></div>
+    <div class="item nivel"><span class="k">3</span><div>
+      <h3>Grupo de WhatsApp privado</h3>
+      <p>Todo el equipo, Rodrigo incluido, dentro de su negocio. Lunes a viernes en horario laboral.</p>
+      <a class="vid" data-t="2393"></a></div></div>
+    <div class="item nivel"><span class="k">4</span><div>
+      <h3>Sesiones semanales en Zoom</h3>
+      <p>Grupos pequeños de ventas, prospección, contenido, anuncios y estrategia con Rodrigo. Coaching uno a uno frente a otros emprendedores.</p>
+      <a class="vid" data-t="2510"></a></div></div>
+    <div class="item nivel"><span class="k">5</span><div>
+      <h3>Comunidad</h3>
+      <p>Emprendedores de alto nivel que están en el mismo proceso. Ver a otros lograrlo acelera el propio resultado.</p>
+      <a class="vid" data-t="2643"></a></div></div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section id="roi">
+  <div class="kick">Proyección de retorno</div>
+  <h2>Cómo se ven los números</h2>
+  <p class="intro">Esto es una proyección, no una promesa. Nadie puede garantizar resultados en algo que no controla al 100%. Lo que sí podemos es mostrar cómo se llega, para que no tengan que creerlo, sino entenderlo.</p>
+  <a class="vid" data-t="7181"></a>
+
+  <div class="tabla">
+    <div class="fila"><div>Escenario</div><div>Ventas al mes</div><div>Precio</div><div>Ingreso al mes</div></div>
+    <div class="fila"><div class="esc">Aprendiendo<small>Cierran 1 de cada 5 llamadas</small></div><div>8</div><div>$2,500 USD</div><div class="res">$20,000 USD</div></div>
+    <div class="fila"><div class="esc">Con práctica<small>Cierran 1 de cada 4 llamadas</small></div><div>10</div><div>$2,500 USD</div><div class="res">$25,000 USD</div></div>
+    <div class="fila"><div class="esc">Con precio más alto<small>Cuando el cierre sube, sube el precio</small></div><div>10</div><div>$5,000 USD</div><div class="res">$50,000 USD</div></div>
+  </div>
+  <p class="nota">Supuesto: una sola persona tomando 2 llamadas al día, de lunes a viernes, unas 40 llamadas al mes. No incluye el gasto en anuncios.</p>
+  <div class="calc"><b>Lo que esto significa para la inversión:</b> la inversión total es de alrededor de $15,000 USD. Un solo mes en el primer escenario ya genera más que eso. Recuperarla desde el primer mes es posible; no está garantizado.</div>
+  <a class="vid" data-t="7750"></a>
+</section>
+
+<!-- GARANTÍA -->
+<section id="garantia">
+  <div class="kick">Garantía</div>
+  <h2>No pueden perder su dinero</h2>
+  <div class="dark-card">
+    <h3>Si al terminar los 6 meses no han generado al menos el doble de su inversión, seguimos trabajando con ustedes sin costo hasta lograrlo.</h3>
+    <p>Siempre y cuando ustedes no se rindan, nosotros no nos rendimos. La garantía existe para que puedan trabajar tranquilas, sin la presión de recuperar el dinero a la fuerza. Y porque este negocio gana cuando sus clientes se quedan a largo plazo, no cuando venden mucho una sola vez.</p>
+    <a class="vid" data-t="2768"></a>
+  </div>
+</section>
+
+<!-- INVERSIÓN -->
+<section id="inversion">
+  <div class="kick">Inversión</div>
+  <h2>Inversión</h2>
+  <p class="intro">El 100% de la inversión es el honorario de Flow Consulting por los 6 meses de acompañamiento. El gasto en anuncios va aparte.</p>
+  <a class="vid" data-t="1784"></a>
+  <div class="precios">
+    <div class="precio">
+      <small>En 3 pagos</small>
+      <div class="n">300,000 MXN</div>
+      <p>3 pagos mensuales de 100,000 MXN.</p>
+    </div>
+    <div class="precio">
+      <small>En una sola exhibición</small>
+      <div class="n">250,000 MXN</div>
+      <p>Un pago, con 50,000 MXN de ahorro.</p>
+    </div>
+    <div class="precio">
+      <small>Anuncios (aparte)</small>
+      <div class="n">~$300 USD</div>
+      <p>Al mes para arrancar. Cuando hay ventas, los anuncios se pagan solos.</p>
+      <a class="vid" data-t="2740"></a>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS -->
+<section id="casos">
+  <div class="kick">Casos</div>
+  <h2>Expertos que ya recorrieron este camino</h2>
+  <p class="intro">Recomiendo ver completos los de Moni y Erika: no solo el resultado, también el proceso, con todo y sus dramas.</p>
+  <div class="g2">
+    <div class="item caso">
+      <small>Moni · autora</small>
+      <h3>Primera venta de $8,000 USD en 3 semanas</h3>
+      <p>Llegó con una idea, sin oferta. Antes de hacer marketing, trabajamos la oferta y cómo comunicarla.</p>
+      <a class="vid" data-t="5186"></a>
+    </div>
+    <div class="item caso">
+      <small>Erika</small>
+      <h3>$21,000 USD la primera semana que siguió el plan</h3>
+      <p>Llegó perdiendo dinero en publicidad. Hoy promedia entre $25,000 y $30,000 USD al mes trabajando cuatro horas al día.</p>
+      <a class="vid" data-t="8660"></a>
+    </div>
+    <div class="item caso">
+      <small>Mariel · meditación</small>
+      <h3>De una membresía de $27 a una oferta de $7,000 USD</h3>
+      <p>Mismo conocimiento, otro ángulo. Hoy combina programa grupal, comunidad y uno a uno.</p>
+      <a class="vid" data-t="4344"></a>
+    </div>
+    <div class="item caso">
+      <small>Mary Carmen · autoestima</small>
+      <h3>De cursos de $250 USD a 60,000 MXN</h3>
+      <p>Nunca había vendido nada arriba de $250 USD. Arrancó vendiendo en 50,000 MXN.</p>
+      <a class="vid" data-t="6390"></a>
+    </div>
+    <div class="item caso">
+      <small>Andrés · arte</small>
+      <h3>De mentorías de $50 a $5,300 USD</h3>
+      <p>Enseña a dibujar y a convertirse en artista de alto valor. Subió su precio 100 veces.</p>
+      <a class="vid" data-t="6541"></a>
+    </div>
+  </div>
+</section>
+
+<!-- PREGUNTAS -->
+<section id="preguntas">
+  <div class="kick">Preguntas frecuentes</div>
+  <h2>Las preguntas que hicieron en la llamada</h2>
+  <div class="faq">
+
+    <details><summary>¿Cuánto es la inversión y cómo se paga?<span class="quien">Sylvia</span></summary><div class="resp">
+      <p>300,000 MXN en 3 pagos de 100,000 MXN, o 250,000 MXN en una sola exhibición. Es el honorario de Flow Consulting; los anuncios van aparte.</p>
+      <a class="vid" data-t="1784"></a></div></details>
+
+    <details><summary>¿Qué incluye y quién trabaja con Perla?<span class="quien">Sylvia</span></summary><div class="resp">
+      <p>Los 5 niveles de soporte: plataforma, coach uno a uno (Miguel), grupo de WhatsApp con todo el equipo, sesiones semanales en Zoom y comunidad. La estrategia y la oferta las diseña Rodrigo con ustedes.</p>
+      <a class="vid" data-t="2036"></a></div></details>
+
+    <details><summary>¿Cada cuánto nos reunimos?<span class="quien">Sylvia</span></summary><div class="resp">
+      <p>No hay una junta fija a la semana: la comunicación es constante por WhatsApp, y si se atoran en algo se agenda llamada. Además están las sesiones semanales en Zoom de ventas, contenido, anuncios y estrategia.</p>
+      <a class="vid" data-t="2393"></a></div></details>
+
+    <details><summary>¿Qué parte de la inversión se va a publicidad?<span class="quien">Sylvia</span></summary><div class="resp">
+      <p>Ninguna: el 100% es el honorario. El gasto en anuncios es aparte y arranca bajo, alrededor de $300 USD al mes. Con lo bien que Perla habla a cámara, hay espacio para que el orgánico haga mucho del trabajo.</p>
+      <a class="vid" data-t="1917"></a></div></details>
+
+    <details><summary>¿Conforme crezcamos hay que meterle mucho más a los anuncios?<span class="quien">Perla</span></summary><div class="resp">
+      <p>El presupuesto bajo es para hacer las primeras ventas. Una vez que hay ventas, los anuncios se pagan solos con lo que generan. Como en una caminadora: no se acelera hasta que se domina el paso.</p>
+      <a class="vid" data-t="4544"></a></div></details>
+
+    <details><summary>¿Cuándo se recupera la inversión?<span class="quien">Sylvia y Fer</span></summary><div class="resp">
+      <p>Nadie lo puede garantizar, y hay que desconfiar de quien lo haga. Lo que sí: con 2 llamadas al día cerrando 1 de cada 5 a $2,500 USD, un solo mes genera más que la inversión. Recuperarla en el primer mes es posible. El peor escenario realista es tardar un poco más de lo planeado.</p>
+      <a class="vid" data-t="1362"></a></div></details>
+
+    <details><summary>¿Hay garantía? ¿Son 3 o 6 meses?<span class="quien">Sylvia y Perla</span></summary><div class="resp">
+      <p>Son 6 meses de acompañamiento; los 3 pagos son solo la forma de pago. Si al terminar los 6 meses no han generado al menos el doble de la inversión, seguimos trabajando sin costo hasta lograrlo, siempre y cuando ustedes no se rindan.</p>
+      <a class="vid" data-t="8087"></a></div></details>
+
+    <details><summary>¿Han trabajado con clientes que tienen un inversionista?<span class="quien">Sylvia</span></summary><div class="resp">
+      <p>Sí, muchas veces. Hay muchos modelos: préstamo, interés, acciones de la empresa o un porcentaje de las ventas hasta llegar a un monto. Con gusto lo platicamos para encontrar el que tenga sentido.</p>
+      <a class="vid" data-t="2853"></a></div></details>
+
+    <details><summary>¿Funciona en español o hay que traducir todo al inglés?<span class="quien">Antoine</span></summary><div class="resp">
+      <p>En español hay mercado de sobra para llegar a la meta. Vender en línea no depende del país sino del mensaje, y llegan clientes de cualquier lugar donde se hable español. El inglés tendría sentido mucho más adelante.</p>
+      <a class="vid" data-t="2049"></a></div></details>
+
+    <details><summary>¿Nos ayudan con el precio y con todos los productos que ya existen?<span class="quien">Perla</span></summary><div class="resp">
+      <p>Sí, es lo primero que hacemos. Arreglamos el modelo, la oferta y el mensaje sin tocar la esencia del método. El 100% de nuestros clientes ha subido sus precios.</p>
+      <a class="vid" data-t="3193"></a></div></details>
+
+    <details><summary>¿Podemos tener una membresía para graduados?<span class="quien">Perla</span></summary><div class="resp">
+      <p>Sí, y la mayoría de nuestros clientes lo hace. Primero la oferta principal; después la comunidad para graduados y el uno a uno como siguientes pasos.</p>
+      <a class="vid" data-t="4344"></a></div></details>
+
+    <details><summary>¿Hace falta una auditoría antes de arrancar?<span class="quien">Antoine</span></summary><div class="resp">
+      <p>Con gusto la revisamos, pero no es necesaria para saber si va a funcionar. Lo importante ya está: clientes con resultados y una experta que habla increíble. Hemos visto expertos prevender su oferta sin tener el producto terminado.</p>
+      <a class="vid" data-t="4932"></a></div></details>
+
+    <details><summary>¿Cómo llegamos al cliente que sí puede invertir?<span class="quien">Fer</span></summary><div class="resp">
+      <p>Con la arquitectura narrativa y el precio correcto. El mensaje le dice a la plataforma a quién traer, y una oferta premium filtra sola a quien no está en posición de invertir.</p>
+      <a class="vid" data-t="6917"></a></div></details>
+
+    <details><summary>¿Cuántas horas a la semana requiere? ¿Cómo encaja Fer?<span class="quien">Perla y Fer</span></summary><div class="resp">
+      <p>Depende de lo que encontremos al arrancar; el reparto de tareas entre Perla y Fer se define en el onboarding. La referencia es un ritmo sostenible: 2 llamadas al día como máximo. Lo ideal es que una se enfoque en llamadas y la otra en contenido.</p>
+      <a class="vid" data-t="4800"></a></div></details>
+
+  </div>
+</section>
+
+<section>
+  <div class="cierre">
+    <div class="kick">Siguiente paso</div>
+    <h2>Revisarlo con Sylvia</h2>
+    <p>Quedamos en vernos el jueves 12 o el viernes 13 de noviembre para resolver todas las dudas que surjan. Cualquier pregunta antes, aquí estoy.</p>
+    <p><b>Rodrigo Lohr</b> · Flow Consulting</p>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap"><b>Flow Consulting</b> · Propuesta preparada para Proyecto Ernest. Las proyecciones son escenarios ilustrativos, no promesas de resultados.</div></footer>
+
+<script>
+const fmt = s => { const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=String(s%60).padStart(2,"0");
+  return h ? `${h}:${String(m).padStart(2,"0")}:${x}` : `${m}:${x}`; };
+document.querySelectorAll(".vid[data-t]").forEach(a => {
+  const t = +a.dataset.t;
+  a.href = `${FATHOM}?timestamp=${t}`;
+  a.target = "_blank"; a.rel = "noopener";
+  a.innerHTML = `<i></i>Ver explicación en video <span>· ${fmt(t)}</span>`;
+});
+// Nav activo según la sección visible
+const links = [...document.querySelectorAll("nav a")];
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(l => l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id));
+}), { rootMargin: "-40% 0px -55% 0px" });
+document.querySelectorAll("section[id]").forEach(s => io.observe(s));
+</script>
+</body>
+</html>
